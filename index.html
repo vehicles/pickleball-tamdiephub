@@ -153,7 +153,7 @@
                     </svg>
                 </div>
                 <div class="leading-tight">
-                    <div class="font-black text-sm sm:text-base tracking-tight text-gray-900 scroll-gold-title">Tam Điệp PickleHUB</div>
+                    <div class="font-black text-sm sm:text-base tracking-tight text-gray-900 scroll-gold-title">Tam Điệp PickleHub</div>
                     <div class="text-[10px] font-extrabold tracking-widest text-td uppercase scroll-gold-accent">Pickleball • Ninh Bình</div>
                 </div>
             </button>
@@ -177,6 +177,11 @@
 
             <!-- Right Controls -->
             <div class="flex items-center gap-2 shrink-0">
+                <span id="dbStatusBadge" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-teal-50 text-td-dark border border-teal-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
+                    <span>Local</span>
+                </span>
+
                 <button type="button" onclick="navigateToPage('register')" class="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-extrabold bg-[#FF6B35] hover:bg-[#e85a27] text-white transition-all duration-300 shadow-2xs">
                     <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
                     <span>Đăng ký</span>
@@ -289,7 +294,7 @@
                         Bản lĩnh trên sân, <span class="text-amber-300">Gắn kết</span> từng đường bóng
                     </h1>
                     <p class="text-sm sm:text-base text-teal-50/95 max-w-2xl mx-auto leading-relaxed">
-                        Hệ thống xếp hạng điểm trình, cập nhật sự kiện và kết nối các CLB Pickleball tại Tam Điệp, Ninh Bình.
+                        Hệ thống xếp hạng điểm trình, cập nhật sự kiện giải đấu và kết nối các CLB Pickleball tại Tam Điệp, Ninh Bình.
                     </p>
                 </div>
 
@@ -343,8 +348,8 @@
                             <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-amber-300"></i>
                             <span>SỰ KIỆN</span>
                         </div>
-                        <div id="bannerEventsCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">4 Sự kiện</div>
-                        <div class="text-[11px] text-teal-100/80">Giải Tuan Sport & Tryout</div>
+                        <div id="bannerEventsCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">3 Sự kiện</div>
+                        <div class="text-[11px] text-teal-100/80">Giải đấu & Tryout Tam Điệp</div>
                     </button>
                 </div>
             </div>
@@ -385,14 +390,14 @@
             </section>
 
             <!-- =============================================================
-                 KHU VỰC 2: SỰ KIỆN & GIẢI ĐẤU (CARD VIEW, CÓ GIẢI TUAN SPORT)
+                 KHU VỰC 2: SỰ KIỆN & GIẢI ĐẤU (CARD VIEW)
             ============================================================== -->
             <section id="section-events" class="scroll-target space-y-5">
                 <div class="flex flex-wrap items-end justify-between gap-4 border-b border-gray-200 pb-4">
                     <div>
                         <span class="text-[11px] font-extrabold uppercase tracking-widest text-td scroll-gold-accent">KHU VỰC SỰ KIỆN</span>
                         <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1 scroll-gold-title">
-                            Sự Kiện& Tryout
+                            Sự Kiện, Giải Đấu & Tryout Tam Điệp
                         </h2>
                         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Các giải đấu và buổi giao lưu tính điểm trình chính thức tại Tam Điệp — Ninh Bình.</p>
                     </div>
@@ -402,7 +407,10 @@
                             <i data-lucide="plus-circle" class="w-4 h-4"></i>
                             <span>Tạo sự kiện mới (BTC)</span>
                         </button>
-                        
+                        <button type="button" onclick="navigateToPage('register')" class="px-4 py-2 rounded-full bg-[#FF6B35] hover:bg-[#e85a27] text-white text-xs font-extrabold inline-flex items-center gap-1.5 transition">
+                            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                            <span>Đăng ký</span>
+                        </button>
                     </div>
                 </div>
 
@@ -652,11 +660,11 @@
                     </div>
                     <div>
                         <div class="font-black text-white text-base tracking-tight">TAM ĐIỆP PICKLEBALL HUB</div>
-                        <div class="text-[11px] font-bold text-amber-300 uppercase tracking-wider">Quả Dứa • Tam Điệp — Ninh Bình</div>
+                        <div class="text-[11px] font-bold text-amber-300 uppercase tracking-wider">Tam Điệp — Ninh Bình</div>
                     </div>
                 </div>
                 <p class="text-xs text-teal-100/90 leading-relaxed">
-                    Cổng tra cứu điểm trình, bảng xếp hạng & lịch giải đấu Pickleball khu vực Tam Điệp và cụm sân 301 Quang Trung.
+                    Cổng tra cứu điểm trình, bảng xếp hạng & lịch giải đấu Pickleball khu vực Tam Điệp tại cụm sân 301 Quang Trung.
                 </p>
             </div>
 
@@ -665,7 +673,7 @@
                 <div class="flex flex-col gap-2">
                     <button type="button" onclick="goToHubSection('hero-top')" class="text-left text-teal-50 hover:text-amber-300 transition">• Về đầu trang chủ</button>
                     <button type="button" onclick="goToHubSection('section-ranking')" class="text-left text-teal-50 hover:text-amber-300 transition">• Khu vực Bảng xếp hạng</button>
-                    <button type="button" onclick="goToHubSection('section-events')" class="text-left text-teal-50 hover:text-amber-300 transition">• Khu vực Sự kiện</button>
+                    <button type="button" onclick="goToHubSection('section-events')" class="text-left text-teal-50 hover:text-amber-300 transition">• Khu vực Sự kiện & Giải đấu</button>
                     <button type="button" onclick="navigateToPage('register')" class="text-left text-teal-50 hover:text-amber-300 transition">• Đăng ký hồ sơ VĐV mới</button>
                 </div>
             </div>
@@ -784,7 +792,7 @@
 
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Giải đấu / Buổi đánh áp dụng *</label>
-                    <input id="btcTournamentInput" type="text" required value="Giải Tuan Sport Tam Điệp Mở Rộng" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+                    <input id="btcTournamentInput" type="text" required value="Giải Pickleball Tam Điệp Mở Rộng" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
                 </div>
 
                 <div>
@@ -812,7 +820,7 @@
             <form onsubmit="submitCreateEvent(event)" class="space-y-3.5">
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Tên giải đấu / Sự kiện *</label>
-                    <input id="evTitleInput" type="text" required placeholder="VD: Giải Tuan Sport Pickleball Tam Điệp" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
+                    <input id="evTitleInput" type="text" required placeholder="VD: Giải Pickleball Tam Điệp Mở Rộng" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -836,17 +844,47 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import {
+            getFirestore,
+            collection,
+            doc,
+            setDoc,
+            deleteDoc,
+            onSnapshot,
+            writeBatch
+        } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+
         // =====================================================================
-        // CẤU HÌNH CHẾ ĐỘ BTC BẰNG CODE:
+        // 1. CẤU HÌNH FIREBASE (THAY THẾ BẰNG CONFIG TỪ FIREBASE CONSOLE)
+        // =====================================================================
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyBpEqXWixeZM0ecwr_yL13t9SGfseRtgEY",
+          authDomain: "pickleball-tct70.firebaseapp.com",
+          databaseURL: "https://pickleball-tct70-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "pickleball-tct70",
+          storageBucket: "pickleball-tct70.firebasestorage.app",
+          messagingSenderId: "1015003889551",
+          appId: "1:1015003889551:web:609af4b91d27eb7a8a55fa",
+          measurementId: "G-CG8E9J8S2W"
+        };
+
+        // =====================================================================
+        // 2. CẤU HÌNH CHẾ ĐỘ BTC BẰNG CODE:
         // Đổi BTC_MODE_BY_CODE = true để bật full quyền quản trị BTC trong code
         // (Hoặc mở URL kèm ?btc=1997, hoặc nhấn Ctrl + Shift + B)
         // =====================================================================
         const BTC_MODE_BY_CODE = false;
 
-        const STORAGE_KEY = 'tam_diep_hub_teal_v9';
+        const STORAGE_KEY = 'tam_diep_hub_firebase_v10';
+        const PLAYERS_COL = 'tam_diep_players';
+        const EVENTS_COL = 'tam_diep_events';
+
         let btcUnlocked = BTC_MODE_BY_CODE || new URLSearchParams(window.location.search).get('btc') === '1997';
         let pendingAvatarBase64 = '';
+        let db = null;
+        let useFirebase = false;
 
         const CLUBS = [
             'Trung Tâm Pickleball Tam Điệp - 301 Quang Trung',
@@ -898,7 +936,6 @@
             navEvents.className = sectionId === 'section-events' ? activeCls : inactiveCls;
         }
 
-        // Đưa về trang chủ (#page-hub) và scroll chuẩn tới đúng khu vực
         function goToHubSection(sectionId = 'hero-top') {
             const hub = document.getElementById('page-hub');
             const reg = document.getElementById('page-register');
@@ -931,7 +968,6 @@
             }
         }
 
-        // Hiệu ứng Parallax khi scroll + chữ đổi màu vàng khi cuộn xuống
         function handleScrollEffects() {
             const scrollY = window.scrollY || window.pageYOffset || 0;
             if (scrollY > 45) {
@@ -999,11 +1035,11 @@
                         {
                             id: 'h_' + i,
                             date: '20/11/2026',
-                            tournament: 'Giải Tuan Sport Tam Điệp',
+                            tournament: 'Giải Pickleball Tam Điệp',
                             oldScore: refScore,
                             newScore: tdScore,
                             delta,
-                            reason: delta > 0 ? 'Thành tích tốt tại Giải Tuan Sport' : delta < 0 ? 'Điều chỉnh cân bằng trình giải đấu' : 'Giữ nguyên điểm trình',
+                            reason: delta > 0 ? 'Thành tích tốt tại giải đấu Tam Điệp' : delta < 0 ? 'Điều chỉnh cân bằng trình giải đấu' : 'Giữ nguyên điểm trình',
                             reviewer: 'Ban Chuyên Môn Tam Điệp'
                         }
                     ]
@@ -1012,20 +1048,11 @@
 
             const events = [
                 {
-                    id: 'ev_tuan_sport',
-                    title: 'Giải Tuan Sport — Pickleball Tam Điệp Mở Rộng 2026',
-                    date: '30/11/2026 (07:30)',
-                    location: 'Trung Tâm Pickleball Tam Điệp - 301 Quang Trung',
-                    format: 'Đôi Nam 5.8 • Đôi Hỗn Hợp 5.4 • Tính điểm BXH chính thức',
-                    status: 'Đang mở đăng ký',
-                    registeredCount: 44
-                },
-                {
                     id: 'ev_1',
                     title: 'Giải Pickleball Tam Điệp Mở Rộng — Cúp Mùa Thu 2026',
                     date: '29/11/2026',
                     location: 'Trung Tâm Pickleball Tam Điệp - 301 Quang Trung',
-                    format: 'Đôi Nam 5.8 • Đôi Hỗn Hợp 5.4',
+                    format: 'Đôi Nam 5.8 • Đôi Hỗn Hợp 5.4 • Tính điểm BXH chính thức',
                     status: 'Đang mở đăng ký',
                     registeredCount: 32
                 },
@@ -1052,18 +1079,15 @@
             return { players, events };
         }
 
-        let appState = loadState();
+        let appState = loadLocalState();
 
-        function loadState() {
+        function loadLocalState() {
             try {
                 const raw = localStorage.getItem(STORAGE_KEY);
                 if (raw) {
                     const parsed = JSON.parse(raw);
                     if (parsed && Array.isArray(parsed.players)) {
                         if (!Array.isArray(parsed.events)) parsed.events = generateRandomSeedData(14).events;
-                        if (!parsed.events.some(e => e.id === 'ev_tuan_sport')) {
-                            parsed.events.unshift(generateRandomSeedData(14).events[0]);
-                        }
                         return parsed;
                     }
                 }
@@ -1073,15 +1097,104 @@
             return seed;
         }
 
-        function saveState() {
+        function saveLocalState() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
         }
 
-        function regenerateRandomRoster() {
-            if (!isBtcMode()) return;
-            appState = generateRandomSeedData(14);
-            saveState();
+        // Lưu / Cập nhật / Xóa VĐV & Sự kiện trên Firebase Firestore (kèm fallback localStorage)
+        async function savePlayerToStore(player) {
+            saveLocalState();
+            if (!useFirebase || !db) return;
+            try {
+                await setDoc(doc(db, PLAYERS_COL, player.id), player);
+            } catch (err) {
+                console.error('Firestore savePlayer error:', err);
+                showToast('⚠️ Lỗi đồng bộ VĐV lên Firebase, đã lưu tạm cục bộ.', 'warning');
+            }
+        }
+
+        async function deletePlayerFromStore(playerId) {
+            saveLocalState();
+            if (!useFirebase || !db) return;
+            try {
+                await deleteDoc(doc(db, PLAYERS_COL, playerId));
+            } catch (err) {
+                console.error('Firestore deletePlayer error:', err);
+            }
+        }
+
+        async function saveEventToStore(ev) {
+            saveLocalState();
+            if (!useFirebase || !db) return;
+            try {
+                await setDoc(doc(db, EVENTS_COL, ev.id), ev);
+            } catch (err) {
+                console.error('Firestore saveEvent error:', err);
+            }
+        }
+
+        async function replaceAllInStore(seedData) {
+            appState = seedData;
+            saveLocalState();
             renderAll();
+            if (!useFirebase || !db) return;
+            try {
+                const batch = writeBatch(db);
+                seedData.players.forEach(p => batch.set(doc(db, PLAYERS_COL, p.id), p));
+                seedData.events.forEach(ev => batch.set(doc(db, EVENTS_COL, ev.id), ev));
+                await batch.commit();
+            } catch (err) {
+                console.error('Firestore batch seed error:', err);
+            }
+        }
+
+        function initFirebaseIfConfigured() {
+            const badge = document.getElementById('dbStatusBadge');
+            const hasConfig = Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
+            if (!hasConfig) {
+                if (badge) {
+                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>Local (Chưa gắn Firebase)</span>`;
+                }
+                return;
+            }
+
+            try {
+                const app = initializeApp(FIREBASE_CONFIG);
+                db = getFirestore(app);
+                useFirebase = true;
+                if (badge) {
+                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Firebase Sync</span>`;
+                }
+
+                onSnapshot(collection(db, PLAYERS_COL), (snap) => {
+                    const docs = snap.docs.map(d => ({ ...d.data(), id: d.data().id || d.id }));
+                    if (docs.length > 0) {
+                        appState.players = docs;
+                        saveLocalState();
+                        renderAll();
+                    } else {
+                        replaceAllInStore(generateRandomSeedData(14));
+                    }
+                });
+
+                onSnapshot(collection(db, EVENTS_COL), (snap) => {
+                    const evDocs = snap.docs.map(d => ({ ...d.data(), id: d.data().id || d.id }));
+                    if (evDocs.length > 0) {
+                        appState.events = evDocs;
+                        saveLocalState();
+                        renderAll();
+                    }
+                });
+            } catch (err) {
+                console.error('Firebase init error:', err);
+                useFirebase = false;
+            }
+        }
+
+        async function regenerateRandomRoster() {
+            if (!isBtcMode()) return;
+            const seed = generateRandomSeedData(14);
+            await replaceAllInStore(seed);
             showToast('🎲 Đã tạo danh sách VĐV & sự kiện ngẫu nhiên mới!', 'success');
         }
 
@@ -1163,7 +1276,7 @@
             document.getElementById('regAvatarInitials').innerText = 'TD';
         }
 
-        function submitPlayerRegistration(e) {
+        async function submitPlayerRegistration(e) {
             e.preventDefault();
             const name = document.getElementById('regFullName').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
@@ -1173,7 +1286,7 @@
             const refSource = document.getElementById('regRefSource').value;
             const autoApprove = isBtcMode() && document.getElementById('regAutoApproveDemo').checked;
 
-            appState.players.push({
+            const newPlayer = {
                 id: 'td_' + Date.now(),
                 code: getNextCode(),
                 name,
@@ -1191,6 +1304,7 @@
                 notes: document.getElementById('regNotes').value.trim() || 'Hồ sơ đăng ký qua cổng Tam Điệp PickleHub.',
                 avatar: pendingAvatarBase64,
                 status: autoApprove ? 'approved' : 'pending',
+                createdAt: new Date().toISOString(),
                 history: autoApprove ? [{
                     id: 'h_' + Date.now(),
                     date: '24/11/2026',
@@ -1201,13 +1315,15 @@
                     reason: 'Duyệt thẳng bởi Ban Chuyên Môn',
                     reviewer: 'Ban Chuyên Môn Tam Điệp'
                 }] : []
-            });
+            };
 
-            saveState();
+            appState.players.push(newPlayer);
+            await savePlayerToStore(newPlayer);
+
             document.getElementById('playerRegistrationForm').reset();
             resetRegFormPreview();
             renderAll();
-            showToast(autoApprove ? `🎉 Đã duyệt ${name} vào BXH!` : `✅ Đã gửi hồ sơ ${name} thành công!`, 'success');
+            showToast(autoApprove ? `🎉 Đã duyệt ${name} vào BXH!` : `✅ Đã lưu hồ sơ ${name}${useFirebase ? ' lên Firebase' : ''}!`, 'success');
             goToHubSection(autoApprove ? 'section-ranking' : (isBtcMode() ? 'section-committee' : 'section-ranking'));
         }
 
@@ -1311,7 +1427,7 @@
             openModal('btcScoreModal');
         }
 
-        function submitBtcScoreModal(e) {
+        async function submitBtcScoreModal(e) {
             e.preventDefault();
             if (!isBtcMode()) return;
             const id = document.getElementById('btcScorePlayerId').value;
@@ -1337,13 +1453,13 @@
                 reviewer: 'Ban Chuyên Môn Tam Điệp'
             });
 
-            saveState();
+            await savePlayerToStore(p);
             closeModal('btcScoreModal');
             renderAll();
             showToast(`✅ Đã cập nhật điểm ${p.name}: ${oldScore.toFixed(2)} → ${newScore.toFixed(2)}`, 'success');
         }
 
-        function approvePlayer(id) {
+        async function approvePlayer(id) {
             if (!isBtcMode()) return;
             const p = appState.players.find(x => x.id === id);
             if (!p) return;
@@ -1358,23 +1474,23 @@
                 reason: 'Phê duyệt hồ sơ VĐV vào BXH Tam Điệp',
                 reviewer: 'Ban Chuyên Môn Tam Điệp'
             }];
-            saveState();
+            await savePlayerToStore(p);
             renderAll();
             showToast(`✅ Đã duyệt ${p.name}!`, 'success');
         }
 
-        function deletePlayerBtc(id) {
+        async function deletePlayerBtc(id) {
             if (!isBtcMode()) return;
             const idx = appState.players.findIndex(x => x.id === id);
             if (idx === -1) return;
             const name = appState.players[idx].name;
             appState.players.splice(idx, 1);
-            saveState();
+            await deletePlayerFromStore(id);
             renderAll();
             showToast(`🗑️ Đã xóa hồ sơ ${name}.`, 'info');
         }
 
-        function adjustScoreQuick(id, step) {
+        async function adjustScoreQuick(id, step) {
             if (!isBtcMode()) return;
             const p = appState.players.find(x => x.id === id);
             if (!p) return;
@@ -1385,14 +1501,14 @@
             p.history.push({
                 id: 'h_' + Date.now(),
                 date: '24/11/2026',
-                tournament: 'Giải Tuan Sport Tam Điệp',
+                tournament: 'Giải Pickleball Tam Điệp',
                 oldScore,
                 newScore: next,
                 delta: step,
                 reason: step > 0 ? 'Tăng điểm sau thi đấu giải' : 'Giảm điểm cân bằng giải',
                 reviewer: 'Ban Chuyên Môn Tam Điệp'
             });
-            saveState();
+            await savePlayerToStore(p);
             renderAll();
             showToast(`${p.name}: ${next.toFixed(2)} (${step > 0 ? '+' + step.toFixed(2) : step.toFixed(2)})`, 'success');
         }
@@ -1402,10 +1518,10 @@
             openModal('createEventModal');
         }
 
-        function submitCreateEvent(e) {
+        async function submitCreateEvent(e) {
             e.preventDefault();
             if (!isBtcMode()) return;
-            appState.events.unshift({
+            const newEv = {
                 id: 'ev_' + Date.now(),
                 title: document.getElementById('evTitleInput').value.trim(),
                 date: document.getElementById('evDateInput').value.trim(),
@@ -1413,18 +1529,19 @@
                 location: document.getElementById('evLocationInput').value.trim(),
                 status: 'Đang mở đăng ký',
                 registeredCount: 0
-            });
-            saveState();
+            };
+            appState.events.unshift(newEv);
+            await saveEventToStore(newEv);
             closeModal('createEventModal');
             renderAll();
             showToast('📅 Đã đăng sự kiện mới lên Tam Điệp PickleHub!', 'success');
         }
 
-        function registerForEvent(eventId) {
+        async function registerForEvent(eventId) {
             const ev = appState.events.find(x => x.id === eventId);
             if (!ev) return;
             ev.registeredCount = (ev.registeredCount || 0) + 1;
-            saveState();
+            await saveEventToStore(ev);
             renderEvents();
             showToast(`🎾 Đã ghi nhận đăng ký tham gia "${ev.title}"!`, 'success');
         }
@@ -1529,17 +1646,17 @@
 
         function renderEvents() {
             const events = appState.events || [];
-            document.getElementById('eventsGridContainer').innerHTML = events.map(ev => {
+            document.getElementById('eventsGridContainer').innerHTML = events.map((ev, idx) => {
                 const isDone = ev.status === 'Đã hoàn thành';
-                const isTuanSport = ev.id === 'ev_tuan_sport' || (ev.title || '').toLowerCase().includes('tuan sport');
+                const isFeatured = idx === 0 && !isDone;
                 const statusCls = isDone ? 'bg-gray-100 text-gray-600' : 'bg-teal-100 text-td-dark';
                 return `
-                <div class="card-elevated rounded-3xl p-5 flex flex-col justify-between gap-4 ${isTuanSport ? 'border-2 border-td bg-teal-50/20' : ''}">
+                <div class="card-elevated rounded-3xl p-5 flex flex-col justify-between gap-4 ${isFeatured ? 'border-2 border-td bg-teal-50/20' : ''}">
                     <div class="space-y-2">
                         <div class="flex items-center justify-between gap-2">
                             <div class="flex items-center gap-1.5 flex-wrap">
                                 <span class="px-3 py-0.5 rounded-full text-[11px] font-extrabold ${statusCls}">${escapeHtml(ev.status)}</span>
-                                ${isTuanSport ? `<span class="px-3 py-0.5 rounded-full text-[10px] font-black bg-[#FF6B35] text-white uppercase">Giải Tuan Sport</span>` : ''}
+                                ${isFeatured ? `<span class="px-3 py-0.5 rounded-full text-[10px] font-black bg-[#FF6B35] text-white uppercase">Nổi bật</span>` : ''}
                             </div>
                             <span class="text-xs font-bold text-gray-500">${escapeHtml(ev.date)}</span>
                         </div>
@@ -1573,7 +1690,7 @@
                     </div>
                     <div class="flex items-center gap-1.5 shrink-0">
                         <button type="button" onclick="approvePlayer('${p.id}')" class="px-3.5 py-2 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold">Duyệt</button>
-                        <button type="button" onclick="deletePlayerBtc('${p.id}')" class="px-3 py-2 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold">Xóa</button>
+                        <button type="button" onclick="deletePlayerBtc('${p.id}')" class="px-3.5 py-2 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold">Xóa</button>
                     </div>
                 </div>
             `).join('') || `<div class="col-span-2 text-sm text-gray-400 py-6 text-center">Không có hồ sơ chờ duyệt.</div>`;
@@ -1633,6 +1750,31 @@
             lucide.createIcons();
         }
 
+        // Gắn các hàm ra global để gọi từ HTML onclick
+        Object.assign(window, {
+            goToHubSection,
+            navigateToPage,
+            toggleMobileMenu,
+            closeMobileMenu,
+            updateRegInitials,
+            toggleRefSourceFields,
+            previewRegistrationAvatar,
+            resetRegFormPreview,
+            submitPlayerRegistration,
+            openPlayerDetailModal,
+            openBtcScoreModal,
+            submitBtcScoreModal,
+            approvePlayer,
+            deletePlayerBtc,
+            adjustScoreQuick,
+            openCreateEventModal,
+            submitCreateEvent,
+            registerForEvent,
+            regenerateRandomRoster,
+            renderRanking,
+            closeModal
+        });
+
         window.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.shiftKey && (e.key === 'B' || e.key === 'b')) {
                 btcUnlocked = !btcUnlocked;
@@ -1644,6 +1786,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             handleScrollEffects();
             renderAll();
+            initFirebaseIfConfigured();
         });
     </script>
 </body>
