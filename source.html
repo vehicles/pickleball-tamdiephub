@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tam Điệp PickleHub — Bảng Xếp Hạng & Sự Kiện</title>
+    <title>Tam Điệp PickleHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -140,12 +140,12 @@
     ====================================================================== -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-teal-900/10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-            <button type="button" onclick="goToHubSection('hero-top')" class="cursor-pointer flex items-center gap-2.5 shrink-0 group text-left">
+            <button type="button" onclick="handleBrandLogoTap()" title="Chạm 5 lần để bật/tắt chế độ BTC" class="cursor-pointer flex items-center gap-2.5 shrink-0 group text-left">
                 <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden shadow-sm shrink-0">
                     <img src="td_hub.png" alt="Logo Tam Điệp Pickleball Club" class="club-logo-img w-full h-full object-cover">
                 </div>
                 <div class="leading-tight">
-                    <div class="font-black text-sm sm:text-base tracking-tight text-gray-900">PickleHUB</div>
+                    <div class="font-black text-sm sm:text-base tracking-tight text-gray-900">PickleHub</div>
                     <div class="text-[10px] font-extrabold tracking-wider text-td uppercase">Tam Điệp • Ninh Bình</div>
                 </div>
             </button>
@@ -360,8 +360,8 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-                        <input id="filterSearch" type="text" oninput="renderRanking()" placeholder="Tìm tên VĐV, SĐT, mã TD-XXX..." class="w-full sm:w-60 px-4 py-2 text-xs sm:text-sm border border-gray-300 rounded-full focus:outline-none focus:border-td transition">
-                        <select id="filterClub" onchange="renderRanking()" class="w-full sm:w-56 px-4 py-2 text-xs sm:text-sm font-semibold border border-gray-300 rounded-full bg-white focus:outline-none focus:border-td transition">
+                        <input id="filterSearch" type="text" oninput="onRankingFilterChange()" placeholder="Tìm tên VĐV, SĐT, mã TD-XXX..." class="w-full sm:w-60 px-4 py-2 text-xs sm:text-sm border border-gray-300 rounded-full focus:outline-none focus:border-td transition">
+                        <select id="filterClub" onchange="onRankingFilterChange()" class="w-full sm:w-56 px-4 py-2 text-xs sm:text-sm font-semibold border border-gray-300 rounded-full bg-white focus:outline-none focus:border-td transition">
                             <option value="ALL">Tất cả CLB / Cụm sân</option>
                             <option value="Trung Tâm Pickleball Tam Điệp - 301 Quang Trung">TT Pickleball - 301 Quang Trung</option>
                             <option value="CLB Sân Ga Tam Điệp">CLB Sân Ga Tam Điệp</option>
@@ -374,6 +374,20 @@
                 </div>
 
                 <div id="rankingCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+
+                <!-- PHÂN TRANG BXH (TỐI ƯU HIỆU NĂNG CHO 200+ VĐV) -->
+                <div id="rankingPaginationBar" class="hidden flex flex-wrap items-center justify-between gap-3 pt-2">
+                    <div id="rankingPageInfo" class="text-xs font-bold text-gray-500">Hiển thị 1–24 / 0 VĐV</div>
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="btnRankPrevPage" onclick="changeRankingPage(-1)" class="px-4 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 text-xs font-extrabold text-gray-700 transition">
+                            ← Trang trước
+                        </button>
+                        <span id="rankingPageBadge" class="px-3.5 py-1.5 rounded-full bg-teal-50 text-td-dark border border-teal-200 text-xs font-extrabold tabular-nums">Trang 1 / 1</span>
+                        <button type="button" id="btnRankNextPage" onclick="changeRankingPage(1)" class="px-4 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 text-xs font-extrabold text-gray-700 transition">
+                            Trang sau →
+                        </button>
+                    </div>
+                </div>
 
                 <!-- TIÊU CHÍ CỘNG / TRỪ ĐIỂM SAU MỖI GIẢI (HIỂN THỊ Ở CUỐI BXH - CHẾ ĐỘ KHÁCH & BTC) -->
                 <div id="rankingPointCriteriaBox" class="rounded-3xl border border-teal-900/15 bg-gradient-to-br from-teal-50/70 via-white to-amber-50/35 p-5 sm:p-6 shadow-xs space-y-4">
@@ -395,12 +409,12 @@
                         </div>
 
                         <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-white border border-emerald-200/80 shadow-2xs">
-                            <span class="text-xs sm:text-sm font-bold text-gray-800">Á quân</span>
+                            <span class="text-xs sm:text-sm font-bold text-gray-800">Hạng nhì</span>
                             <span class="px-2.5 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 tabular-nums">+0.03</span>
                         </div>
 
                         <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-white border border-teal-200/80 shadow-2xs">
-                            <span class="text-xs sm:text-sm font-bold text-gray-800">Đồng hạng ba (thua bán kết)</span>
+                            <span class="text-xs sm:text-sm font-bold text-gray-800">Hạng ba</span>
                             <span class="px-2.5 py-1 rounded-full text-xs font-black bg-teal-100 text-td-dark tabular-nums">+0.02</span>
                         </div>
 
@@ -410,12 +424,12 @@
                         </div>
 
                         <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-white border border-gray-200 shadow-2xs">
-                            <span class="text-xs sm:text-sm font-bold text-gray-800">Loại vòng 1/8, 1/16</span>
+                            <span class="text-xs sm:text-sm font-bold text-gray-800">Thua vòng 1/8, 1/16</span>
                             <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-gray-100 text-gray-600 tabular-nums">0.00</span>
                         </div>
 
                         <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-white border border-rose-200/90 shadow-2xs">
-                            <span class="text-xs sm:text-sm font-bold text-gray-800">Loại từ vòng bảng</span>
+                            <span class="text-xs sm:text-sm font-bold text-gray-800">Thua từ vòng bảng</span>
                             <span class="px-2.5 py-1 rounded-full text-xs font-black bg-rose-100 text-rose-700 tabular-nums">-0.02</span>
                         </div>
                     </div>
@@ -426,9 +440,9 @@
             <section id="section-pending-public" class="scroll-target space-y-5">
                 <div class="flex flex-wrap items-end justify-between gap-4 border-b border-amber-200 pb-4">
                     <div>
-                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-600">HỒ SƠ ĐĂNG KÝ MỚI • ĐỒNG BỘ REALTIME</span>
+                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-600">HỒ SƠ ĐĂNG KÝ MỚI</span>
                         <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1">
-                            Danh Sách Chờ Duyệt (<span id="publicPendingCount">0</span>)
+                            Danh Sách
                         </h2>
                         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Hồ sơ VĐV vừa đăng ký sẽ tự động xuất hiện ở danh sách chờ duyệt realtime cho mọi người trước khi BTC phê duyệt lên Bảng xếp hạng.</p>
                     </div>
@@ -457,11 +471,7 @@
                         <button id="btnAddEventBtc" type="button" onclick="openCreateEventModal()" class="hidden px-4 py-2 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold inline-flex items-center gap-1.5 shadow-sm transition">
                             <i data-lucide="plus-circle" class="w-4 h-4"></i>
                             <span>Tạo sự kiện mới (BTC)</span>
-                        </button>
-                        <button type="button" onclick="navigateToPage('register')" class="px-4 py-2 rounded-full bg-[#FF6B35] hover:bg-[#e85a27] text-white text-xs font-extrabold inline-flex items-center gap-1.5 transition">
-                            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-                            <span>Đăng ký</span>
-                        </button>
+                        </button>                        
                     </div>
                 </div>
 
@@ -954,8 +964,7 @@
             getDatabase,
             ref as rtdbRef,
             set as rtdbSet,
-            remove as rtdbRemove,
-            onValue as rtdbOnValue
+            remove as rtdbRemove
         } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
 
         const FIREBASE_CONFIG = {
@@ -970,6 +979,7 @@
         };
 
         const BTC_MODE_BY_CODE = false;
+        const RANKING_PAGE_SIZE = 12;
 
         const STORAGE_KEY = 'tam_diep_hub_realtime_v22';
         const WIPED_PLAYERS_FLAG_KEY = 'tam_diep_hub_players_wiped_v22';
@@ -977,6 +987,9 @@
         const EVENTS_COL = 'tam_diep_events';
 
         let btcUnlocked = BTC_MODE_BY_CODE || new URLSearchParams(window.location.search).get('btc') === '1997';
+        let rankingCurrentPage = 1;
+        let logoTapCount = 0;
+        let logoTapTimer = null;
         let pendingAvatarBase64 = '';
         let db = null;
         let rtdb = null;
@@ -988,6 +1001,28 @@
 
         function isBtcMode() {
             return Boolean(btcUnlocked);
+        }
+
+        function toggleBtcMode(forceState) {
+            btcUnlocked = typeof forceState === 'boolean' ? forceState : !btcUnlocked;
+            renderAll();
+            showToast(btcUnlocked ? '👑 Đã bật chế độ BTC!' : 'Đã chuyển về chế độ Khách/VĐV.', 'info');
+        }
+
+        function handleBrandLogoTap() {
+            logoTapCount += 1;
+            clearTimeout(logoTapTimer);
+            if (logoTapCount >= 5) {
+                logoTapCount = 0;
+                toggleBtcMode();
+                return;
+            }
+            logoTapTimer = setTimeout(() => {
+                logoTapCount = 0;
+            }, 1400);
+            if (logoTapCount === 1) {
+                goToHubSection('hero-top');
+            }
         }
 
         function isPlayersWipedFlagSet() {
@@ -1020,7 +1055,8 @@
             return obj === undefined ? '' : obj;
         }
 
-        function compressImageDataUrl(dataUrl, maxSize = 200, quality = 0.72) {
+        // Tối ưu 1: Nén ảnh đại diện siêu nhẹ 120x120 (~4-6 KB/ảnh) để đáp ứng tốt 200+ VĐV
+        function compressImageDataUrl(dataUrl, maxSize = 120, quality = 0.6) {
             return new Promise((resolve) => {
                 if (!dataUrl || !dataUrl.startsWith('data:image')) return resolve('');
                 const img = new Image();
@@ -1125,9 +1161,14 @@
             return empty;
         }
 
+        // Tối ưu 1b: Loại bỏ chuỗi avatar Base64 nặng khi ghi cache localStorage (ảnh đã lưu trên Firebase)
         function saveLocalStateWith(stateObj) {
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(stateObj));
+                const lightState = {
+                    players: (stateObj.players || []).map(p => ({ ...p, avatar: '' })),
+                    events: stateObj.events || []
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(lightState));
             } catch (e) {}
         }
 
@@ -1164,6 +1205,7 @@
             }
         }
 
+        // Tối ưu 2: Dùng Firestore onSnapshot làm nguồn đồng bộ realtime duy nhất (chỉ gửi delta thay đổi, không tải lại toàn bộ 200+ VĐV)
         function ensureFirestoreReady() {
             if (firestoreReadyPromise) return firestoreReadyPromise;
             firestoreReadyPromise = new Promise((resolve) => {
@@ -1183,28 +1225,6 @@
                     useFirebase = true;
                     setRealtimeBadge('live');
 
-                    if (rtdb) {
-                        rtdbOnValue(rtdbRef(rtdb, PLAYERS_COL), (snap) => {
-                            if (wipePlayersInProgress) return;
-                            const val = snap.val();
-                            const list = val && typeof val === 'object' ? Object.values(val) : [];
-                            if (list.length > 0 && isPlayersWipedFlagSet()) {
-                                setPlayersWipedFlag(false);
-                            }
-                            appState.players = mergeRemoteRecords(list, appState.players, deletedPlayerIds);
-                            saveLocalState();
-                            renderAll();
-                        });
-
-                        rtdbOnValue(rtdbRef(rtdb, EVENTS_COL), (snap) => {
-                            const val = snap.val();
-                            const list = val && typeof val === 'object' ? Object.values(val) : [];
-                            appState.events = mergeRemoteRecords(list, appState.events, null);
-                            saveLocalState();
-                            renderAll();
-                        });
-                    }
-
                     onSnapshot(collection(db, PLAYERS_COL), (snap) => {
                         if (wipePlayersInProgress) return;
                         const docs = snap.docs.map(d => ({ ...d.data(), id: d.data().id || d.id }));
@@ -1218,7 +1238,7 @@
                         }
                     }, (err) => {
                         console.error('Firestore players snapshot error:', err);
-                        if (!rtdb) setRealtimeBadge('local-fallback');
+                        setRealtimeBadge('local-fallback');
                     });
 
                     onSnapshot(collection(db, EVENTS_COL), (snap) => {
@@ -1339,8 +1359,8 @@
                 pendingSyncIds.delete(id);
             });
             setPlayersWipedFlag(true);
+            rankingCurrentPage = 1;
 
-            // Chỉ xóa dữ liệu VĐV, giữ nguyên danh sách sự kiện
             appState = {
                 players: [],
                 events: Array.isArray(appState.events) ? [...appState.events] : []
@@ -1440,7 +1460,7 @@
             if (!file) return;
             const reader = new FileReader();
             reader.onload = async (e) => {
-                pendingAvatarBase64 = await compressImageDataUrl(e.target.result, 200, 0.7);
+                pendingAvatarBase64 = await compressImageDataUrl(e.target.result, 120, 0.6);
                 const img = document.getElementById('regAvatarImg');
                 if (pendingAvatarBase64) {
                     img.src = pendingAvatarBase64;
@@ -1768,6 +1788,22 @@
             await saveEventToStore(ev);
         }
 
+        function onRankingFilterChange() {
+            rankingCurrentPage = 1;
+            renderRanking();
+        }
+
+        function changeRankingPage(delta) {
+            rankingCurrentPage = Math.max(1, rankingCurrentPage + delta);
+            renderRanking();
+            const sec = document.getElementById('section-ranking');
+            if (sec) {
+                const y = sec.getBoundingClientRect().top + window.scrollY - 76;
+                window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+            }
+        }
+
+        // Tối ưu 3: Phân trang mượt 24 VĐV/trang cho Bảng xếp hạng 200+ VĐV
         function renderRanking() {
             const q = (document.getElementById('filterSearch')?.value || '').toLowerCase().trim();
             const club = document.getElementById('filterClub')?.value || 'ALL';
@@ -1779,8 +1815,28 @@
                 .filter(p => !q || p.name.toLowerCase().includes(q) || p.phone.includes(q) || p.code.toLowerCase().includes(q))
                 .sort((a, b) => b.tdScore - a.tdScore);
 
-            document.getElementById('rankingCardsContainer').innerHTML = approved.map((p, idx) => {
-                const rank = idx + 1;
+            const total = approved.length;
+            const totalPages = Math.max(1, Math.ceil(total / RANKING_PAGE_SIZE));
+            if (rankingCurrentPage > totalPages) rankingCurrentPage = totalPages;
+
+            const startIndex = (rankingCurrentPage - 1) * RANKING_PAGE_SIZE;
+            const pageItems = approved.slice(startIndex, startIndex + RANKING_PAGE_SIZE);
+
+            const paginationBar = document.getElementById('rankingPaginationBar');
+            if (paginationBar) {
+                if (total > RANKING_PAGE_SIZE) {
+                    paginationBar.classList.remove('hidden');
+                    document.getElementById('rankingPageInfo').innerText = `Hiển thị ${startIndex + 1}–${Math.min(startIndex + pageItems.length, total)} / ${total} VĐV`;
+                    document.getElementById('rankingPageBadge').innerText = `Trang ${rankingCurrentPage} / ${totalPages}`;
+                    document.getElementById('btnRankPrevPage').disabled = rankingCurrentPage <= 1;
+                    document.getElementById('btnRankNextPage').disabled = rankingCurrentPage >= totalPages;
+                } else {
+                    paginationBar.classList.add('hidden');
+                }
+            }
+
+            document.getElementById('rankingCardsContainer').innerHTML = pageItems.map((p, idx) => {
+                const rank = startIndex + idx + 1;
                 const netDiff = Number((p.tdScore - p.refScore).toFixed(2));
                 const lastLog = (p.history && p.history.length) ? p.history[p.history.length - 1] : null;
                 const lastDelta = lastLog ? Number(lastLog.delta) : 0;
@@ -1846,7 +1902,7 @@
 
                         <div class="flex items-start gap-3">
                             <div class="w-12 h-12 rounded-full ${avatarRingCls} font-black text-sm flex items-center justify-center shrink-0 overflow-hidden mt-0.5">
-                                ${p.avatar ? `<img src="${p.avatar}" class="w-full h-full object-cover">` : getInitials(p.name)}
+                                ${p.avatar ? `<img src="${p.avatar}" loading="lazy" class="w-full h-full object-cover">` : getInitials(p.name)}
                             </div>
                             <div class="min-w-0 flex-1">
                                 <div class="flex items-center justify-between gap-2">
@@ -1913,7 +1969,7 @@
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-800 font-extrabold text-xs flex items-center justify-center border border-amber-200 shrink-0 overflow-hidden">
-                                ${p.avatar ? `<img src="${p.avatar}" class="w-full h-full object-cover">` : getInitials(p.name)}
+                                ${p.avatar ? `<img src="${p.avatar}" loading="lazy" class="w-full h-full object-cover">` : getInitials(p.name)}
                             </div>
                             <div class="min-w-0">
                                 <button type="button" onclick="openPlayerDetailModal('${p.id}')" class="font-extrabold text-base text-gray-900 hover:text-td text-left block truncate">
@@ -2043,6 +2099,8 @@
         }
 
         Object.assign(window, {
+            handleBrandLogoTap,
+            toggleBtcMode,
             goToHubSection,
             navigateToPage,
             toggleMobileMenu,
@@ -2064,15 +2122,15 @@
             registerForEvent,
             openWipePlayersModal,
             confirmWipePlayersData,
+            onRankingFilterChange,
+            changeRankingPage,
             renderRanking,
             closeModal
         });
 
         window.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.shiftKey && (e.key === 'B' || e.key === 'b')) {
-                btcUnlocked = !btcUnlocked;
-                renderAll();
-                showToast(btcUnlocked ? '👑 Đã bật chế độ BTC!' : 'Đã chuyển về chế độ Khách/VĐV.', 'info');
+                toggleBtcMode();
             }
         });
 
