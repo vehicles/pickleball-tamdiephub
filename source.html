@@ -2,9 +2,8 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-	<title>Tam Điệp PickleHub</title>
-	<link rel="icon" type="image/png" href="td_hub-removebg-preview.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tam Điệp PickleHub — Bảng Xếp Hạng & Sự Kiện</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -240,9 +239,9 @@
                     <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-amber-300"></i>
                     <span>Tạo sự kiện</span>
                 </button>
-                <button type="button" onclick="regenerateRandomRoster()" class="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-extrabold inline-flex items-center gap-1.5 transition">
-                    <i data-lucide="shuffle" class="w-3.5 h-3.5 text-amber-300"></i>
-                    <span>Tạo mẫu ngẫu nhiên</span>
+                <button type="button" onclick="openWipePlayersModal()" class="px-3.5 py-1.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold inline-flex items-center gap-1.5 shadow-2xs transition">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-100"></i>
+                    <span>Xóa toàn bộ VĐV</span>
                 </button>
             </div>
         </div>
@@ -314,7 +313,7 @@
                             <i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-300"></i>
                             <span>BẢNG XẾP HẠNG</span>
                         </div>
-                        <div id="bannerRankingCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">12 VĐV</div>
+                        <div id="bannerRankingCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">0 VĐV</div>
                         <div class="text-[11px] text-teal-100/80">Nhấn để xem BXH điểm trình</div>
                     </button>
 
@@ -323,8 +322,8 @@
                             <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-300"></i>
                             <span>ĐIỂM CAO NHẤT</span>
                         </div>
-                        <div id="bannerTopScore" class="text-lg sm:text-xl font-black text-amber-300 mt-1 tabular-nums">3.50</div>
-                        <div id="bannerTopPlayerName" class="text-[11px] text-teal-100/85 truncate">Đang cập nhật</div>
+                        <div id="bannerTopScore" class="text-lg sm:text-xl font-black text-amber-300 mt-1 tabular-nums">0.00</div>
+                        <div id="bannerTopPlayerName" class="text-[11px] text-teal-100/85 truncate">Chưa có VĐV</div>
                     </button>
 
                     <button type="button" onclick="goToHubSection('section-pending-public')" class="cursor-pointer rounded-2xl glass-tile p-4 text-left w-full">
@@ -332,7 +331,7 @@
                             <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-300"></i>
                             <span>VĐV CHỜ DUYỆT</span>
                         </div>
-                        <div id="bannerPendingCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">2 Hồ sơ</div>
+                        <div id="bannerPendingCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">0 Hồ sơ</div>
                         <div class="text-[11px] text-teal-100/80">Nhấn để xem danh sách chờ duyệt</div>
                     </button>
 
@@ -341,7 +340,7 @@
                             <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-amber-300"></i>
                             <span>SỰ KIỆN</span>
                         </div>
-                        <div id="bannerEventsCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">3 Sự kiện</div>
+                        <div id="bannerEventsCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">0 Sự kiện</div>
                         <div class="text-[11px] text-teal-100/80">Giải đấu & Tryout Tam Điệp</div>
                     </button>
                 </div>
@@ -520,7 +519,7 @@
                     <p class="text-xs text-slate-500 mt-0.5">Các trường có dấu <span class="text-rose-500 font-bold">*</span> là thông tin bắt buộc</p>
                 </div>
                 <span id="nextPlayerCodePreview" class="px-3.5 py-1 rounded-full bg-td-light text-td-dark font-extrabold text-xs border border-td/20">
-                    Mã dự kiến: TD-015
+                    Mã dự kiến: TD-001
                 </span>
             </div>
 
@@ -899,6 +898,47 @@
         </div>
     </div>
 
+    <!-- =====================================================================
+         MODAL XÁC NHẬN XÓA TOÀN BỘ VĐV (CHỈ BTC - GIỮ NGUYÊN SỰ KIỆN)
+    ====================================================================== -->
+    <div id="wipePlayersModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border-2 border-rose-200 animate-view">
+            <div class="flex items-start justify-between gap-3 border-b border-rose-100 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center shrink-0">
+                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-black uppercase tracking-wider text-rose-600">Cảnh báo thao tác nguy hiểm</span>
+                        <h3 class="text-base font-black text-gray-900">Xóa toàn bộ dữ liệu VĐV</h3>
+                    </div>
+                </div>
+                <button type="button" onclick="closeModal('wipePlayersModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 text-gray-500 font-bold">✕</button>
+            </div>
+
+            <div class="text-xs sm:text-sm text-gray-600 space-y-2 leading-relaxed">
+                <p>Hành động này sẽ xóa vĩnh viễn <strong class="text-gray-900">toàn bộ hồ sơ VĐV, danh sách chờ duyệt và lịch sử điểm VĐV</strong> trên thiết bị này và đồng bộ xóa trên Firestore / Realtime Database. <strong class="text-td-dark">Danh sách sự kiện được giữ nguyên.</strong></p>
+                <p class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-2xl p-3">
+                    Để xác nhận, vui lòng nhập chính xác cụm từ <span class="font-black underline">XOA ALL</span> vào ô bên dưới:
+                </p>
+            </div>
+
+            <form onsubmit="confirmWipePlayersData(event)" class="space-y-4">
+                <div>
+                    <input id="wipeConfirmInput" type="text" autocomplete="off" required placeholder="Nhập XOA ALL để xác nhận..." class="w-full px-3.5 py-2.5 rounded-xl border-2 border-gray-300 focus:border-rose-500 text-sm font-extrabold text-center tracking-wider uppercase focus:outline-none transition">
+                </div>
+
+                <div class="flex justify-end gap-2 pt-1">
+                    <button type="button" onclick="closeModal('wipePlayersModal')" class="px-4 py-2.5 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700">Hủy bỏ</button>
+                    <button type="submit" id="btnConfirmWipePlayers" class="px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold inline-flex items-center gap-1.5 transition">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        <span>Xác nhận xóa toàn bộ VĐV</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import {
@@ -932,6 +972,7 @@
         const BTC_MODE_BY_CODE = false;
 
         const STORAGE_KEY = 'tam_diep_hub_realtime_v22';
+        const WIPED_PLAYERS_FLAG_KEY = 'tam_diep_hub_players_wiped_v22';
         const PLAYERS_COL = 'tam_diep_players';
         const EVENTS_COL = 'tam_diep_events';
 
@@ -941,24 +982,27 @@
         let rtdb = null;
         let useFirebase = false;
         let firestoreReadyPromise = null;
+        let wipePlayersInProgress = false;
         const pendingSyncIds = new Set();
-        const deletedIds = new Set();
-
-        const CLUBS = [
-            'Trung Tâm Pickleball Tam Điệp - 301 Quang Trung',
-            'CLB Sân Ga Tam Điệp',
-            'CLB Xi Măng Tam Điệp',
-            'CLB Đồng Giao',
-            'CLB Bắc Sơn',
-            'VĐV Tự do Tam Điệp'
-        ];
-
-        const FIRST_NAMES = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Đinh', 'Bùi', 'Vũ', 'Đỗ', 'Trịnh'];
-        const MIDDLE_NAMES = ['Minh', 'Văn', 'Thị', 'Đức', 'Quang', 'Hoàng', 'Tiến', 'Hữu', 'Ngọc', 'Thanh'];
-        const LAST_NAMES = ['Tuấn', 'Hùng', 'Hà', 'Khải', 'Nam', 'Anh', 'Dũng', 'Hương', 'Long', 'Diệp', 'Phước', 'Bảo'];
+        const deletedPlayerIds = new Set();
 
         function isBtcMode() {
             return Boolean(btcUnlocked);
+        }
+
+        function isPlayersWipedFlagSet() {
+            try {
+                return localStorage.getItem(WIPED_PLAYERS_FLAG_KEY) === '1';
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function setPlayersWipedFlag(val) {
+            try {
+                if (val) localStorage.setItem(WIPED_PLAYERS_FLAG_KEY, '1');
+                else localStorage.removeItem(WIPED_PLAYERS_FLAG_KEY);
+            } catch (e) {}
         }
 
         function sanitizeRecord(obj) {
@@ -1061,99 +1105,6 @@
 
         window.addEventListener('scroll', handleScrollEffects, { passive: true });
 
-        function generateRandomSeedData(count = 14) {
-            const players = [];
-            for (let i = 1; i <= count; i++) {
-                const code = 'TD-' + String(i).padStart(3, '0');
-                const gender = i % 3 === 0 ? 'Nữ' : 'Nam';
-                const name = `${FIRST_NAMES[i % FIRST_NAMES.length]} ${MIDDLE_NAMES[(i * 2) % MIDDLE_NAMES.length]} ${LAST_NAMES[(i * 3) % LAST_NAMES.length]}`;
-                const refScore = Number((2.45 + ((i * 13) % 110) * 0.01).toFixed(2));
-                const delta = Number((((i % 5) - 2) * 0.02).toFixed(2));
-                const tdScore = Number(Math.max(2.0, refScore + delta).toFixed(2));
-                const phone = `09${String(10 + (i % 89))}${String(100 + ((i * 37) % 899))}${String(100 + ((i * 73) % 899))}`;
-                const isPending = i > count - 2;
-                const refSource = i % 4 === 0 ? 'DUPR Quốc Tế' : 'PickleTour (pickletour.vn)';
-
-                players.push({
-                    id: 'td_' + i + '_' + Math.random().toString(36).slice(2, 5),
-                    code,
-                    name,
-                    gender,
-                    birthYear: 1985 + (i % 15),
-                    phone,
-                    club: CLUBS[i % CLUBS.length],
-                    refSource,
-                    verifyStatus: i % 3 === 0 ? 'unverified' : 'verified',
-                    refMatches: 8 + (i * 3),
-                    refUrl: refSource.includes('PickleTour') ? 'https://pickletour.vn' : '',
-                    refScore,
-                    tdScore,
-                    experience: i % 2 === 0 ? '6 – 12 tháng (Đánh phong trào đều, có chiến thuật)' : 'Trên 1 năm / Nền tảng Tennis, Cầu lông tốt',
-                    notes: 'Sinh hoạt thường xuyên tại khu vực Tam Điệp, Ninh Bình.',
-                    avatar: '',
-                    status: isPending ? 'pending' : 'approved',
-                    updatedAt: Date.now() - (count - i) * 1000,
-                    history: isPending ? [] : [
-                        {
-                            id: 'h_init_' + i,
-                            date: '10/11/2026',
-                            tournament: `Đối chiếu khởi tạo (${refSource})`,
-                            oldScore: refScore,
-                            newScore: refScore,
-                            delta: 0,
-                            reason: 'Xác thực điểm gốc làm mốc Tam Điệp',
-                            reviewer: 'Ban Chuyên Môn Tam Điệp'
-                        },
-                        {
-                            id: 'h_' + i,
-                            date: '20/11/2026',
-                            tournament: 'Giải Pickleball Tam Điệp',
-                            oldScore: refScore,
-                            newScore: tdScore,
-                            delta,
-                            reason: delta > 0 ? 'Thành tích tốt tại giải đấu Tam Điệp' : delta < 0 ? 'Loại từ vòng bảng' : 'Loại vòng 1/8, 1/16',
-                            reviewer: 'Ban Chuyên Môn Tam Điệp'
-                        }
-                    ]
-                });
-            }
-
-            const events = [
-                {
-                    id: 'ev_1',
-                    title: 'Giải Pickleball Tam Điệp Mở Rộng — Cúp Mùa Thu 2026',
-                    date: '29/11/2026',
-                    location: 'Trung Tâm Pickleball Tam Điệp - 301 Quang Trung',
-                    format: 'Đôi Nam 5.8 • Đôi Hỗn Hợp 5.4 • Tính điểm BXH chính thức',
-                    status: 'Đang mở đăng ký',
-                    registeredCount: 32,
-                    updatedAt: Date.now() - 3000
-                },
-                {
-                    id: 'ev_2',
-                    title: 'Buổi Giao Lưu & Chấm Trình Thực Tế (Tryout) Tuần 48',
-                    date: '28/11/2026 (16:30)',
-                    location: 'Cụm Sân 301 Quang Trung, Tam Điệp',
-                    format: 'Đánh thử 3 set chạm 11 — BTC chấm trình trực tiếp',
-                    status: 'Sắp diễn ra',
-                    registeredCount: 14,
-                    updatedAt: Date.now() - 2000
-                },
-                {
-                    id: 'ev_3',
-                    title: 'Giải Giao Hữu Liên CLB Sân Ga & Xi Măng Tam Điệp',
-                    date: '20/11/2026',
-                    location: 'CLB Sân Ga Tam Điệp',
-                    format: 'Đồng đội CLB — Cộng/trừ điểm BXH chính thức',
-                    status: 'Đã hoàn thành',
-                    registeredCount: 48,
-                    updatedAt: Date.now() - 1000
-                }
-            ];
-
-            return { players, events };
-        }
-
         let appState = loadLocalState();
 
         function loadLocalState() {
@@ -1161,31 +1112,37 @@
                 const raw = localStorage.getItem(STORAGE_KEY);
                 if (raw) {
                     const parsed = JSON.parse(raw);
-                    if (parsed && Array.isArray(parsed.players)) {
-                        if (!Array.isArray(parsed.events)) parsed.events = generateRandomSeedData(14).events;
-                        return parsed;
+                    if (parsed && typeof parsed === 'object') {
+                        return {
+                            players: Array.isArray(parsed.players) ? parsed.players : [],
+                            events: Array.isArray(parsed.events) ? parsed.events : []
+                        };
                     }
                 }
             } catch (e) {}
-            const seed = generateRandomSeedData(14);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
-            return seed;
+            const empty = { players: [], events: [] };
+            saveLocalStateWith(empty);
+            return empty;
         }
 
-        function saveLocalState() {
+        function saveLocalStateWith(stateObj) {
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(stateObj));
             } catch (e) {}
         }
 
-        function mergeRemoteRecords(remoteList, localList) {
+        function saveLocalState() {
+            saveLocalStateWith(appState);
+        }
+
+        function mergeRemoteRecords(remoteList, localList, blockedIdsSet) {
             const map = new Map();
             remoteList.forEach((item) => {
-                if (!item || !item.id || deletedIds.has(item.id)) return;
+                if (!item || !item.id || (blockedIdsSet && blockedIdsSet.has(item.id))) return;
                 map.set(item.id, item);
             });
             localList.forEach((localItem) => {
-                if (!localItem || !localItem.id || deletedIds.has(localItem.id)) return;
+                if (!localItem || !localItem.id || (blockedIdsSet && blockedIdsSet.has(localItem.id))) return;
                 if (pendingSyncIds.has(localItem.id)) {
                     map.set(localItem.id, localItem);
                 } else if (!map.has(localItem.id) && !useFirebase) {
@@ -1227,49 +1184,35 @@
                     setRealtimeBadge('live');
 
                     if (rtdb) {
-                        rtdbOnValue(rtdbRef(rtdb, PLAYERS_COL), async (snap) => {
+                        rtdbOnValue(rtdbRef(rtdb, PLAYERS_COL), (snap) => {
+                            if (wipePlayersInProgress) return;
                             const val = snap.val();
                             const list = val && typeof val === 'object' ? Object.values(val) : [];
-                            if (list.length === 0 && appState.players.length > 0 && !pendingSyncIds.size) {
-                                const obj = {};
-                                appState.players.forEach(p => { obj[p.id] = sanitizeRecord(p); });
-                                await rtdbSet(rtdbRef(rtdb, PLAYERS_COL), obj).catch(() => {});
-                                return;
+                            if (list.length > 0 && isPlayersWipedFlagSet()) {
+                                setPlayersWipedFlag(false);
                             }
-                            if (list.length > 0) {
-                                appState.players = mergeRemoteRecords(list, appState.players);
-                                saveLocalState();
-                                renderAll();
-                            }
+                            appState.players = mergeRemoteRecords(list, appState.players, deletedPlayerIds);
+                            saveLocalState();
+                            renderAll();
                         });
 
-                        rtdbOnValue(rtdbRef(rtdb, EVENTS_COL), async (snap) => {
+                        rtdbOnValue(rtdbRef(rtdb, EVENTS_COL), (snap) => {
                             const val = snap.val();
                             const list = val && typeof val === 'object' ? Object.values(val) : [];
-                            if (list.length === 0 && appState.events.length > 0 && !pendingSyncIds.size) {
-                                const obj = {};
-                                appState.events.forEach(ev => { obj[ev.id] = sanitizeRecord(ev); });
-                                await rtdbSet(rtdbRef(rtdb, EVENTS_COL), obj).catch(() => {});
-                                return;
-                            }
-                            if (list.length > 0) {
-                                appState.events = mergeRemoteRecords(list, appState.events);
-                                saveLocalState();
-                                renderAll();
-                            }
+                            appState.events = mergeRemoteRecords(list, appState.events, null);
+                            saveLocalState();
+                            renderAll();
                         });
                     }
 
-                    onSnapshot(collection(db, PLAYERS_COL), async (snap) => {
+                    onSnapshot(collection(db, PLAYERS_COL), (snap) => {
+                        if (wipePlayersInProgress) return;
                         const docs = snap.docs.map(d => ({ ...d.data(), id: d.data().id || d.id }));
-                        if (docs.length === 0 && appState.players.length > 0 && !snap.metadata.fromCache) {
-                            const batch = writeBatch(db);
-                            appState.players.forEach(p => batch.set(doc(db, PLAYERS_COL, p.id), sanitizeRecord(p), { merge: true }));
-                            await batch.commit().catch(() => {});
-                            return;
+                        if (docs.length > 0 && isPlayersWipedFlagSet()) {
+                            setPlayersWipedFlag(false);
                         }
                         if (docs.length > 0 || !snap.metadata.fromCache) {
-                            appState.players = mergeRemoteRecords(docs, appState.players);
+                            appState.players = mergeRemoteRecords(docs, appState.players, deletedPlayerIds);
                             saveLocalState();
                             renderAll();
                         }
@@ -1278,16 +1221,10 @@
                         if (!rtdb) setRealtimeBadge('local-fallback');
                     });
 
-                    onSnapshot(collection(db, EVENTS_COL), async (snap) => {
+                    onSnapshot(collection(db, EVENTS_COL), (snap) => {
                         const evDocs = snap.docs.map(d => ({ ...d.data(), id: d.data().id || d.id }));
-                        if (evDocs.length === 0 && appState.events.length > 0 && !snap.metadata.fromCache) {
-                            const batch = writeBatch(db);
-                            appState.events.forEach(ev => batch.set(doc(db, EVENTS_COL, ev.id), sanitizeRecord(ev), { merge: true }));
-                            await batch.commit().catch(() => {});
-                            return;
-                        }
                         if (evDocs.length > 0 || !snap.metadata.fromCache) {
-                            appState.events = mergeRemoteRecords(evDocs, appState.events);
+                            appState.events = mergeRemoteRecords(evDocs, appState.events, null);
                             saveLocalState();
                             renderAll();
                         }
@@ -1308,7 +1245,8 @@
 
         async function savePlayerToStore(player) {
             player.updatedAt = Date.now();
-            deletedIds.delete(player.id);
+            setPlayersWipedFlag(false);
+            deletedPlayerIds.delete(player.id);
             pendingSyncIds.add(player.id);
             saveLocalState();
 
@@ -1333,7 +1271,7 @@
         }
 
         async function deletePlayerFromStore(playerId) {
-            deletedIds.add(playerId);
+            deletedPlayerIds.add(playerId);
             pendingSyncIds.delete(playerId);
             saveLocalState();
             const ready = await ensureFirestoreReady();
@@ -1350,7 +1288,6 @@
 
         async function saveEventToStore(ev) {
             ev.updatedAt = Date.now();
-            deletedIds.delete(ev.id);
             pendingSyncIds.add(ev.id);
             saveLocalState();
             const ready = await ensureFirestoreReady();
@@ -1373,41 +1310,71 @@
             }
         }
 
-        async function replaceAllInStore(seedData) {
-            deletedIds.clear();
-            pendingSyncIds.clear();
-            appState = seedData;
-            saveLocalState();
-            renderAll();
-            const ready = await ensureFirestoreReady();
-            if (!ready || !useFirebase) return;
-            try {
-                if (db) {
-                    const batch = writeBatch(db);
-                    seedData.players.forEach(p => batch.set(doc(db, PLAYERS_COL, p.id), sanitizeRecord(p)));
-                    seedData.events.forEach(ev => batch.set(doc(db, EVENTS_COL, ev.id), sanitizeRecord(ev)));
-                    await batch.commit().catch(() => {});
-                }
-                if (rtdb) {
-                    const pObj = {};
-                    seedData.players.forEach(p => { pObj[p.id] = sanitizeRecord(p); });
-                    const eObj = {};
-                    seedData.events.forEach(ev => { eObj[ev.id] = sanitizeRecord(ev); });
-                    await Promise.allSettled([
-                        rtdbSet(rtdbRef(rtdb, PLAYERS_COL), pObj),
-                        rtdbSet(rtdbRef(rtdb, EVENTS_COL), eObj)
-                    ]);
-                }
-            } catch (err) {
-                console.error('Batch seed error:', err);
-            }
+        function openWipePlayersModal() {
+            if (!isBtcMode()) return;
+            const input = document.getElementById('wipeConfirmInput');
+            if (input) input.value = '';
+            openModal('wipePlayersModal');
+            setTimeout(() => input && input.focus(), 60);
         }
 
-        async function regenerateRandomRoster() {
+        async function confirmWipePlayersData(e) {
+            e.preventDefault();
             if (!isBtcMode()) return;
-            const seed = generateRandomSeedData(14);
-            await replaceAllInStore(seed);
-            showToast('🎲 Đã tạo danh sách VĐV & sự kiện ngẫu nhiên mới!', 'success');
+            const input = document.getElementById('wipeConfirmInput');
+            const phrase = (input?.value || '').trim().toUpperCase();
+            if (phrase !== 'XOA ALL') {
+                showToast('⚠️ Vui lòng nhập chính xác XOA ALL để xác nhận xóa toàn bộ VĐV!', 'warning');
+                input && input.focus();
+                return;
+            }
+
+            const btn = document.getElementById('btnConfirmWipePlayers');
+            if (btn) btn.disabled = true;
+            wipePlayersInProgress = true;
+
+            const existingPlayerIds = appState.players.map(p => p.id).filter(Boolean);
+            existingPlayerIds.forEach(id => {
+                deletedPlayerIds.add(id);
+                pendingSyncIds.delete(id);
+            });
+            setPlayersWipedFlag(true);
+
+            // Chỉ xóa dữ liệu VĐV, giữ nguyên danh sách sự kiện
+            appState = {
+                players: [],
+                events: Array.isArray(appState.events) ? [...appState.events] : []
+            };
+            saveLocalState();
+            closeModal('wipePlayersModal');
+            renderAll();
+
+            const ready = await ensureFirestoreReady();
+            if (ready && useFirebase) {
+                try {
+                    const tasks = [];
+                    if (rtdb) {
+                        tasks.push(rtdbRemove(rtdbRef(rtdb, PLAYERS_COL)));
+                    }
+                    if (db && existingPlayerIds.length > 0) {
+                        const batch = writeBatch(db);
+                        existingPlayerIds.forEach(id => {
+                            batch.delete(doc(db, PLAYERS_COL, id));
+                        });
+                        tasks.push(batch.commit());
+                    }
+                    await Promise.allSettled(tasks);
+                } catch (err) {
+                    console.error('Wipe players remote error:', err);
+                }
+            }
+
+            setTimeout(() => {
+                wipePlayersInProgress = false;
+                if (btn) btn.disabled = false;
+            }, 350);
+
+            showToast('🧹 Đã xóa toàn bộ dữ liệu VĐV (giữ nguyên sự kiện)!', 'success');
         }
 
         function navigateToPage(page) {
@@ -1542,6 +1509,8 @@
                 }] : []
             };
 
+            setPlayersWipedFlag(false);
+            deletedPlayerIds.delete(newPlayer.id);
             appState.players.push(newPlayer);
             saveLocalState();
 
@@ -1738,7 +1707,7 @@
             const name = appState.players[idx].name;
             appState.players.splice(idx, 1);
             renderAll();
-            showToast(`🗑️ Đã xóa hồ sơ ${name}.`, 'info');
+            showToast(`🗑️ Đã xóa hồ sơ VĐV ${name}.`, 'info');
             await deletePlayerFromStore(id);
         }
 
@@ -1849,10 +1818,15 @@
                 const shortSource = (p.refSource || '').includes('DUPR') ? 'DUPR' : 'PickleTour';
 
                 const btcControls = btc
-                    ? `<div class="mt-3 pt-3 border-t border-dashed border-gray-200 flex items-center justify-between gap-1.5">
-                        <button type="button" onclick="openBtcScoreModal('${p.id}')" class="px-3.5 py-1.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold transition">
-                            Chấm điểm
-                        </button>
+                    ? `<div class="mt-3 pt-3 border-t border-dashed border-gray-200 flex flex-wrap items-center justify-between gap-1.5">
+                        <div class="flex items-center gap-1.5">
+                            <button type="button" onclick="openBtcScoreModal('${p.id}')" class="px-3.5 py-1.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold transition">
+                                Chấm điểm
+                            </button>
+                            <button type="button" onclick="deletePlayerBtc('${p.id}')" class="px-3 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">
+                                Xóa
+                            </button>
+                        </div>
                         <div class="flex items-center gap-1">
                             <button type="button" onclick="adjustScoreQuick('${p.id}', -0.02)" class="px-2.5 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold">-0.02</button>
                             <button type="button" onclick="adjustScoreQuick('${p.id}', 0.05)" class="px-2.5 py-1.5 rounded-full bg-teal-50 hover:bg-teal-100 text-td text-xs font-extrabold">+0.05</button>
@@ -1908,7 +1882,7 @@
 
                     ${btcControls ? `<div>${btcControls}</div>` : ''}
                 </div>`;
-            }).join('') || `<div class="col-span-full py-12 text-center text-gray-400">Không có vận động viên phù hợp.</div>`;
+            }).join('') || `<div class="col-span-full py-12 text-center text-sm text-gray-400 bg-gray-50/70 rounded-3xl border border-dashed border-gray-200">Chưa có vận động viên nào trên Bảng xếp hạng.</div>`;
 
             lucide.createIcons();
         }
@@ -1975,6 +1949,10 @@
 
         function renderEvents() {
             const events = appState.events || [];
+            if (!events.length) {
+                document.getElementById('eventsGridContainer').innerHTML = `<div class="col-span-full py-10 text-center text-sm text-gray-400 bg-gray-50/70 rounded-3xl border border-dashed border-gray-200">Chưa có sự kiện nào được đăng.</div>`;
+                return;
+            }
             document.getElementById('eventsGridContainer').innerHTML = events.map((ev, idx) => {
                 const isDone = ev.status === 'Đã hoàn thành';
                 const isFeatured = idx === 0 && !isDone;
@@ -2020,7 +1998,7 @@
                     <td class="py-2.5 px-4 text-center font-extrabold ${l.delta > 0 ? 'text-td-dark' : l.delta < 0 ? 'text-rose-600' : 'text-gray-500'}">${l.delta > 0 ? '+' + Number(l.delta).toFixed(2) : Number(l.delta).toFixed(2)}</td>
                     <td class="py-2.5 px-4 text-gray-500">${escapeHtml(l.reason || 'Cập nhật BXH Tam Điệp')}</td>
                 </tr>
-            `).join('');
+            `).join('') || `<tr><td colspan="5" class="py-6 px-4 text-center text-gray-400">Chưa có nhật ký biến động điểm.</td></tr>`;
         }
 
         function updateBannerStats() {
@@ -2084,7 +2062,8 @@
             openCreateEventModal,
             submitCreateEvent,
             registerForEvent,
-            regenerateRandomRoster,
+            openWipePlayersModal,
+            confirmWipePlayersData,
             renderRanking,
             closeModal
         });
