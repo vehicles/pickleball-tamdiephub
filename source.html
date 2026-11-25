@@ -677,6 +677,101 @@
         </div>
     </div>
 
+	<!-- PAGE 3: EVENT REGISTRATION & PARTICIPANT LIST -->
+	<div id="page-event-register" class="hidden flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6 animate-view">
+		<div class="flex items-center justify-between gap-3">
+			<button type="button" onclick="goToHubSection('section-events')" class="px-4 py-2 rounded-full bg-white border border-gray-200 hover:border-td text-xs font-extrabold text-gray-700 inline-flex items-center gap-1.5 transition">
+				<i data-lucide="arrow-left" class="w-4 h-4"></i>
+				<span>Quay lại danh sách giải đấu</span>
+			</button>
+		</div>
+
+		<!-- Thông tin giải đấu -->
+		<div id="eventPageHeroCard" class="card-elevated rounded-3xl overflow-hidden"></div>
+
+		<!-- Form đăng ký tham gia giải -->
+		<div id="eventPageFormCard" class="card-elevated rounded-3xl p-6 space-y-4">
+			<div>
+				<span class="text-[11px] font-black uppercase tracking-wider text-td">Đăng ký thi đấu</span>
+				<h3 class="text-lg font-black text-gray-900">Phiếu Đăng Ký Tham Gia Giải Đấu</h3>
+			</div>
+
+			<form onsubmit="submitEventPageRegistration(event)" class="space-y-4">
+				<input type="hidden" id="eventPageEventId">
+
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+					<div>
+						<label class="block text-xs font-bold text-gray-700 mb-1">Nội dung thi đấu *</label>
+						<select id="eventPageCategory" required class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold bg-white focus:outline-none focus:border-td"></select>
+					</div>
+					<div>
+						<label class="block text-xs font-bold text-gray-700 mb-1">Điểm trình Tam Điệp hiện tại *</label>
+						<input id="eventPageScore" type="number" step="0.01" min="1.50" max="6.50" required value="2.80" class="w-full px-3.5 py-2.5 rounded-xl border-2 border-td text-sm font-black text-td-dark focus:outline-none">
+					</div>
+					<div>
+						<label class="block text-xs font-bold text-gray-700 mb-1">Họ và tên VĐV *</label>
+						<input id="eventPageName" type="text" required placeholder="Nhập họ tên VĐV" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
+					</div>
+					<div>
+						<label class="block text-xs font-bold text-gray-700 mb-1">Số điện thoại / Zalo *</label>
+						<input id="eventPagePhone" type="tel" required placeholder="Nhập SĐT liên hệ" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+					</div>
+					<div>
+						<label class="block text-xs font-bold text-gray-700 mb-1">CLB / Cụm sân</label>
+						<input id="eventPageClub" type="text" value="TT Pickleball Tam Điệp" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+					</div>
+					<div>
+						<label class="block text-xs font-bold text-gray-700 mb-1">Tên Partner / Đồng đội (nếu đánh đôi)</label>
+						<input id="eventPagePartner" type="text" placeholder="VD: Trần Văn Bình (2.75)" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+					</div>
+					<div class="sm:col-span-2">
+						<label class="block text-xs font-bold text-gray-700 mb-1">Ghi chú cho BTC</label>
+						<textarea id="eventPageNote" rows="2" placeholder="VD: Xin xếp lịch buổi chiều..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-td"></textarea>
+					</div>
+				</div>
+
+				<div class="flex flex-wrap items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+					<button type="button" onclick="goToHubSection('section-events')" class="px-4 py-2.5 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700 transition">Quay lại sự kiện</button>
+					<button type="submit" id="btnSubmitEventPageReg" class="px-6 py-3 rounded-full bg-[#FF6B35] hover:bg-[#e85a27] text-white text-xs sm:text-sm font-extrabold inline-flex items-center gap-1.5 shadow-sm transition">
+						<i data-lucide="check-circle-2" class="w-4 h-4"></i>
+						<span>Xác nhận đăng ký giải</span>
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- Danh sách VĐV đã đăng ký giải -->
+		<div class="card-elevated rounded-3xl overflow-hidden">
+			<div class="px-6 py-4 border-b border-gray-100 bg-slate-50/70 flex flex-wrap items-center justify-between gap-3">
+				<div>
+					<span class="text-[10px] font-black uppercase tracking-wider text-td">Danh sách VĐV của giải</span>
+					<h3 class="text-base sm:text-lg font-black text-gray-900 mt-0.5">
+						VĐV Đã Đăng Ký (<span id="eventPageRegCount">0</span>)
+					</h3>
+				</div>
+				<select id="eventPageFilterCategory" onchange="renderEventPageRegistrations()" class="px-3.5 py-2 rounded-full border border-gray-300 bg-white text-xs font-bold text-gray-800 focus:outline-none focus:border-td">
+					<option value="ALL">Tất cả nội dung</option>
+				</select>
+			</div>
+
+			<div class="overflow-x-auto">
+				<table class="w-full text-left border-collapse text-xs sm:text-sm">
+					<thead>
+						<tr class="bg-teal-950 text-white text-[11px] uppercase">
+							<th class="py-3 px-4">#</th>
+							<th class="py-3 px-4">VĐV</th>
+							<th class="py-3 px-4">SĐT / Zalo</th>
+							<th class="py-3 px-4">Nội dung</th>
+							<th class="py-3 px-4 text-center">Điểm trình</th>
+							<th class="py-3 px-4">Partner / CLB</th>
+							<th id="eventPageActionHeader" class="hidden py-3 px-4 text-center">BTC</th>
+						</tr>
+					</thead>
+					<tbody id="eventPageRegistrationsBody" class="divide-y divide-gray-200"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
     <!-- =====================================================================
          FOOTER BO TRÒN GÓC TRÊN + ĐỒNG BỘ MÀU TEAL + LOGO + ICON LUCIDE
     ====================================================================== -->
@@ -861,38 +956,60 @@
     <!-- =====================================================================
          MODAL TẠO SỰ KIỆN MỚI (CHỈ BTC)
     ====================================================================== -->
-    <div id="createEventModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-200 animate-view">
-            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
-                <h3 class="text-base font-extrabold text-gray-900">Tạo Sự Kiện / Giải Đấu Mới (BTC)</h3>
-                <button type="button" onclick="closeModal('createEventModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 text-gray-500 font-bold">✕</button>
-            </div>
-            <form onsubmit="submitCreateEvent(event)" class="space-y-3.5">
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Tên giải đấu / Sự kiện *</label>
-                    <input id="evTitleInput" type="text" required placeholder="VD: Giải Pickleball Tam Điệp Mở Rộng" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Ngày tổ chức *</label>
-                        <input id="evDateInput" type="text" required value="06/12/2026" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Thể thức / Nội dung</label>
-                        <input id="evFormatInput" type="text" value="Đôi hỗn hợp 5.6 & 6.2" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Địa điểm cụm sân *</label>
-                    <input id="evLocationInput" type="text" required value="Trung Tâm Pickleball Tam Điệp - 301 Quang Trung" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
-                </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeModal('createEventModal')" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700">Hủy</button>
-                    <button type="submit" class="px-5 py-2 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold">Đăng sự kiện</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- MODAL TẠO SỰ KIỆN MỚI (CÓ UPLOAD BANNER / POSTER TỰ NÉN 640PX) -->
+	<div id="createEventModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+		<div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-gray-200 animate-view">
+			<div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between shrink-0">
+				<h3 class="text-base font-extrabold text-gray-900">Tạo Sự Kiện / Giải Đấu Mới (BTC)</h3>
+				<button type="button" onclick="closeModal('createEventModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 text-gray-500 font-bold">✕</button>
+			</div>
+
+			<form onsubmit="submitCreateEvent(event)" class="p-6 overflow-y-auto space-y-3.5 flex-1">
+				<!-- PHẦN UPLOAD BANNER / POSTER MỚI BỔ SUNG -->
+				<div>
+					<label class="block text-xs font-bold text-gray-700 mb-1.5">Ảnh banner / poster giải đấu</label>
+					<div class="rounded-2xl border-2 border-dashed border-gray-200 hover:border-td p-3 bg-gray-50/70 transition">
+						<div id="evBannerPreviewWrap" class="hidden mb-2.5 relative rounded-xl overflow-hidden h-36 bg-gray-100">
+							<img id="evBannerPreviewImg" src="" alt="Banner sự kiện" class="w-full h-full object-cover">
+							<button type="button" onclick="clearEventBannerPreview()" class="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-black/65 hover:bg-black/80 text-white text-[11px] font-bold">Xóa ảnh</button>
+						</div>
+						<label class="cursor-pointer flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-white border border-gray-200 hover:border-td text-xs font-extrabold text-gray-700 transition">
+							<i data-lucide="image-plus" class="w-4 h-4 text-td"></i>
+							<span>Chọn ảnh giải đấu từ máy / điện thoại</span>
+							<input type="file" id="evBannerInput" accept="image/*" onchange="previewEventBanner(event)" class="hidden">
+						</label>
+						<div class="text-[11px] text-gray-400 mt-1.5 text-center">Tự nén ảnh ngang tối đa 640px, chất lượng 0.65</div>
+					</div>
+				</div>
+
+				<div>
+					<label class="block text-xs font-bold text-gray-700 mb-1">Tên giải đấu / Sự kiện *</label>
+					<input id="evTitleInput" type="text" required placeholder="VD: Giải Pickleball Tam Điệp Mở Rộng" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
+				</div>
+
+				<div class="grid grid-cols-2 gap-3">
+					<div>
+						<label class="block text-xs font-bold text-gray-700 mb-1">Ngày tổ chức *</label>
+						<input id="evDateInput" type="text" required value="06/12/2026" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+					</div>
+					<div>
+						<label class="block text-xs font-bold text-gray-700 mb-1">Thể thức / Nội dung thi đấu</label>
+						<input id="evFormatInput" type="text" value="Đôi nam 5.6, Đôi hỗn hợp 5.8" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+					</div>
+				</div>
+
+				<div>
+					<label class="block text-xs font-bold text-gray-700 mb-1">Địa điểm cụm sân *</label>
+					<input id="evLocationInput" type="text" required value="Trung Tâm Pickleball Tam Điệp - 301 Quang Trung" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+				</div>
+
+				<div class="flex justify-end gap-2 pt-2">
+					<button type="button" onclick="closeModal('createEventModal')" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700">Hủy</button>
+					<button type="submit" class="px-5 py-2 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold">Đăng sự kiện</button>
+				</div>
+			</form>
+		</div>
+	</div>
 
     <!-- =====================================================================
          MODAL XÁC NHẬN XÓA TOÀN BỘ VĐV (CHỈ BTC - GIỮ NGUYÊN SỰ KIỆN)
@@ -974,6 +1091,11 @@
 
         let btcUnlocked = BTC_MODE_BY_CODE || new URLSearchParams(window.location.search).get('btc') === '1997';
         let pendingAvatarBase64 = '';
+		let currentEventPageId = '';
+		let pendingEventBannerBase64 = '';
+		let editingPlayerAvatarBase64 = '';
+		let currentDetailPlayerId = '';
+
         let db = null;
         let rtdb = null;
         let useFirebase = false;
@@ -1016,23 +1138,50 @@
             return obj === undefined ? '' : obj;
         }
 
-        function compressImageDataUrl(dataUrl, maxSize = 200, quality = 0.72) {
-            return new Promise((resolve) => {
-                if (!dataUrl || !dataUrl.startsWith('data:image')) return resolve('');
-                const img = new Image();
-                img.onload = () => {
-                    const scale = Math.min(1, maxSize / Math.max(img.width || 1, img.height || 1));
-                    const canvas = document.createElement('canvas');
-                    canvas.width = Math.max(1, Math.round((img.width || 1) * scale));
-                    canvas.height = Math.max(1, Math.round((img.height || 1) * scale));
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    resolve(canvas.toDataURL('image/jpeg', quality));
-                };
-                img.onerror = () => resolve('');
-                img.src = dataUrl;
-            });
-        }
+        function compressImageDataUrl(dataUrl, maxWidth = 640, quality = 0.65) {
+			return new Promise((resolve) => {
+				if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image')) {
+					return resolve('');
+				}
+				const img = new Image();
+				img.onload = () => {
+					try {
+						const natW = img.width || 1;
+						const natH = img.height || 1;
+						const scale = natW > maxWidth ? (maxWidth / natW) : 1;
+						const targetW = Math.max(1, Math.round(natW * scale));
+						const targetH = Math.max(1, Math.round(natH * scale));
+
+						const canvas = document.createElement('canvas');
+						canvas.width = targetW;
+						canvas.height = targetH;
+						const ctx = canvas.getContext('2d');
+						ctx.drawImage(img, 0, 0, targetW, targetH);
+
+						resolve(canvas.toDataURL('image/jpeg', quality));
+					} catch (err) {
+						resolve(dataUrl);
+					}
+				};
+				img.onerror = () => resolve(dataUrl);
+				img.src = dataUrl;
+			});
+		}
+
+		async function previewEventBanner(event) {
+			const file = event.target.files?.[0];
+			if (!file) return;
+			const reader = new FileReader();
+			reader.onload = async (e) => {
+				// Nén ảnh ngang tối đa 640px, chất lượng JPEG 0.65
+				pendingEventBannerBase64 = await compressImageDataUrl(e.target.result, 640, 0.65);
+				if (pendingEventBannerBase64) {
+					document.getElementById('evBannerPreviewImg').src = pendingEventBannerBase64;
+					document.getElementById('evBannerPreviewWrap').classList.remove('hidden');
+				}
+			};
+			reader.readAsDataURL(file);
+		}
 
         function getInitials(name) {
             const parts = (name || 'TD').trim().split(/\s+/);
@@ -1160,6 +1309,72 @@
             }
         }
 
+		function normalizePlayer(p) {
+			return {
+				...p,
+				avatar: typeof p?.avatar === 'string' ? p.avatar : '',
+				history: Array.isArray(p?.history) ? p.history : []
+			};
+		}
+
+		function normalizeEvent(ev) {
+			const regs = Array.isArray(ev?.registrations) ? ev.registrations : [];
+			return {
+				...ev,
+				id: ev?.id || ('ev_' + Date.now()),
+				title: ev?.title || 'Giải đấu Tam Điệp',
+				date: ev?.date || '',
+				format: ev?.format || 'Thi đấu tự do',
+				location: ev?.location || 'Tam Điệp, Ninh Bình',
+				status: ev?.status || 'Đang mở đăng ký',
+				banner: typeof ev?.banner === 'string' ? ev.banner : '',
+				registrations: regs,
+				registeredCount: regs.length,
+				updatedAt: Number(ev?.updatedAt || 0)
+			};
+		}
+
+		function mergePlayerRecord(remoteP, localP) {
+			const base = normalizePlayer(remoteP || localP || {});
+			const localAvatar = typeof localP?.avatar === 'string' ? localP.avatar : '';
+			const remoteAvatar = typeof remoteP?.avatar === 'string' ? remoteP.avatar : '';
+			return {
+				...base,
+				avatar: remoteAvatar || localAvatar || ''
+			};
+		}
+
+		function mergeEventRecord(remoteEv, localEv) {
+			const base = normalizeEvent(remoteEv || localEv || {});
+			const localRegs = Array.isArray(localEv?.registrations) ? localEv.registrations : [];
+			const remoteRegs = Array.isArray(remoteEv?.registrations) ? remoteEv.registrations : [];
+
+			const regMap = new Map();
+			remoteRegs.forEach((r) => {
+				if (r && r.id) regMap.set(r.id, r);
+			});
+			localRegs.forEach((r) => {
+				if (!r || !r.id) return;
+				if ((typeof pendingSyncIds !== 'undefined' && pendingSyncIds.has(base.id)) ||
+					(localEv?.updatedAt || 0) >= (remoteEv?.updatedAt || 0) ||
+					!regMap.has(r.id)) {
+					regMap.set(r.id, r);
+				}
+			});
+
+			const mergedRegs = Array.from(regMap.values());
+			const banner = (localEv?.updatedAt || 0) > (remoteEv?.updatedAt || 0)
+				? (localEv?.banner || remoteEv?.banner || '')
+				: (remoteEv?.banner || localEv?.banner || '');
+
+			return {
+				...base,
+				banner,
+				registrations: mergedRegs,
+				registeredCount: mergedRegs.length,
+				updatedAt: Math.max(Number(remoteEv?.updatedAt || 0), Number(localEv?.updatedAt || 0))
+			};
+		}
         function ensureFirestoreReady() {
             if (firestoreReadyPromise) return firestoreReadyPromise;
             firestoreReadyPromise = new Promise((resolve) => {
@@ -1283,28 +1498,41 @@
         }
 
         async function saveEventToStore(ev) {
-            ev.updatedAt = Date.now();
-            pendingSyncIds.add(ev.id);
-            saveLocalState();
-            const ready = await ensureFirestoreReady();
-            if (!ready || !useFirebase) {
-                pendingSyncIds.delete(ev.id);
-                return false;
-            }
-            const cleanEv = sanitizeRecord(ev);
-            try {
-                const tasks = [];
-                if (db) tasks.push(setDoc(doc(db, EVENTS_COL, cleanEv.id), cleanEv, { merge: true }));
-                if (rtdb) tasks.push(rtdbSet(rtdbRef(rtdb, `${EVENTS_COL}/${cleanEv.id}`), cleanEv));
-                await Promise.allSettled(tasks);
-                pendingSyncIds.delete(ev.id);
-                return true;
-            } catch (err) {
-                console.error('Save event error:', err);
-                pendingSyncIds.delete(ev.id);
-                return false;
-            }
-        }
+			const normalized = normalizeEvent(ev);
+			normalized.updatedAt = Date.now();
+
+			const nextEvents = [...(appState.events || []).map(normalizeEvent)];
+			const idx = nextEvents.findIndex(x => x.id === normalized.id);
+			if (idx !== -1) {
+				nextEvents[idx] = {
+					...mergeEventRecord(normalized, nextEvents[idx]),
+					registrations: normalized.registrations,
+					registeredCount: normalized.registrations.length,
+					updatedAt: normalized.updatedAt
+				};
+			} else {
+				nextEvents.unshift(normalized);
+			}
+
+			appState.events = nextEvents;
+			saveLocalState();
+
+			const ready = await ensureFirestoreReady();
+			if (!ready || !useFirebase) return false;
+
+			const cleanEv = sanitizeRecord({
+				...normalized,
+				banner: normalized.banner && normalized.banner.length < 420000 ? normalized.banner : '',
+				registrations: normalized.registrations,
+				registeredCount: normalized.registrations.length
+			});
+
+			const tasks = [];
+			if (db) tasks.push(setDoc(doc(db, EVENTS_COL, cleanEv.id), cleanEv, { merge: true }));
+			if (rtdb) tasks.push(rtdbSet(rtdbRef(rtdb, `${EVENTS_COL}/${cleanEv.id}`), cleanEv));
+			await Promise.allSettled(tasks);
+			return true;
+		}
 
         function openWipePlayersModal() {
             if (!isBtcMode()) return;
@@ -1374,20 +1602,29 @@
         }
 
         function navigateToPage(page) {
-            const hub = document.getElementById('page-hub');
-            const reg = document.getElementById('page-register');
-            if (!hub || !reg) return;
-            if (page === 'register') {
-                hub.classList.add('hidden');
-                reg.classList.remove('hidden');
-                document.getElementById('nextPlayerCodePreview').innerText = 'Mã dự kiến: ' + getNextCode();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                reg.classList.add('hidden');
-                hub.classList.remove('hidden');
-            }
-            lucide.createIcons();
-        }
+			const hub = document.getElementById('page-hub');
+			const reg = document.getElementById('page-register');
+			const evReg = document.getElementById('page-event-register');
+			if (!hub || !reg || !evReg) return;
+
+			// Ẩn tất cả các trang trước
+			hub.classList.add('hidden');
+			reg.classList.add('hidden');
+			evReg.classList.add('hidden');
+
+			if (page === 'register') {
+				reg.classList.remove('hidden');
+				document.getElementById('nextPlayerCodePreview').innerText = 'Mã dự kiến: ' + getNextCode();
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			} else if (page === 'event-register') {
+				evReg.classList.remove('hidden');
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			} else {
+				currentEventPageId = '';
+				hub.classList.remove('hidden');
+			}
+			lucide.createIcons();
+		}
 
         function toggleMobileMenu() {
             document.getElementById('mobileMenuDrawer').classList.toggle('hidden');
@@ -1731,29 +1968,45 @@
         }
 
         function openCreateEventModal() {
-            if (!isBtcMode()) return;
-            openModal('createEventModal');
-        }
+			if (!isBtcMode()) return;
+			pendingEventBannerBase64 = '';
+			const evBannerInput = document.getElementById('evBannerInput');
+			if (evBannerInput) evBannerInput.value = '';
+			clearEventBannerPreview();
+			openModal('createEventModal');
+		}
+		
+		function clearEventBannerPreview() {
+			pendingEventBannerBase64 = '';
+			const wrap = document.getElementById('evBannerPreviewWrap');
+			const img = document.getElementById('evBannerPreviewImg');
+			const input = document.getElementById('evBannerInput');
+			if (img) img.src = '';
+			if (wrap) wrap.classList.add('hidden');
+			if (input) input.value = '';
+		}
 
-        async function submitCreateEvent(e) {
-            e.preventDefault();
-            if (!isBtcMode()) return;
-            const newEv = {
-                id: 'ev_' + Date.now(),
-                title: document.getElementById('evTitleInput').value.trim(),
-                date: document.getElementById('evDateInput').value.trim(),
-                format: document.getElementById('evFormatInput').value.trim(),
-                location: document.getElementById('evLocationInput').value.trim(),
-                status: 'Đang mở đăng ký',
-                registeredCount: 0,
-                updatedAt: Date.now()
-            };
-            appState.events.unshift(newEv);
-            closeModal('createEventModal');
-            renderAll();
-            showToast('📅 Đã đăng sự kiện mới lên Tam Điệp PickleHub!', 'success');
-            await saveEventToStore(newEv);
-        }
+		async function submitCreateEvent(e) {
+			e.preventDefault();
+			if (!isBtcMode()) return;
+			const newEv = normalizeEvent({
+				id: 'ev_' + Date.now(),
+				title: document.getElementById('evTitleInput').value.trim(),
+				date: document.getElementById('evDateInput').value.trim(),
+				format: document.getElementById('evFormatInput').value.trim(),
+				location: document.getElementById('evLocationInput').value.trim(),
+				banner: pendingEventBannerBase64 || '',
+				status: 'Đang mở đăng ký',
+				registeredCount: 0,
+				registrations: [],
+				updatedAt: Date.now()
+			});
+			pendingEventBannerBase64 = '';
+			closeModal('createEventModal');
+			await saveEventToStore(newEv);
+			renderAll();
+			showToast('📅 Đã đăng sự kiện mới!', 'success');
+		}
 
         async function registerForEvent(eventId) {
             const ev = appState.events.find(x => x.id === eventId);
@@ -1944,41 +2197,67 @@
         }
 
         function renderEvents() {
-            const events = appState.events || [];
-            if (!events.length) {
-                document.getElementById('eventsGridContainer').innerHTML = `<div class="col-span-full py-10 text-center text-sm text-gray-400 bg-gray-50/70 rounded-3xl border border-dashed border-gray-200">Chưa có sự kiện nào được đăng.</div>`;
-                return;
-            }
-            document.getElementById('eventsGridContainer').innerHTML = events.map((ev, idx) => {
-                const isDone = ev.status === 'Đã hoàn thành';
-                const isFeatured = idx === 0 && !isDone;
-                const statusCls = isDone ? 'bg-gray-100 text-gray-600' : 'bg-teal-100 text-td-dark';
-                return `
-                <div class="card-elevated rounded-3xl p-5 flex flex-col justify-between gap-4 ${isFeatured ? 'border-2 border-td bg-teal-50/20' : ''}">
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between gap-2">
-                            <div class="flex items-center gap-1.5 flex-wrap">
-                                <span class="px-3 py-0.5 rounded-full text-[11px] font-extrabold ${statusCls}">${escapeHtml(ev.status)}</span>
-                                ${isFeatured ? `<span class="px-3 py-0.5 rounded-full text-[10px] font-black bg-[#FF6B35] text-white uppercase">Nổi bật</span>` : ''}
-                            </div>
-                            <span class="text-xs font-bold text-gray-500">${escapeHtml(ev.date)}</span>
-                        </div>
-                        <h4 class="text-base font-extrabold text-gray-900">${escapeHtml(ev.title)}</h4>
-                        <div class="text-xs text-gray-600 space-y-1">
-                            <div>📍 <strong>Địa điểm:</strong> ${escapeHtml(ev.location)}</div>
-                            <div>🎾 <strong>Thể thức:</strong> ${escapeHtml(ev.format)}</div>
-                            <div>👥 <strong>Đã đăng ký:</strong> ${ev.registeredCount || 0} VĐV</div>
-                        </div>
-                    </div>
-                    <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-[11px] font-bold text-td">Tính điểm BXH Tam Điệp</span>
-                        ${isDone
-                            ? `<span class="text-xs font-bold text-gray-400">Đã kết thúc</span>`
-                            : `<button type="button" onclick="registerForEvent('${ev.id}')" class="px-4 py-1.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold transition">Đăng ký tham gia</button>`}
-                    </div>
-                </div>`;
-            }).join('');
-        }
+			const events = appState.events || [];
+			if (!events.length) {
+				document.getElementById('eventsGridContainer').innerHTML =
+					`<div class="col-span-full py-10 text-center text-sm text-gray-400 bg-gray-50/70 rounded-3xl border border-dashed border-gray-200">Chưa có sự kiện nào được đăng.</div>`;
+				return;
+			}
+
+			document.getElementById('eventsGridContainer').innerHTML = events.map((rawEv, idx) => {
+				const ev = normalizeEvent(rawEv);
+				const isDone = ev.status === 'Đã hoàn thành';
+				const isFeatured = idx === 0 && !isDone;
+				const statusCls = isDone ? 'bg-gray-100 text-gray-600' : 'bg-teal-100 text-td-dark';
+				const regs = ev.registrations;
+				const regCount = regs.length;
+
+				// Lấy tối đa 3 VĐV đăng ký gần nhất để hiển thị tóm tắt
+				const recentRegs = regs.slice(-3).reverse();
+				const previewNames = recentRegs.map(r => escapeHtml(r.name)).join(', ');
+				const regPreviewHtml = regCount > 0
+					? `<div class="mt-2.5 p-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs text-gray-700">
+						<div class="font-extrabold text-td-dark">👥 Đã đăng ký (${regCount} VĐV):</div>
+						<div class="text-gray-600 mt-0.5 truncate">${previewNames}${regCount > 3 ? ` và +${regCount - 3} VĐV khác` : ''}</div>
+					</div>`
+					: '';
+
+				return `
+				<div class="card-elevated rounded-3xl overflow-hidden flex flex-col justify-between ${isFeatured ? 'border-2 border-td bg-teal-50/20' : ''}">
+					${ev.banner ? `
+					<div class="w-full h-44 bg-gray-100 overflow-hidden border-b border-gray-100">
+						<img src="${ev.banner}" alt="${escapeHtml(ev.title)}" class="w-full h-full object-cover">
+					</div>` : ''}
+
+					<div class="p-5 flex-1 flex flex-col justify-between gap-4">
+						<div class="space-y-2">
+							<div class="flex items-center justify-between gap-2">
+								<div class="flex items-center gap-1.5 flex-wrap">
+									<span class="px-3 py-0.5 rounded-full text-[11px] font-extrabold ${statusCls}">${escapeHtml(ev.status)}</span>
+									${isFeatured ? `<span class="px-3 py-0.5 rounded-full text-[10px] font-black bg-[#FF6B35] text-white uppercase">Nổi bật</span>` : ''}
+								</div>
+								<span class="text-xs font-bold text-gray-500">${escapeHtml(ev.date)}</span>
+							</div>
+							<h4 class="text-base font-extrabold text-gray-900">${escapeHtml(ev.title)}</h4>
+							<div class="text-xs text-gray-600 space-y-1">
+								<div>📍 <strong>Địa điểm:</strong> ${escapeHtml(ev.location)}</div>
+								<div>🎾 <strong>Thể thức:</strong> ${escapeHtml(ev.format)}</div>
+							</div>
+							${regPreviewHtml}
+						</div>
+
+						<div class="pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+							<button type="button" onclick="openEventRegisterPage('${escapeHtml(ev.id)}', false)" class="text-xs font-extrabold text-td hover:underline">
+								Đã đăng kí (${regCount}) →
+							</button>
+							${isDone
+								? `<span class="text-xs font-bold text-gray-400">Đã kết thúc</span>`
+								: `<button type="button" onclick="openEventRegisterPage('${escapeHtml(ev.id)}', true)" class="px-4 py-1.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold transition">Đăng ký tham gia</button>`}
+						</div>
+					</div>
+				</div>`;
+			}).join('');
+		}
 
         function renderCommittee() {
             if (!isBtcMode()) return;
@@ -2036,11 +2315,23 @@
             renderEvents();
             renderCommittee();
             lucide.createIcons();
+			
+			if (currentEventPageId) {
+				const curEv = (appState.events || []).find(x => String(x.id) === String(currentEventPageId));
+				if (curEv) {
+					renderEventPageHeader(normalizeEvent(curEv));
+					renderEventPageRegistrations();
+				}
+			}
         }
 
         Object.assign(window, {
             goToHubSection,
             navigateToPage,
+			openEventRegisterPage,
+			renderEventPageRegistrations,
+			submitEventPageRegistration,
+			deleteEventRegistration,
             toggleMobileMenu,
             closeMobileMenu,
             updateRegInitials,
@@ -2061,7 +2352,9 @@
             openWipePlayersModal,
             confirmWipePlayersData,
             renderRanking,
-            closeModal
+            closeModal,			
+			previewEventBanner,
+			clearEventBannerPreview
         });
 
         window.addEventListener('keydown', (e) => {
@@ -2077,6 +2370,195 @@
             renderAll();
             ensureFirestoreReady();
         });
+		
+				
+		function openEventRegisterPage(eventId, focusForm = true) {
+			const rawEv = (appState.events || []).find(x => x.id === eventId);
+			if (!rawEv) return;
+			const ev = normalizeEvent(rawEv);
+			currentEventPageId = ev.id;
+
+			document.getElementById('eventPageEventId').value = ev.id;
+
+			// Tự động tách nội dung thi đấu từ trường Thể thức (ngăn cách bởi dấu phẩy, &, +, /, xuống dòng)
+			const rawCats = String(ev.format || '')
+				.split(/,|&|\+|\/|\n/)
+				.map(s => s.trim())
+				.filter(Boolean);
+			const cats = rawCats.length ? rawCats : [ev.format || 'Nội dung thi đấu chính thức'];
+
+			// Nạp danh sách nội dung vào Form đăng ký
+			const catSelect = document.getElementById('eventPageCategory');
+			catSelect.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+
+			// Nạp danh sách nội dung vào Bộ lọc bảng VĐV
+			const filterCatSelect = document.getElementById('eventPageFilterCategory');
+			const prevFilter = filterCatSelect.value;
+			filterCatSelect.innerHTML = `<option value="ALL">Tất cả nội dung</option>` +
+				cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+			filterCatSelect.value = Array.from(filterCatSelect.options).some(o => o.value === prevFilter) ? prevFilter : 'ALL';
+
+			renderEventPageHeader(ev);
+			renderEventPageRegistrations();
+			navigateToPage('event-register');
+
+			// Ẩn form nếu giải đã kết thúc hoặc người dùng chỉ bấm xem DS VĐV
+			const formCard = document.getElementById('eventPageFormCard');
+			if (formCard) {
+				formCard.classList.toggle('hidden', ev.status === 'Đã hoàn thành' || !focusForm);
+			}
+		}
+		
+		
+		
+		function renderEventPageHeader(ev) {
+			const heroCard = document.getElementById('eventPageHeroCard');
+			if (!heroCard) return;
+			const normalized = normalizeEvent(ev);
+			const isDone = normalized.status === 'Đã hoàn thành';
+			const statusCls = isDone ? 'bg-gray-100 text-gray-600' : 'bg-teal-100 text-td-dark';
+			const regCount = normalized.registrations.length;
+
+			heroCard.innerHTML = `
+				${normalized.banner ? `
+				<div class="w-full h-52 sm:h-64 bg-gray-100 overflow-hidden border-b border-gray-100">
+					<img src="${normalized.banner}" alt="${escapeHtml(normalized.title)}" class="w-full h-full object-cover">
+				</div>` : ''}
+				<div class="p-6 space-y-3">
+					<div class="flex flex-wrap items-center justify-between gap-2">
+						<span class="px-3 py-1 rounded-full text-xs font-extrabold ${statusCls}">${escapeHtml(normalized.status)}</span>
+						<span class="text-xs font-extrabold text-td">📅 ${escapeHtml(normalized.date)}</span>
+					</div>
+					<h2 class="text-2xl sm:text-3xl font-black text-gray-900">${escapeHtml(normalized.title)}</h2>
+					<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs sm:text-sm text-gray-700">
+						<div class="p-3 rounded-2xl bg-gray-50 border border-gray-200/80">
+							<span class="text-[10px] font-extrabold uppercase text-gray-400 block">Địa điểm</span>
+							<strong class="font-bold text-gray-900">${escapeHtml(normalized.location)}</strong>
+						</div>
+						<div class="p-3 rounded-2xl bg-gray-50 border border-gray-200/80">
+							<span class="text-[10px] font-extrabold uppercase text-gray-400 block">Thể thức / Nội dung</span>
+							<strong class="font-bold text-td-dark">${escapeHtml(normalized.format)}</strong>
+						</div>
+						<div class="p-3 rounded-2xl bg-teal-50/70 border border-teal-200/80">
+							<span class="text-[10px] font-extrabold uppercase text-td-dark block">Đã đăng ký</span>
+							<strong class="text-base font-black text-td-dark tabular-nums">${regCount} VĐV</strong>
+						</div>
+					</div>
+				</div>
+			`;
+		}
+
+		function renderEventPageRegistrations() {
+			if (!currentEventPageId) return;
+			const rawEv = (appState.events || []).find(x => String(x.id) === String(currentEventPageId));
+			if (!rawEv) return;
+			const ev = normalizeEvent(rawEv);
+
+			const filterCat = document.getElementById('eventPageFilterCategory')?.value || 'ALL';
+			const regs = ev.registrations.filter(r => filterCat === 'ALL' || r.category === filterCat);
+
+			document.getElementById('eventPageRegCount').innerText = regs.length;
+			const btc = isBtcMode();
+			document.getElementById('eventPageActionHeader')?.classList.toggle('hidden', !btc);
+
+			const tbody = document.getElementById('eventPageRegistrationsBody');
+			if (!tbody) return;
+
+			if (!regs.length) {
+				tbody.innerHTML = `<tr><td colspan="${btc ? 7 : 6}" class="py-8 px-4 text-center text-gray-400">Chưa có VĐV nào đăng ký trong giải/nội dung này.</td></tr>`;
+				return;
+			}
+
+			tbody.innerHTML = regs.map((r, idx) => `
+				<tr class="hover:bg-slate-50/80">
+					<td class="py-3 px-4 font-bold text-gray-500 tabular-nums">${idx + 1}</td>
+					<td class="py-3 px-4">
+						<div class="font-extrabold text-gray-900">${escapeHtml(r.name)}</div>
+						${r.note ? `<div class="text-xs text-gray-500 mt-0.5">${escapeHtml(r.note)}</div>` : ''}
+					</td>
+					<td class="py-3 px-4 text-gray-700 font-semibold">${escapeHtml(r.phone)}</td>
+					<td class="py-3 px-4">
+						<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-teal-50 text-td-dark border border-teal-200">${escapeHtml(r.category)}</span>
+					</td>
+					<td class="py-3 px-4 text-center font-black text-td-dark tabular-nums">${Number(r.score || 0).toFixed(2)}</td>
+					<td class="py-3 px-4 text-xs text-gray-600">
+						<div><strong>Cặp:</strong> ${escapeHtml(r.partner || '—')}</div>
+						<div class="text-gray-400">${escapeHtml(r.club || '')}</div>
+					</td>
+					${btc ? `
+					<td class="py-3 px-4 text-center">
+						<button type="button" onclick="deleteEventRegistration('${escapeHtml(ev.id)}', '${escapeHtml(r.id)}')" class="px-2.5 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">Xóa</button>
+					</td>` : ''}
+				</tr>
+			`).join('');
+		}
+
+		async function submitEventPageRegistration(e) {
+			e.preventDefault();
+			const eventId = document.getElementById('eventPageEventId').value || currentEventPageId;
+			const rawEv = (appState.events || []).find(x => String(x.id) === String(eventId));
+			if (!rawEv) return;
+
+			const btn = document.getElementById('btnSubmitEventPageReg');
+			if (btn) btn.disabled = true;
+
+			const currentEv = normalizeEvent(rawEv);
+			const entry = {
+				id: 'reg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
+				category: document.getElementById('eventPageCategory').value,
+				name: document.getElementById('eventPageName').value.trim(),
+				phone: document.getElementById('eventPagePhone').value.trim(),
+				score: Number((parseFloat(document.getElementById('eventPageScore').value) || 2.50).toFixed(2)),
+				club: document.getElementById('eventPageClub').value,
+				partner: document.getElementById('eventPagePartner').value.trim() || 'Chưa khai báo partner',
+				note: document.getElementById('eventPageNote').value.trim(),
+				createdAt: new Date().toLocaleDateString('vi-VN')
+			};
+
+			const nextRegs = [...currentEv.registrations, entry];
+			const updatedEv = normalizeEvent({
+				...currentEv,
+				registrations: nextRegs,
+				registeredCount: nextRegs.length
+			});
+
+			document.getElementById('eventPageName').value = '';
+			document.getElementById('eventPagePhone').value = '';
+			document.getElementById('eventPagePartner').value = '';
+			document.getElementById('eventPageNote').value = '';
+
+			await saveEventToStore(updatedEv);
+			renderEventPageHeader(updatedEv);
+			renderEventPageRegistrations();
+			renderEvents();
+			updateBannerStats();
+
+			if (btn) btn.disabled = false;
+			showToast(`🎾 ${entry.name} đã đăng ký "${entry.category}" thành công!`, 'success');
+		}
+
+		
+
+		async function deleteEventRegistration(eventId, regId) {
+			if (!isBtcMode()) return;
+			const rawEv = (appState.events || []).find(x => x.id === eventId);
+			if (!rawEv) return;
+
+			const currentEv = normalizeEvent(rawEv);
+			const nextRegs = currentEv.registrations.filter(r => r.id !== regId);
+			const updatedEv = normalizeEvent({
+				...currentEv,
+				registrations: nextRegs,
+				registeredCount: nextRegs.length
+			});
+
+			await saveEventToStore(updatedEv);
+			renderEventPageHeader(updatedEv);
+			renderEventPageRegistrations();
+			renderEvents();
+			updateBannerStats();
+			showToast('🗑️ Đã xóa lượt đăng ký khỏi giải đấu.', 'info');
+		}
     </script>
 </body>
 </html>
