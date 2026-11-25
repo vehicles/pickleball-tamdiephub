@@ -14,7 +14,6 @@
             --td-deep: #115E59;
             --td-light: rgba(13, 148, 136, 0.09);
             --td-gold: #FACC15;
-            --td-gold-deep: #EAB308;
             --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
         }
         html {
@@ -67,23 +66,6 @@
             background: rgba(255, 255, 255, 0.18);
         }
 
-        .scroll-gold-title {
-            transition: color 0.45s var(--ease-smooth), text-shadow 0.45s var(--ease-smooth);
-        }
-        body.is-scrolled .scroll-gold-title {
-            color: var(--td-gold-deep);
-            text-shadow: 0 2px 16px rgba(234, 179, 8, 0.25);
-        }
-        .scroll-gold-accent {
-            transition: color 0.45s var(--ease-smooth);
-        }
-        body.is-scrolled .scroll-gold-accent {
-            color: #D97706 !important;
-        }
-        body.is-scrolled .hero-gold-highlight {
-            color: #FDE047 !important;
-        }
-
         .parallax-bg {
             will-change: transform;
             transition: transform 0.12s var(--ease-smooth);
@@ -104,6 +86,34 @@
             box-shadow: 0 14px 30px -10px rgba(13, 148, 136, 0.18);
             border-color: rgba(13, 148, 136, 0.38);
         }
+
+        .rank-1-card {
+            background: linear-gradient(180deg, #FFFDF5 0%, #FFFFFF 38%);
+            border: 1.5px solid #FACC15;
+            box-shadow: 0 10px 26px -8px rgba(234, 179, 8, 0.22);
+        }
+        .rank-1-card:hover {
+            border-color: #EAB308;
+            box-shadow: 0 16px 34px -10px rgba(234, 179, 8, 0.3);
+        }
+
+        .rank-2-card {
+            background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 36%);
+            border: 1.5px solid #CBD5E1;
+            box-shadow: 0 8px 22px -8px rgba(100, 116, 139, 0.16);
+        }
+
+        .rank-3-card {
+            background: linear-gradient(180deg, #FFFBF7 0%, #FFFFFF 36%);
+            border: 1.5px solid #FDBA74;
+            box-shadow: 0 8px 22px -8px rgba(234, 88, 12, 0.15);
+        }
+
+        .score-box-td {
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.12) 0%, rgba(20, 184, 166, 0.05) 100%);
+            border: 1px solid rgba(13, 148, 136, 0.28);
+        }
+
         .tabular-nums { font-variant-numeric: tabular-nums; }
 
         @keyframes viewFadeSlide {
@@ -131,26 +141,30 @@
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-teal-900/10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
             <button type="button" onclick="goToHubSection('hero-top')" class="cursor-pointer flex items-center gap-2.5 shrink-0 group text-left">
-                <div class="w-11 h-11 rounded-full bg-td flex items-center justify-center shadow-sm ring-2 ring-teal-600/20 group-hover:scale-105 group-hover:ring-amber-400/60 transition-all duration-300">
-                    <svg viewBox="0 0 48 48" class="w-8 h-8 rounded-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo Quả Dứa Pickleball Tam Điệp">
-                        <path d="M24 3L20.5 11.5L24 10L27.5 11.5L24 3Z" fill="#A3E635"/>
-                        <path d="M17.5 5.5L19.5 12.2L22 10.8L17.5 5.5Z" fill="#84CC16"/>
-                        <path d="M30.5 5.5L26 10.8L28.5 12.2L30.5 5.5Z" fill="#84CC16"/>
-                        <circle cx="24" cy="27.5" r="14.5" fill="#FACC15" stroke="#CA8A04" stroke-width="1.8"/>
-                        <path d="M13.5 21C18.5 25.5 29.5 25.5 34.5 21" stroke="#B45309" stroke-width="1.3" stroke-linecap="round" opacity="0.55"/>
-                        <path d="M13.5 34C18.5 29.5 29.5 29.5 34.5 34" stroke="#B45309" stroke-width="1.3" stroke-linecap="round" opacity="0.55"/>
-                        <circle cx="19.5" cy="18.5" r="1.45" fill="#854D0E"/>
-                        <circle cx="28.5" cy="18.5" r="1.45" fill="#854D0E"/>
-                        <circle cx="16.5" cy="27.5" r="1.5" fill="#854D0E"/>
-                        <circle cx="24" cy="27.5" r="1.6" fill="#854D0E"/>
-                        <circle cx="31.5" cy="27.5" r="1.5" fill="#854D0E"/>
-                        <circle cx="19.5" cy="36.5" r="1.45" fill="#854D0E"/>
-                        <circle cx="28.5" cy="36.5" r="1.45" fill="#854D0E"/>
+                <div class="relative w-12 h-12 rounded-full bg-td flex items-center justify-center shadow-sm ring-2 ring-amber-400 group-hover:scale-105 group-hover:ring-amber-300 transition-all duration-300">
+                    <svg viewBox="0 0 80 80" class="w-11 h-11 rounded-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo Tam Điệp Pickleball Club">
+                        <defs>
+                            <path id="tdpCirclePathHeader" d="M 40, 40 m -32, 0 a 32,32 0 1,1 64,0 a 32,32 0 1,1 -64,0" />
+                        </defs>
+                        <circle cx="40" cy="40" r="37.5" stroke="#FACC15" stroke-width="1.8"/>
+                        <circle cx="40" cy="40" r="24" fill="#115E59" stroke="rgba(250,204,21,0.35)" stroke-width="1"/>
+                        <text fill="#FDE047" font-size="5.35" font-weight="800" font-family="Plus Jakarta Sans, sans-serif" letter-spacing="1.25">
+                            <textPath href="#tdpCirclePathHeader" startOffset="50%" text-anchor="middle">TAM ĐIỆP PICKLEBALL CLUB •</textPath>
+                        </text>
+                        <path d="M40 21L36.8 27.5L40 26.2L43.2 27.5L40 21Z" fill="#A3E635"/>
+                        <circle cx="40" cy="41.5" r="11.2" fill="#FACC15" stroke="#CA8A04" stroke-width="1.4"/>
+                        <circle cx="36.2" cy="35.5" r="1.15" fill="#854D0E"/>
+                        <circle cx="43.8" cy="35.5" r="1.15" fill="#854D0E"/>
+                        <circle cx="34" cy="41.5" r="1.2" fill="#854D0E"/>
+                        <circle cx="40" cy="41.5" r="1.25" fill="#854D0E"/>
+                        <circle cx="46" cy="41.5" r="1.2" fill="#854D0E"/>
+                        <circle cx="36.2" cy="47.5" r="1.15" fill="#854D0E"/>
+                        <circle cx="43.8" cy="47.5" r="1.15" fill="#854D0E"/>
                     </svg>
                 </div>
                 <div class="leading-tight">
-                    <div class="font-black text-sm sm:text-base tracking-tight text-gray-900 scroll-gold-title">Tam Điệp PickleHub</div>
-                    <div class="text-[10px] font-extrabold tracking-widest text-td uppercase scroll-gold-accent">Pickleball • Ninh Bình</div>
+                    <div class="font-black text-sm sm:text-base tracking-tight text-gray-900">Tam Điệp PickleHub</div>
+                    <div class="text-[10px] font-extrabold tracking-wider text-td uppercase">Tam Điệp Pickleball Club</div>
                 </div>
             </button>
 
@@ -280,11 +294,11 @@
             <div id="parallaxFg" class="parallax-fg relative z-10 max-w-5xl mx-auto text-center space-y-6">
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-pill text-xs font-extrabold uppercase tracking-wider text-teal-50">
                     <i data-lucide="award" class="w-3.5 h-3.5 text-amber-300"></i>
-                    <span class="hero-gold-highlight transition-colors duration-300">CỘNG ĐỒNG PICKLEBALL TAM ĐIỆP — NINH BÌNH</span>
+                    <span>TAM ĐIỆP PICKLEBALL CLUB • NINH BÌNH</span>
                 </div>
 
                 <div class="space-y-3">
-                    <h1 class="text-3xl sm:text-5xl lg:text-[54px] font-black tracking-tight leading-tight hero-gold-highlight transition-colors duration-300">
+                    <h1 class="text-3xl sm:text-5xl lg:text-[54px] font-black tracking-tight leading-tight">
                         Bản lĩnh trên sân, <span class="text-amber-300">Gắn kết</span> từng đường bóng
                     </h1>
                     <p class="text-sm sm:text-base text-teal-50/95 max-w-2xl mx-auto leading-relaxed">
@@ -353,14 +367,14 @@
 
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-16">
             <!-- KHU VỰC 1: BẢNG XẾP HẠNG ĐIỂM TRÌNH -->
-            <section id="section-ranking" class="scroll-target space-y-5">
+            <section id="section-ranking" class="scroll-target space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-200 pb-4">
                     <div>
-                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-td scroll-gold-accent">KHU VỰC BẢNG XẾP HẠNG</span>
-                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1 scroll-gold-title">
+                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-td">KHU VỰC BẢNG XẾP HẠNG</span>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1">
                             Điểm Trình
                         </h2>
-                        <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Xem điểm gốc đối chiếu, điểm trình Tam Điệp, biến động điểm và bấm <strong>Hồ sơ & Lịch sử</strong>.</p>
+                        <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Xem điểm gốc đối chiếu, điểm trình Tam Điệp, biến động điểm và bấm biểu tượng <strong class="inline-flex items-center align-middle"><i data-lucide="info" class="w-3.5 h-3.5 text-td-dark"></i></strong> để xem hồ sơ & lịch sử.</p>
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
@@ -377,7 +391,7 @@
                     </div>
                 </div>
 
-                <div id="rankingCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                <div id="rankingCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
             </section>
 
             <!-- KHU VỰC 2: HỒ SƠ VĐV CHỜ DUYỆT -->
@@ -385,7 +399,7 @@
                 <div class="flex flex-wrap items-end justify-between gap-4 border-b border-amber-200 pb-4">
                     <div>
                         <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-600">HỒ SƠ ĐĂNG KÝ MỚI</span>
-                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1 scroll-gold-title">
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1">
                             Danh Sách Chờ Duyệt (<span id="publicPendingCount">0</span>)
                         </h2>
                         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Hồ sơ VĐV vừa đăng ký sẽ nằm ở mục chờ duyệt trước khi được Ban Chuyên Môn phê duyệt lên Bảng xếp hạng.</p>
@@ -404,8 +418,8 @@
             <section id="section-events" class="scroll-target space-y-5">
                 <div class="flex flex-wrap items-end justify-between gap-4 border-b border-gray-200 pb-4">
                     <div>
-                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-td scroll-gold-accent">KHU VỰC SỰ KIỆN</span>
-                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1 scroll-gold-title">
+                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-td">KHU VỰC SỰ KIỆN</span>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1">
                             Sự Kiện, Giải Đấu & Tryout Tam Điệp
                         </h2>
                         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Các giải đấu và buổi giao lưu tính điểm trình chính thức tại Tam Điệp — Ninh Bình.</p>
@@ -431,7 +445,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-600">CHẾ ĐỘ BTC</span>
-                        <h2 class="text-2xl font-black text-gray-900 mt-0.5 scroll-gold-title">Ban Chuyên Môn — Nhật Ký Biến Động Điểm</h2>
+                        <h2 class="text-2xl font-black text-gray-900 mt-0.5">Ban Chuyên Môn — Nhật Ký Biến Động Điểm</h2>
                     </div>
                 </div>
 
@@ -467,13 +481,13 @@
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>
                 <span>Quay lại Bảng Xếp Hạng</span>
             </button>
-            <span class="text-xs font-bold text-td uppercase tracking-wider scroll-gold-accent">Trang Đăng Ký Hồ Sơ VĐV Tam Điệp</span>
+            <span class="text-xs font-bold text-td uppercase tracking-wider">Trang Đăng Ký Hồ Sơ VĐV Tam Điệp</span>
         </div>
 
         <div class="card-elevated rounded-3xl overflow-hidden">
             <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/60 flex flex-wrap items-center justify-between gap-2">
                 <div>
-                    <h3 class="text-lg font-extrabold text-slate-900 scroll-gold-title">Phiếu Khai Báo Hồ Sơ Vận Động Viên</h3>
+                    <h3 class="text-lg font-extrabold text-slate-900">Phiếu Khai Báo Hồ Sơ Vận Động Viên</h3>
                     <p class="text-xs text-slate-500 mt-0.5">Các trường có dấu <span class="text-rose-500 font-bold">*</span> là thông tin bắt buộc</p>
                 </div>
                 <span id="nextPlayerCodePreview" class="px-3.5 py-1 rounded-full bg-td-light text-td-dark font-extrabold text-xs border border-td/20">
@@ -640,27 +654,35 @@
     </div>
 
     <!-- =====================================================================
-         FOOTER BO TRÒN GÓC TRÊN + ĐỒNG BỘ MÀU TEAL + LOGO QUẢ DỨA PICKLEBALL
+         FOOTER BO TRÒN GÓC TRÊN + ĐỒNG BỘ MÀU TEAL + LOGO VÒNG TRÒN
     ====================================================================== -->
     <footer class="mt-10 footer-teal-gradient text-teal-50 rounded-t-3xl border-t border-teal-300/30 shadow-inner">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             <div class="space-y-3">
                 <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 rounded-full bg-white/15 flex items-center justify-center ring-2 ring-amber-300/60 shrink-0">
-                        <svg viewBox="0 0 48 48" class="w-8 h-8 rounded-full" fill="none">
-                            <path d="M24 3L20.5 11.5L24 10L27.5 11.5L24 3Z" fill="#A3E635"/>
-                            <circle cx="24" cy="27.5" r="14.5" fill="#FACC15" stroke="#CA8A04" stroke-width="1.8"/>
-                            <circle cx="19.5" cy="18.5" r="1.45" fill="#854D0E"/>
-                            <circle cx="28.5" cy="18.5" r="1.45" fill="#854D0E"/>
-                            <circle cx="16.5" cy="27.5" r="1.5" fill="#854D0E"/>
-                            <circle cx="24" cy="27.5" r="1.6" fill="#854D0E"/>
-                            <circle cx="31.5" cy="27.5" r="1.5" fill="#854D0E"/>
-                            <circle cx="19.5" cy="36.5" r="1.45" fill="#854D0E"/>
-                            <circle cx="28.5" cy="36.5" r="1.45" fill="#854D0E"/>
+                    <div class="w-12 h-12 rounded-full bg-white/15 flex items-center justify-center ring-2 ring-amber-400 shrink-0">
+                        <svg viewBox="0 0 80 80" class="w-11 h-11 rounded-full" fill="none">
+                            <defs>
+                                <path id="tdpCirclePathFooter" d="M 40, 40 m -32, 0 a 32,32 0 1,1 64,0 a 32,32 0 1,1 -64,0" />
+                            </defs>
+                            <circle cx="40" cy="40" r="37.5" stroke="#FACC15" stroke-width="1.8"/>
+                            <circle cx="40" cy="40" r="24" fill="#0D5C57" stroke="rgba(250,204,21,0.35)" stroke-width="1"/>
+                            <text fill="#FDE047" font-size="5.35" font-weight="800" font-family="Plus Jakarta Sans, sans-serif" letter-spacing="1.25">
+                                <textPath href="#tdpCirclePathFooter" startOffset="50%" text-anchor="middle">TAM ĐIỆP PICKLEBALL CLUB •</textPath>
+                            </text>
+                            <path d="M40 21L36.8 27.5L40 26.2L43.2 27.5L40 21Z" fill="#A3E635"/>
+                            <circle cx="40" cy="41.5" r="11.2" fill="#FACC15" stroke="#CA8A04" stroke-width="1.4"/>
+                            <circle cx="36.2" cy="35.5" r="1.15" fill="#854D0E"/>
+                            <circle cx="43.8" cy="35.5" r="1.15" fill="#854D0E"/>
+                            <circle cx="34" cy="41.5" r="1.2" fill="#854D0E"/>
+                            <circle cx="40" cy="41.5" r="1.25" fill="#854D0E"/>
+                            <circle cx="46" cy="41.5" r="1.2" fill="#854D0E"/>
+                            <circle cx="36.2" cy="47.5" r="1.15" fill="#854D0E"/>
+                            <circle cx="43.8" cy="47.5" r="1.15" fill="#854D0E"/>
                         </svg>
                     </div>
                     <div>
-                        <div class="font-black text-white text-base tracking-tight">TAM ĐIỆP PICKLEBALL HUB</div>
+                        <div class="font-black text-white text-base tracking-tight">TAM ĐIỆP PICKLEBALL CLUB</div>
                         <div class="text-[11px] font-bold text-amber-300 uppercase tracking-wider">Tam Điệp — Ninh Bình</div>
                     </div>
                 </div>
@@ -685,7 +707,7 @@
                 <div class="text-teal-100/90 space-y-1.5">
                     <div>📍 301 Quang Trung, Tam Điệp, Ninh Bình</div>
                     <div>🎾 Sân Ga • Xi Măng • Đồng Giao • Bắc Sơn</div>
-                    <div class="text-amber-300 font-semibold pt-1">© 2026 Tam Điệp Pickleball Hub</div>
+                    <div class="text-amber-300 font-semibold pt-1">© Tam Điệp Pickleball Club</div>
                 </div>
             </div>
         </div>
@@ -728,7 +750,7 @@
                         <div class="text-xs font-extrabold text-td-dark uppercase">Điểm Trình Tam Điệp Hiện Tại</div>
                         <div class="flex items-baseline justify-between mt-1">
                             <span id="detailTdScore" class="text-3xl font-extrabold text-td-dark tabular-nums">3.20</span>
-                            <span id="detailTierPill" class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-td text-white">Hạng B</span>
+                            <span id="detailTierPill" class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-td text-white">Tam Điệp</span>
                         </div>
                         <div id="detailNetChange" class="mt-2 text-xs font-bold text-td-dark">
                             Biến động tích lũy tại Tam Điệp: +0.10 điểm
@@ -871,7 +893,7 @@
 
         const BTC_MODE_BY_CODE = false;
 
-        const STORAGE_KEY = 'tam_diep_hub_firebase_v13';
+        const STORAGE_KEY = 'tam_diep_hub_firebase_v18';
         const PLAYERS_COL = 'tam_diep_players';
         const EVENTS_COL = 'tam_diep_events';
 
@@ -933,13 +955,6 @@
             });
         }
 
-        function getTierInfo(score) {
-            if (score >= 3.30) return { label: 'Mạnh A', cls: 'bg-rose-50 text-rose-700 border-rose-200' };
-            if (score >= 2.90) return { label: 'Khá B', cls: 'bg-sky-50 text-sky-700 border-sky-200' };
-            if (score >= 2.50) return { label: 'Phong trào C', cls: 'bg-teal-50 text-td-dark border-teal-200' };
-            return { label: 'Newbie', cls: 'bg-gray-100 text-gray-600 border-gray-200' };
-        }
-
         function getInitials(name) {
             const parts = (name || 'TD').trim().split(/\s+/);
             if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
@@ -993,12 +1008,6 @@
 
         function handleScrollEffects() {
             const scrollY = window.scrollY || window.pageYOffset || 0;
-            if (scrollY > 45) {
-                document.body.classList.add('is-scrolled');
-            } else {
-                document.body.classList.remove('is-scrolled');
-            }
-
             const bg = document.getElementById('parallaxBg');
             const fg = document.getElementById('parallaxFg');
             const clamped = Math.min(scrollY, 500);
@@ -1128,7 +1137,7 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
         }
 
-        function mergeRemoteWithLocal(remoteList, localList) {
+        function reconcileRealtimeSnapshot(remoteList, localList) {
             const map = new Map();
             remoteList.forEach((item) => {
                 if (!item || !item.id || deletedIds.has(item.id)) return;
@@ -1136,14 +1145,7 @@
             });
             localList.forEach((localItem) => {
                 if (!localItem || !localItem.id || deletedIds.has(localItem.id)) return;
-                const remoteItem = map.get(localItem.id);
-                if (!remoteItem || pendingSyncIds.has(localItem.id)) {
-                    map.set(localItem.id, localItem);
-                    return;
-                }
-                const localTs = Number(localItem.updatedAt || 0);
-                const remoteTs = Number(remoteItem.updatedAt || 0);
-                if (localTs > remoteTs) {
+                if (pendingSyncIds.has(localItem.id) || !map.has(localItem.id)) {
                     map.set(localItem.id, localItem);
                 }
             });
@@ -1168,18 +1170,18 @@
                     db = getFirestore(app);
                     useFirebase = true;
                     if (badge) {
-                        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Firebase Sync</span>`;
+                        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>Realtime DB</span>`;
                     }
 
                     onSnapshot(collection(db, PLAYERS_COL), async (snap) => {
                         const docs = snap.docs.map(d => ({ ...d.data(), id: d.data().id || d.id }));
-                        if (docs.length === 0 && appState.players.length > 0) {
+                        if (docs.length === 0 && appState.players.length > 0 && !snap.metadata.fromCache) {
                             const batch = writeBatch(db);
                             appState.players.forEach(p => batch.set(doc(db, PLAYERS_COL, p.id), sanitizeForFirestore(p), { merge: true }));
                             await batch.commit().catch(() => {});
                             return;
                         }
-                        appState.players = mergeRemoteWithLocal(docs, appState.players);
+                        appState.players = reconcileRealtimeSnapshot(docs, appState.players);
                         saveLocalState();
                         renderAll();
                     }, (err) => {
@@ -1191,13 +1193,13 @@
 
                     onSnapshot(collection(db, EVENTS_COL), async (snap) => {
                         const evDocs = snap.docs.map(d => ({ ...d.data(), id: d.data().id || d.id }));
-                        if (evDocs.length === 0 && appState.events.length > 0) {
+                        if (evDocs.length === 0 && appState.events.length > 0 && !snap.metadata.fromCache) {
                             const batch = writeBatch(db);
                             appState.events.forEach(ev => batch.set(doc(db, EVENTS_COL, ev.id), sanitizeForFirestore(ev), { merge: true }));
                             await batch.commit().catch(() => {});
                             return;
                         }
-                        appState.events = mergeRemoteWithLocal(evDocs, appState.events);
+                        appState.events = reconcileRealtimeSnapshot(evDocs, appState.events);
                         saveLocalState();
                         renderAll();
                     }, (err) => {
@@ -1232,7 +1234,7 @@
                 return true;
             } catch (err) {
                 console.error('Firestore savePlayer error:', err);
-                showToast(`⚠️ Đã lưu tạm local (Firestore: ${err.code || err.message || 'lỗi'})`, 'warning');
+                showToast(`⚠️ Chưa đồng bộ Firebase (${err.code || err.message || 'lỗi'})`, 'warning');
                 return false;
             }
         }
@@ -1478,9 +1480,8 @@
                 refLink.classList.add('hidden');
             }
 
-            const tier = getTierInfo(p.tdScore);
             document.getElementById('detailTdScore').innerText = Number(p.tdScore).toFixed(2);
-            document.getElementById('detailTierPill').innerText = tier.label;
+            document.getElementById('detailTierPill').innerText = 'Tam Điệp';
 
             const netDiff = Number((p.tdScore - p.refScore).toFixed(2));
             const netEl = document.getElementById('detailNetChange');
@@ -1683,24 +1684,39 @@
 
             document.getElementById('rankingCardsContainer').innerHTML = approved.map((p, idx) => {
                 const rank = idx + 1;
-                const tier = getTierInfo(p.tdScore);
                 const netDiff = Number((p.tdScore - p.refScore).toFixed(2));
                 const lastLog = (p.history && p.history.length) ? p.history[p.history.length - 1] : null;
                 const lastDelta = lastLog ? Number(lastLog.delta) : 0;
 
-                const rankBadge = rank === 1
-                    ? `<span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-black text-xs">🥇 Hạng 1</span>`
+                const cardStyleCls = rank === 1
+                    ? 'rank-1-card'
                     : rank === 2
-                        ? `<span class="px-3 py-1 rounded-full bg-slate-200 text-slate-800 font-black text-xs">🥈 Hạng 2</span>`
+                        ? 'rank-2-card'
                         : rank === 3
-                            ? `<span class="px-3 py-1 rounded-full bg-orange-100 text-orange-800 font-black text-xs">🥉 Hạng 3</span>`
-                            : `<span class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 font-extrabold text-xs">#${rank}</span>`;
+                            ? 'rank-3-card'
+                            : 'card-elevated';
+
+                const rankBadge = rank === 1
+                    ? `<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-400/25 text-amber-900 border border-amber-400/60 font-black text-xs">🥇 Hạng 1</span>`
+                    : rank === 2
+                        ? `<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-200/90 text-slate-800 border border-slate-300 font-black text-xs">🥈 Hạng 2</span>`
+                        : rank === 3
+                            ? `<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-orange-100 text-orange-900 border border-orange-300 font-black text-xs">🥉 Hạng 3</span>`
+                            : `<span class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 font-extrabold text-xs">#${rank}</span>`;
+
+                const avatarRingCls = rank === 1
+                    ? 'ring-2 ring-amber-400 bg-amber-50 text-amber-900'
+                    : rank === 2
+                        ? 'ring-2 ring-slate-300 bg-slate-100 text-slate-800'
+                        : rank === 3
+                            ? 'ring-2 ring-orange-300 bg-orange-50 text-orange-900'
+                            : 'bg-td-light text-td-dark border border-td/20';
 
                 const deltaHtml = lastDelta > 0
-                    ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-teal-100 text-td-dark">▲ +${lastDelta.toFixed(2)}</span>`
+                    ? `<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800">▲ +${lastDelta.toFixed(2)}</span>`
                     : (lastDelta < 0
-                        ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-700">▼ ${lastDelta.toFixed(2)}</span>`
-                        : `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-gray-100 text-gray-500">0.00</span>`);
+                        ? `<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-700">▼ ${lastDelta.toFixed(2)}</span>`
+                        : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-white/80 text-gray-500 border border-gray-200/70">0.00</span>`);
 
                 const shortSource = (p.refSource || '').includes('DUPR') ? 'DUPR' : 'PickleTour';
 
@@ -1717,51 +1733,52 @@
                     : '';
 
                 return `
-                <div class="card-elevated rounded-3xl p-5 flex flex-col justify-between gap-4">
-                    <div class="space-y-3">
+                <div class="${cardStyleCls} rounded-3xl p-5 flex flex-col justify-between gap-4 transition-all duration-300">
+                    <div class="space-y-3.5">
                         <div class="flex items-center justify-between gap-2">
                             ${rankBadge}
-                            <span class="px-3 py-1 rounded-full text-xs font-extrabold border ${tier.cls}">${tier.label}</span>
+                            <button type="button" onclick="openPlayerDetailModal('${p.id}')" aria-label="Hồ sơ & lịch sử của ${escapeHtml(p.name)}" title="Hồ sơ & lịch sử" class="w-7 h-7 rounded-full bg-teal-50 hover:bg-td hover:text-white text-td-dark border border-td/25 inline-flex items-center justify-center transition-all duration-200 shrink-0">
+                                <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                            </button>
                         </div>
 
-                        <div class="flex items-center gap-3">
-                            <div class="w-11 h-11 rounded-full bg-td-light text-td-dark font-extrabold text-sm flex items-center justify-center border border-td/20 shrink-0 overflow-hidden">
+                        <div class="flex items-start gap-3">
+                            <div class="w-12 h-12 rounded-full ${avatarRingCls} font-black text-sm flex items-center justify-center shrink-0 overflow-hidden mt-0.5">
                                 ${p.avatar ? `<img src="${p.avatar}" class="w-full h-full object-cover">` : getInitials(p.name)}
                             </div>
-                            <div class="min-w-0">
-                                <div class="flex items-center gap-1.5 flex-wrap">
-                                    <button type="button" onclick="openPlayerDetailModal('${p.id}')" class="font-extrabold text-base text-gray-900 hover:text-td text-left transition scroll-gold-title">
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center justify-between gap-2">
+                                    <button type="button" onclick="openPlayerDetailModal('${p.id}')" class="font-black text-base text-gray-900 hover:text-td text-left transition truncate">
                                         ${escapeHtml(p.name)}
                                     </button>
-                                    <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">${p.code}</span>
+                                    <span class="text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 shrink-0">${p.code}</span>
                                 </div>
-                                <div class="text-xs text-gray-500 truncate">${p.gender} (${p.birthYear || 1990}) • <span class="text-td-dark font-semibold">${escapeHtml(p.club)}</span></div>
+                                <div class="text-xs text-gray-500 mt-0.5">${p.gender} • ${p.birthYear || 1990}</div>
+                                <div class="text-xs font-bold text-td-dark mt-0.5 leading-snug">${escapeHtml(p.club)}</div>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2.5 pt-1">
-                            <div class="p-3 rounded-2xl bg-gray-50 border border-gray-200/80">
-                                <div class="text-[10px] font-bold uppercase text-gray-400">Điểm gốc (${shortSource})</div>
-                                <div class="text-lg font-extrabold text-gray-700 tabular-nums mt-0.5">${Number(p.refScore).toFixed(2)}</div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div class="p-3 rounded-2xl bg-gray-50/90 border border-gray-200/90 flex flex-col justify-between">
+                                <div class="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">Điểm gốc (${shortSource})</div>
+                                <div class="text-xl font-extrabold text-gray-700 tabular-nums mt-1.5">${Number(p.refScore).toFixed(2)}</div>
+                                <div class="text-[11px] text-gray-400 mt-1">Đối chiếu ban đầu</div>
                             </div>
-                            <div class="p-3 rounded-2xl bg-td-light border border-td/25">
-                                <div class="text-[10px] font-extrabold uppercase text-td-dark">Điểm Tam Điệp</div>
-                                <div class="flex items-center justify-between mt-0.5">
-                                    <span class="text-xl font-black text-td-dark tabular-nums scroll-gold-accent">${Number(p.tdScore).toFixed(2)}</span>
+
+                            <div class="p-3 rounded-2xl score-box-td flex flex-col justify-between">
+                                <div class="flex items-center justify-between gap-1">
+                                    <span class="text-[10px] font-black uppercase tracking-wide text-td-dark">Điểm Tam Điệp</span>
                                     ${deltaHtml}
                                 </div>
-                                ${netDiff !== 0 ? `<div class="text-[10px] text-gray-500 font-semibold mt-0.5">Tích lũy: ${netDiff > 0 ? '+' + netDiff.toFixed(2) : netDiff.toFixed(2)}</div>` : ''}
+                                <div class="text-2xl font-black text-td-dark tabular-nums mt-1">${Number(p.tdScore).toFixed(2)}</div>
+                                <div class="text-[11px] font-semibold text-gray-600 mt-1 tabular-nums">
+                                    ${netDiff !== 0 ? `Tích lũy: ${netDiff > 0 ? '+' + netDiff.toFixed(2) : netDiff.toFixed(2)}` : 'Ổn định trình'}
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div>
-                        <button type="button" onclick="openPlayerDetailModal('${p.id}')" class="w-full py-2.5 px-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-extrabold inline-flex items-center justify-center gap-1.5 transition">
-                            <i data-lucide="file-text" class="w-3.5 h-3.5 text-td"></i>
-                            <span>Hồ sơ & Lịch sử</span>
-                        </button>
-                        ${btcControls}
-                    </div>
+                    ${btcControls ? `<div>${btcControls}</div>` : ''}
                 </div>`;
             }).join('') || `<div class="col-span-full py-12 text-center text-gray-400">Không có vận động viên phù hợp.</div>`;
 
@@ -1808,15 +1825,15 @@
                     </div>
 
                     <div class="flex items-center justify-between gap-2 pt-2 border-t border-gray-100">
-                        <button type="button" onclick="openPlayerDetailModal('${p.id}')" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition">
-                            Chi tiết
+                        <button type="button" onclick="openPlayerDetailModal('${p.id}')" aria-label="Hồ sơ & lịch sử của ${escapeHtml(p.name)}" title="Hồ sơ & lịch sử" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-td hover:text-white text-gray-700 inline-flex items-center justify-center transition">
+                            <i data-lucide="info" class="w-4 h-4"></i>
                         </button>
                         ${btc ? `
                         <div class="flex items-center gap-1.5">
                             <button type="button" onclick="approvePlayer('${p.id}')" class="px-3.5 py-1.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold transition">
                                 Duyệt
                             </button>
-                            <button type="button" onclick="deletePlayerBtc('${p.id}')" class="px-3 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">
+                            <button type="button" onclick="deletePlayerBtc('${p.id}')" class="px-3.5 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">
                                 Xóa
                             </button>
                         </div>
@@ -1842,7 +1859,7 @@
                             </div>
                             <span class="text-xs font-bold text-gray-500">${escapeHtml(ev.date)}</span>
                         </div>
-                        <h4 class="text-base font-extrabold text-gray-900 scroll-gold-title">${escapeHtml(ev.title)}</h4>
+                        <h4 class="text-base font-extrabold text-gray-900">${escapeHtml(ev.title)}</h4>
                         <div class="text-xs text-gray-600 space-y-1">
                             <div>📍 <strong>Địa điểm:</strong> ${escapeHtml(ev.location)}</div>
                             <div>🎾 <strong>Thể thức:</strong> ${escapeHtml(ev.format)}</div>
@@ -1850,7 +1867,7 @@
                         </div>
                     </div>
                     <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-[11px] font-bold text-td scroll-gold-accent">Tính điểm BXH Tam Điệp</span>
+                        <span class="text-[11px] font-bold text-td">Tính điểm BXH Tam Điệp</span>
                         ${isDone
                             ? `<span class="text-xs font-bold text-gray-400">Đã kết thúc</span>`
                             : `<button type="button" onclick="registerForEvent('${ev.id}')" class="px-4 py-1.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold transition">Đăng ký tham gia</button>`}
