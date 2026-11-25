@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tam Điệp PickleHub</title>
-	<link rel="icon" type="image/png" href="td_hub-removebg-preview.png">
+    <link rel="icon" type="image/png" href="td_hub-removebg-preview.png">
 
-	
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Thư viện SheetJS hỗ trợ xuất file Excel (.xlsx) chuẩn định dạng -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -182,7 +183,7 @@
     <div id="toastContainer" class="fixed top-24 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
     <!-- =====================================================================
-    1. HEADER / TOOLBAR MENU (LOGO NỔI 3D KHÔNG VÒNG TRÒN NGOÀI)
+1. HEADER / TOOLBAR MENU (LOGO NỔI 3D KHÔNG VÒNG TRÒN NGOÀI)
     ====================================================================== -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-teal-900/10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3">
@@ -336,21 +337,9 @@
 
                 <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
                     <button type="button" onclick="navigateToPage('register')" class="px-6 py-3 rounded-full bg-[#FF6B35] hover:bg-[#e85a27] text-white text-xs sm:text-sm font-extrabold inline-flex items-center gap-2 shadow-lg transition-all duration-300">
-                        <i data-lucide="user-plus" class="w-4 h-4"></i>
+                        <i data-lucide="user-plus" class="w-8 h-8"></i>
                         <span>Đăng ký</span>
-                    </button>
-                    <button type="button" onclick="goToHubSection('section-ranking')" class="px-5 py-3 rounded-full glass-pill hover:bg-white/25 text-white text-xs sm:text-sm font-extrabold inline-flex items-center gap-2 transition-all duration-300">
-                        <i data-lucide="trophy" class="w-4 h-4 text-amber-300"></i>
-                        <span>Bảng xếp hạng</span>
-                    </button>
-                    <button type="button" onclick="goToHubSection('section-pending-public')" class="px-5 py-3 rounded-full glass-pill hover:bg-white/25 text-white text-xs sm:text-sm font-extrabold inline-flex items-center gap-2 transition-all duration-300">
-                        <i data-lucide="clock" class="w-4 h-4 text-amber-300"></i>
-                        <span>Chờ duyệt</span>
-                    </button>
-                    <button type="button" onclick="goToHubSection('section-events')" class="px-5 py-3 rounded-full glass-pill hover:bg-white/25 text-white text-xs sm:text-sm font-extrabold inline-flex items-center gap-2 transition-all duration-300">
-                        <i data-lucide="calendar-days" class="w-4 h-4 text-amber-300"></i>
-                        <span>Sự kiện</span>
-                    </button>
+                    </button>                    
                 </div>
 
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 pt-3 text-left">
@@ -375,7 +364,7 @@
                     <button type="button" onclick="goToHubSection('section-pending-public')" class="cursor-pointer rounded-2xl glass-tile p-4 text-left w-full">
                         <div class="text-[10px] font-extrabold uppercase tracking-wider text-teal-100/90 flex items-center gap-1.5">
                             <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-300"></i>
-                            <span>VĐV CHỜ DUYỆT</span>
+                            <span>CHỜ DUYỆT</span>
                         </div>
                         <div id="bannerPendingCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">0 Hồ sơ</div>
                         <div class="text-[11px] text-teal-100/80">Nhấn để xem danh sách chờ duyệt</div>
@@ -391,7 +380,7 @@
                     </button>
                 </div>
 
-                <!-- KHỐI HIỂN THỊ HÌNH ẢNH & THÔNG TIN GIẢI ĐẤU MỚI NHẤT NGAY TRÊN TRANG CHỦ -->
+                <!-- KHỐI HIỂN THỊ HÌNH ẢNH & THÔNG TIN GIẢI ĐẤU MỚI NHẤT NGAY TRÊN BANNER TRANG CHỦ -->
                 <div id="heroFeaturedEventContainer" class="pt-3"></div>
             </div>
         </section>
@@ -405,7 +394,7 @@
                         <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1">
                             Điểm Trình
                         </h2>
-                        <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Xem điểm gốc đối chiếu, điểm trình Tam Điệp, biến động điểm và bấm biểu tượng <strong class="inline-flex items-center align-middle"><i data-lucide="info" class="w-3.5 h-3.5 text-td-dark"></i></strong> để xem hồ sơ & lịch sử.</p>
+                        
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
@@ -727,7 +716,7 @@
     </div>
 
     <!-- =====================================================================
-         TRANG 3: ĐĂNG KÝ SỰ KIỆN & DANH SÁCH VĐV THAM GIA
+         TRANG 3: ĐĂNG KÝ SỰ KIỆN & DANH SÁCH VĐV / CẶP ĐẤU THAM GIA (CARD VIEW + XUẤT EXCEL BTC)
     ====================================================================== -->
     <div id="page-event-register" class="hidden flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6 animate-view">
         <div class="flex items-center justify-between gap-3">
@@ -742,7 +731,7 @@
         <div id="eventPageFormCard" class="card-elevated rounded-3xl p-6 space-y-4">
             <div>
                 <span class="text-[11px] font-black uppercase tracking-wider text-td">Đăng ký thi đấu</span>
-                <h3 class="text-lg font-black text-gray-900">Phiếu Đăng Ký Tham Gia Giải Đấu</h3>
+                <h3 class="text-lg font-black text-gray-900">Phiếu Đăng Ký Cặp Đấu / VĐV Tham Gia Giải</h3>
             </div>
 
             <form onsubmit="submitEventPageRegistration(event)" class="space-y-4">
@@ -754,28 +743,52 @@
                         <select id="eventPageCategory" required class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold bg-white focus:outline-none focus:border-td"></select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Điểm trình Tam Điệp hiện tại *</label>
-                        <input id="eventPageScore" type="number" step="0.01" min="1.50" max="6.50" required value="2.80" class="w-full px-3.5 py-2.5 rounded-xl border-2 border-td text-sm font-black text-td-dark focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Họ và tên VĐV *</label>
-                        <input id="eventPageName" type="text" required placeholder="Nhập họ tên VĐV" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Số điện thoại / Zalo *</label>
-                        <input id="eventPagePhone" type="tel" required placeholder="Nhập SĐT liên hệ" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
-                    </div>
-                    <div>
                         <label class="block text-xs font-bold text-gray-700 mb-1">CLB / Cụm sân</label>
                         <input id="eventPageClub" type="text" value="TT Pickleball Tam Điệp" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Tên Partner / Đồng đội (nếu đánh đôi)</label>
-                        <input id="eventPagePartner" type="text" placeholder="VD: Trần Văn Bình (2.75)" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+
+                    <!-- KHỐI VĐV 1 -->
+                    <div class="p-3.5 rounded-2xl bg-teal-50/50 border border-teal-200/80 space-y-2.5">
+                        <div class="text-[11px] font-black uppercase tracking-wider text-td-dark flex items-center gap-1.5">
+                            <span class="w-5 h-5 rounded-full bg-td text-white text-[10px] flex items-center justify-center">1</span>
+                            <span>Thông tin VĐV 1 (Chính)</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="col-span-2">
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Họ và tên VĐV 1 *</label>
+                                <input id="eventPageName" type="text" required placeholder="VD: Nguyễn Văn An" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-sm font-bold focus:outline-none focus:border-td">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-td-dark mb-1">Trình VĐV 1 *</label>
+                                <input id="eventPageScore" type="number" step="0.01" min="1.50" max="6.50" required value="2.80" class="w-full px-2.5 py-2 rounded-xl border-2 border-td bg-white text-sm font-black text-center text-td-dark focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-700 mb-1">Số điện thoại / Zalo liên hệ *</label>
+                            <input id="eventPagePhone" type="tel" required placeholder="Nhập SĐT liên hệ" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-sm font-semibold focus:outline-none focus:border-td">
+                        </div>
                     </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Ghi chú cho BTC</label>
-                        <textarea id="eventPageNote" rows="2" placeholder="VD: Xin xếp lịch buổi chiều..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-td"></textarea>
+
+                    <!-- KHỐI VĐV 2 (PARTNER) -->
+                    <div class="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-200/80 space-y-2.5">
+                        <div class="text-[11px] font-black uppercase tracking-wider text-amber-800 flex items-center gap-1.5">
+                            <span class="w-5 h-5 rounded-full bg-amber-500 text-white text-[10px] flex items-center justify-center">2</span>
+                            <span>Thông tin VĐV 2 (Partner / Đồng đội)</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="col-span-2">
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Họ và tên VĐV 2</label>
+                                <input id="eventPagePartner" type="text" placeholder="VD: Trần Văn Bình" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-sm font-bold focus:outline-none focus:border-td">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-amber-800 mb-1">Trình VĐV 2</label>
+                                <input id="eventPagePartnerScore" type="number" step="0.01" min="1.50" max="6.50" placeholder="2.75" class="w-full px-2.5 py-2 rounded-xl border border-amber-300 bg-white text-sm font-black text-center text-amber-900 focus:outline-none focus:border-td">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-700 mb-1">Ghi chú cho BTC</label>
+                            <input id="eventPageNote" type="text" placeholder="VD: Xin xếp lịch buổi chiều..." class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-sm focus:outline-none focus:border-td">
+                        </div>
                     </div>
                 </div>
 
@@ -789,35 +802,32 @@
             </form>
         </div>
 
-        <div class="card-elevated rounded-3xl overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-100 bg-slate-50/70 flex flex-wrap items-center justify-between gap-3">
+        <!-- KHU VỰC DANH SÁCH VĐV / CẶP ĐẤU ĐÃ ĐĂNG KÝ (CARD VIEW + NÚT XUẤT EXCEL CHỈ HIỆN Ở CHẾ ĐỘ BTC) -->
+        <div class="space-y-4">
+            <div class="card-elevated rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-white via-teal-50/30 to-white">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-wider text-td">Danh sách VĐV của giải</span>
-                    <h3 class="text-base sm:text-lg font-black text-gray-900 mt-0.5">
-                        VĐV Đã Đăng Ký (<span id="eventPageRegCount">0</span>)
+                    <span class="text-[10px] font-black uppercase tracking-wider text-td">Danh sách cặp đấu & VĐV của giải</span>
+                    <h3 class="text-lg sm:text-xl font-black text-gray-900 mt-0.5 flex items-center gap-2">
+                        <span>Đã Đăng Ký (<span id="eventPageRegCount">0</span>)</span>
                     </h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Hiển thị chi tiết từng cặp VĐV1 & VĐV2 kèm điểm trình từng người và tổng trình cặp.</p>
                 </div>
-                <select id="eventPageFilterCategory" onchange="renderEventPageRegistrations()" class="px-3.5 py-2 rounded-full border border-gray-300 bg-white text-xs font-bold text-gray-800 focus:outline-none focus:border-td">
-                    <option value="ALL">Tất cả nội dung</option>
-                </select>
+
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <select id="eventPageFilterCategory" onchange="renderEventPageRegistrations()" class="px-3.5 py-2 rounded-full border border-gray-300 bg-white text-xs font-bold text-gray-800 focus:outline-none focus:border-td">
+                        <option value="ALL">Tất cả nội dung</option>
+                    </select>
+
+                    <!-- NÚT XUẤT EXCEL CHỈ HIỂN THỊ KHI Ở CHẾ ĐỘ BTC -->
+                    <button id="btnExportEventExcel" type="button" onclick="exportEventRegistrationsExcel()" class="hidden px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-extrabold inline-flex items-center gap-1.5 shadow-sm transition">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                        <span>Xuất Excel (.xlsx)</span>
+                    </button>
+                </div>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs sm:text-sm">
-                    <thead>
-                        <tr class="bg-teal-950 text-white text-[11px] uppercase">
-                            <th class="py-3 px-4">#</th>
-                            <th class="py-3 px-4">VĐV</th>
-                            <th class="py-3 px-4">SĐT / Zalo</th>
-                            <th class="py-3 px-4">Nội dung</th>
-                            <th class="py-3 px-4 text-center">Điểm trình</th>
-                            <th class="py-3 px-4">Partner / CLB</th>
-                            <th id="eventPageActionHeader" class="hidden py-3 px-4 text-center">BTC</th>
-                        </tr>
-                    </thead>
-                    <tbody id="eventPageRegistrationsBody" class="divide-y divide-gray-200"></tbody>
-                </table>
-            </div>
+            <!-- LƯỚI CARD VIEW DANH SÁCH ĐĂNG KÝ -->
+            <div id="eventPageRegistrationsCards" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
     </div>
 
@@ -1003,13 +1013,16 @@
     </div>
 
     <!-- =====================================================================
-         MODAL TẠO SỰ KIỆN MỚI (CHỈ BTC - HIỆN NGAY LÊN TRANG CHỦ)
+         MODAL TẠO SỰ KIỆN MỚI (CHỈ BTC - HIỆN ĐẦY ĐỦ LÊN BANNER TRANG CHỦ)
     ====================================================================== -->
     <div id="createEventModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-gray-200 animate-view">
-            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between shrink-0">
-                <h3 class="text-base font-extrabold text-gray-900">Tạo Sự Kiện / Giải Đấu Mới (BTC)</h3>
-                <button type="button" onclick="closeModal('createEventModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 text-gray-500 font-bold">✕</button>
+        <div class="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-gray-200 animate-view">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between shrink-0 bg-slate-50/70">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-wider text-td">Ban Chuyên Môn Tam Điệp</span>
+                    <h3 class="text-base font-extrabold text-gray-900">Tạo Sự Kiện / Giải Đấu Mới (BTC)</h3>
+                </div>
+                <button type="button" onclick="closeModal('createEventModal')" class="w-8 h-8 rounded-full hover:bg-gray-200 text-gray-500 font-bold">✕</button>
             </div>
 
             <form onsubmit="submitCreateEvent(event)" class="p-6 overflow-y-auto space-y-3.5 flex-1">
@@ -1031,17 +1044,17 @@
 
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Tên giải đấu / Sự kiện *</label>
-                    <input id="evTitleInput" type="text" required placeholder="VD: Giải Pickleball Tam Điệp Mở Rộng" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
+                    <input id="evTitleInput" type="text" required placeholder="VD: Giải Pickleball Tam Điệp Mở Rộng Lần I" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Ngày tổ chức *</label>
-                        <input id="evDateInput" type="text" required value="06/12/2026" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Ngày & Giờ tổ chức *</label>
+                        <input id="evDateInput" type="text" required value="07:30 • Chủ Nhật, 06/12/2026" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Thể thức / Nội dung thi đấu</label>
-                        <input id="evFormatInput" type="text" value="Đôi nam 5.6, Đôi hỗn hợp 5.8" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Nội dung thi đấu *</label>
+                        <input id="evFormatInput" type="text" required value="Đôi nam 5.6, Đôi hỗn hợp 5.8" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
                     </div>
                 </div>
 
@@ -1050,24 +1063,48 @@
                     <input id="evLocationInput" type="text" required value="Trung Tâm Pickleball Tam Điệp - 301 Quang Trung" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Thông tin chi tiết (Lệ phí, giải thưởng, lưu ý)</label>
-                    <textarea id="evDescInput" rows="2" placeholder="VD: Lệ phí 300k/VĐV • Cúp + Tiền mặt • Bóng thi đấu chuẩn..." class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-td"></textarea>
+                <!-- KHỐI THÔNG TIN ĐIỀU HÀNH & LIÊN KẾT HIỂN THỊ TRỰC TIẾP TRÊN BANNER -->
+                <div class="p-3.5 rounded-2xl bg-teal-50/60 border border-teal-200/80 space-y-3">
+                    <div class="text-[11px] font-black uppercase tracking-wider text-td-dark flex items-center gap-1.5">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-td"></i>
+                        <span>Thông tin nổi bật & Liên kết hiển thị trên Banner</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Lệ phí & Cơ cấu giải thưởng</label>
+                        <input id="evPrizeInput" type="text" placeholder="VD: Lệ phí 300k/VĐV • Giải Nhất: Cúp + 3.000.000đ" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 bg-white text-sm font-semibold focus:outline-none focus:border-td">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-blue-700 mb-1">💬 Link Nhóm Zalo giải đấu</label>
+                            <input id="evZaloLinkInput" type="url" placeholder="https://zalo.me/g/..." class="w-full px-3.5 py-2 rounded-xl border border-blue-200 bg-white text-sm focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-td-dark mb-1">📱 Link Ứng dụng điều hành / Bốc thăm</label>
+                            <input id="evAppLinkInput" type="url" placeholder="https://..." class="w-full px-3.5 py-2 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:border-td">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Ghi chú & Quy định bổ sung</label>
+                        <textarea id="evDescInput" rows="2" placeholder="VD: Bóng thi đấu chuẩn • Tiệc Gala trao giải sau chung kết • Chốt danh sách trước 2 ngày..." class="w-full px-3.5 py-2 rounded-xl border border-gray-300 bg-white text-sm focus:outline-none focus:border-td"></textarea>
+                    </div>
                 </div>
 
-                <div class="flex justify-end gap-2 pt-2">
+                <div class="flex justify-end gap-2 pt-2 border-t border-gray-100">
                     <button type="button" onclick="closeModal('createEventModal')" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700">Hủy</button>
-                    <button type="submit" class="px-5 py-2 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold">Đăng sự kiện</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold shadow-sm">Đăng sự kiện lên Banner</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- =====================================================================
-         MODAL CHỈNH SỬA SỰ KIỆN (CHỈ BTC)
+         MODAL CHỈNH SỬA SỰ KIỆN (CHỈ BTC - HIỂN THỊ TRÊN BANNER)
     ====================================================================== -->
     <div id="editEventModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-gray-200 animate-view">
+        <div class="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-gray-200 animate-view">
             <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between shrink-0 bg-slate-50/70">
                 <div>
                     <span class="text-[10px] font-black uppercase tracking-wider text-td">Ban Chuyên Môn Tam Điệp</span>
@@ -1099,9 +1136,9 @@
                     <input id="editEvTitleInput" type="text" required class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Ngày tổ chức *</label>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Ngày & Giờ tổ chức *</label>
                         <input id="editEvDateInput" type="text" required class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
                     </div>
                     <div>
@@ -1116,8 +1153,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Thể thức / Nội dung thi đấu</label>
-                    <input id="editEvFormatInput" type="text" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Nội dung thi đấu *</label>
+                    <input id="editEvFormatInput" type="text" required class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
                 </div>
 
                 <div>
@@ -1125,14 +1162,38 @@
                     <input id="editEvLocationInput" type="text" required class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Thông tin chi tiết (Lệ phí, giải thưởng, lưu ý)</label>
-                    <textarea id="editEvDescInput" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-td"></textarea>
+                <!-- KHỐI THÔNG TIN ĐIỀU HÀNH & LIÊN KẾT HIỂN THỊ TRỰC TIẾP TRÊN BANNER -->
+                <div class="p-3.5 rounded-2xl bg-teal-50/60 border border-teal-200/80 space-y-3">
+                    <div class="text-[11px] font-black uppercase tracking-wider text-td-dark flex items-center gap-1.5">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-td"></i>
+                        <span>Thông tin nổi bật & Liên kết hiển thị trên Banner</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Lệ phí & Cơ cấu giải thưởng</label>
+                        <input id="editEvPrizeInput" type="text" placeholder="VD: Lệ phí 300k/VĐV • Giải Nhất: Cúp + 3.000.000đ" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 bg-white text-sm font-semibold focus:outline-none focus:border-td">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-blue-700 mb-1">💬 Link Nhóm Zalo giải đấu</label>
+                            <input id="editEvZaloLinkInput" type="url" placeholder="https://zalo.me/g/..." class="w-full px-3.5 py-2 rounded-xl border border-blue-200 bg-white text-sm focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-td-dark mb-1">📱 Link Ứng dụng điều hành / Bốc thăm</label>
+                            <input id="editEvAppLinkInput" type="url" placeholder="https://..." class="w-full px-3.5 py-2 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:border-td">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Ghi chú & Quy định bổ sung</label>
+                        <textarea id="editEvDescInput" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 bg-white text-sm focus:outline-none focus:border-td"></textarea>
+                    </div>
                 </div>
 
                 <div class="flex justify-end gap-2 pt-2 border-t border-gray-100">
                     <button type="button" onclick="closeModal('editEventModal')" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700">Hủy</button>
-                    <button type="submit" class="px-5 py-2 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold">Lưu cập nhật sự kiện</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold shadow-sm">Lưu cập nhật sự kiện</button>
                 </div>
             </form>
         </div>
@@ -1383,6 +1444,14 @@
             return obj === undefined ? '' : obj;
         }
 
+        function normalizeSafeUrl(rawUrl) {
+            const val = String(rawUrl || '').trim();
+            if (!val) return '';
+            if (/^https?:\/\//i.test(val)) return val;
+            if (/^[\w.-]+\.[a-z]{2,}/i.test(val)) return 'https://' + val;
+            return '';
+        }
+
         function compressImageDataUrl(dataUrl, maxWidth = 640, quality = 0.65) {
             return new Promise((resolve) => {
                 if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image')) {
@@ -1468,6 +1537,52 @@
             return String(str).replace(/[&<>"']/g, m => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
             }[m]));
+        }
+
+        function parsePairRegistration(r) {
+            const vdv1Name = String(r?.name || '').trim();
+            const vdv1Score = r?.score !== undefined && r?.score !== null && r?.score !== ''
+                ? Number(Number(r.score).toFixed(2))
+                : null;
+
+            let vdv2Name = String(r?.partnerName || '').trim();
+            let vdv2Score = r?.partnerScore !== undefined && r?.partnerScore !== null && r?.partnerScore !== ''
+                ? Number(Number(r.partnerScore).toFixed(2))
+                : null;
+
+            const rawPartner = String(r?.partner || '').trim();
+            if (!vdv2Name && rawPartner && rawPartner !== 'Chưa khai báo partner' && rawPartner !== '—') {
+                const matchParen = rawPartner.match(/^(.+?)\s*[\(\[-]\s*(\d+(?:[.,]\d+)?)\s*[\)\]]?\s*$/);
+                if (matchParen) {
+                    vdv2Name = matchParen[1].trim();
+                    if (vdv2Score === null) {
+                        vdv2Score = Number(parseFloat(matchParen[2].replace(',', '.')).toFixed(2));
+                    }
+                } else {
+                    vdv2Name = rawPartner;
+                }
+            }
+
+            if (vdv2Name && vdv2Score === null && Array.isArray(appState?.players)) {
+                const matched = appState.players.find(
+                    p => String(p.name || '').trim().toLowerCase() === vdv2Name.toLowerCase()
+                );
+                if (matched && matched.tdScore) {
+                    vdv2Score = Number(Number(matched.tdScore).toFixed(2));
+                }
+            }
+
+            const totalScore = (vdv1Score !== null || vdv2Score !== null)
+                ? Number(((vdv1Score || 0) + (vdv2Score || 0)).toFixed(2))
+                : null;
+
+            return {
+                vdv1Name,
+                vdv1Score,
+                vdv2Name,
+                vdv2Score,
+                totalScore
+            };
         }
 
         function updateActiveNav(sectionId) {
@@ -1610,6 +1725,9 @@
                 date: ev?.date || '',
                 format: ev?.format || 'Thi đấu tự do',
                 location: ev?.location || 'Tam Điệp, Ninh Bình',
+                prizeInfo: ev?.prizeInfo || '',
+                zaloLink: normalizeSafeUrl(ev?.zaloLink),
+                appLink: normalizeSafeUrl(ev?.appLink),
                 description: ev?.description || '',
                 status: ev?.status || 'Đang mở đăng ký',
                 banner: typeof ev?.banner === 'string' ? ev.banner : '',
@@ -1947,6 +2065,10 @@
             document.getElementById('section-committee').classList.toggle('hidden', !btc);
             document.getElementById('btnAddEventBtc').classList.toggle('hidden', !btc);
             document.getElementById('regAutoApproveBox').classList.toggle('hidden', !btc);
+            const btnExportExcel = document.getElementById('btnExportEventExcel');
+            if (btnExportExcel) {
+                btnExportExcel.classList.toggle('hidden', !btc);
+            }
         }
 
         function getNextCode() {
@@ -2284,6 +2406,14 @@
             pendingEventBannerBase64 = '';
             const evBannerInput = document.getElementById('evBannerInput');
             if (evBannerInput) evBannerInput.value = '';
+            const prizeInput = document.getElementById('evPrizeInput');
+            const zaloInput = document.getElementById('evZaloLinkInput');
+            const appInput = document.getElementById('evAppLinkInput');
+            const descInput = document.getElementById('evDescInput');
+            if (prizeInput) prizeInput.value = '';
+            if (zaloInput) zaloInput.value = '';
+            if (appInput) appInput.value = '';
+            if (descInput) descInput.value = '';
             clearEventBannerPreview();
             openModal('createEventModal');
         }
@@ -2307,6 +2437,9 @@
                 date: document.getElementById('evDateInput').value.trim(),
                 format: document.getElementById('evFormatInput').value.trim(),
                 location: document.getElementById('evLocationInput').value.trim(),
+                prizeInfo: (document.getElementById('evPrizeInput')?.value || '').trim(),
+                zaloLink: (document.getElementById('evZaloLinkInput')?.value || '').trim(),
+                appLink: (document.getElementById('evAppLinkInput')?.value || '').trim(),
                 description: (document.getElementById('evDescInput')?.value || '').trim(),
                 banner: pendingEventBannerBase64 || '',
                 status: 'Đang mở đăng ký',
@@ -2315,13 +2448,11 @@
                 updatedAt: Date.now()
             });
             pendingEventBannerBase64 = '';
-            const descInput = document.getElementById('evDescInput');
-            if (descInput) descInput.value = '';
             closeModal('createEventModal');
             await saveEventToStore(newEv);
             renderAll();
             goToHubSection('hero-top');
-            showToast('📅 Đã đăng sự kiện mới lên trang chủ!', 'success');
+            showToast('📅 Đã đăng sự kiện mới lên Banner trang chủ!', 'success');
         }
 
         function openEditEventModal(eventId) {
@@ -2339,6 +2470,9 @@
             document.getElementById('editEvStatusInput').value = ev.status || 'Đang mở đăng ký';
             document.getElementById('editEvFormatInput').value = ev.format || '';
             document.getElementById('editEvLocationInput').value = ev.location || '';
+            document.getElementById('editEvPrizeInput').value = ev.prizeInfo || '';
+            document.getElementById('editEvZaloLinkInput').value = ev.zaloLink || '';
+            document.getElementById('editEvAppLinkInput').value = ev.appLink || '';
             document.getElementById('editEvDescInput').value = ev.description || '';
 
             editingEventBannerBase64 = ev.banner || '';
@@ -2395,6 +2529,9 @@
                 status: document.getElementById('editEvStatusInput').value,
                 format: document.getElementById('editEvFormatInput').value.trim(),
                 location: document.getElementById('editEvLocationInput').value.trim(),
+                prizeInfo: document.getElementById('editEvPrizeInput').value.trim(),
+                zaloLink: document.getElementById('editEvZaloLinkInput').value.trim(),
+                appLink: document.getElementById('editEvAppLinkInput').value.trim(),
                 description: document.getElementById('editEvDescInput').value.trim(),
                 banner: editingEventBannerBase64,
                 registrations: oldEv.registrations,
@@ -2415,7 +2552,7 @@
 
             const ev = normalizeEvent(rawEv);
             const regWarning = ev.registrations.length > 0
-                ? `\n(Lưu ý: Giải đấu này đang có ${ev.registrations.length} VĐV đã đăng ký)`
+                ? `\n(Lưu ý: Giải đấu này đang có ${ev.registrations.length} cặp/VĐV đã đăng ký)`
                 : '';
             const ok = window.confirm(`Bạn có chắc chắn muốn XÓA sự kiện "${ev.title}" không?${regWarning}`);
             if (!ok) return;
@@ -2426,6 +2563,30 @@
             }
             renderAll();
             showToast(`🗑️ Đã xóa sự kiện "${ev.title}".`, 'info');
+        }
+
+        function renderEventQuickLinksHtml(ev, compact = false) {
+            const hasZalo = Boolean(ev.zaloLink);
+            const hasApp = Boolean(ev.appLink);
+            if (!hasZalo && !hasApp) return '';
+
+            const padCls = compact ? 'px-3 py-1.5 text-[11px]' : 'px-3.5 py-2 text-xs';
+            return `
+                <div class="flex flex-wrap items-center gap-2 pt-1">
+                    ${hasZalo ? `
+                    <a href="${escapeHtml(ev.zaloLink)}" target="_blank" rel="noopener noreferrer" class="${padCls} rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-extrabold inline-flex items-center gap-1.5 transition">
+                        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                        <span>Nhóm Zalo giải đấu</span>
+                        <i data-lucide="external-link" class="w-3 h-3 opacity-75"></i>
+                    </a>` : ''}
+                    ${hasApp ? `
+                    <a href="${escapeHtml(ev.appLink)}" target="_blank" rel="noopener noreferrer" class="${padCls} rounded-full bg-teal-50 hover:bg-teal-100 text-td-dark border border-teal-200 font-extrabold inline-flex items-center gap-1.5 transition">
+                        <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                        <span>Ứng dụng điều hành</span>
+                        <i data-lucide="external-link" class="w-3 h-3 opacity-75"></i>
+                    </a>` : ''}
+                </div>
+            `;
         }
 
         function renderHeroFeaturedEvent() {
@@ -2460,7 +2621,7 @@
 
             container.innerHTML = `
                 <div class="rounded-3xl bg-white text-gray-900 shadow-2xl border-2 border-amber-300/95 overflow-hidden text-left grid grid-cols-1 md:grid-cols-12">
-                    <div class="md:col-span-5 bg-teal-950 relative min-h-[200px] sm:min-h-[240px] flex items-center justify-center overflow-hidden">
+                    <div class="md:col-span-5 bg-teal-950 relative min-h-[210px] sm:min-h-[260px] flex items-center justify-center overflow-hidden">
                         ${featured.banner
                             ? `<img src="${featured.banner}" alt="${escapeHtml(featured.title)}" class="w-full h-full object-cover">`
                             : `<div class="p-6 text-center text-teal-100 space-y-2">
@@ -2477,19 +2638,19 @@
                     </div>
 
                     <div class="md:col-span-7 p-5 sm:p-6 flex flex-col justify-between gap-4">
-                        <div class="space-y-2">
+                        <div class="space-y-2.5">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span class="px-3 py-0.5 rounded-full text-xs font-extrabold ${isDone ? 'bg-gray-100 text-gray-600' : 'bg-teal-100 text-td-dark'}">
                                     ${escapeHtml(featured.status)}
                                 </span>
-                                <span class="text-xs font-extrabold text-td-dark">📅 Ngày thi đấu: ${escapeHtml(featured.date)}</span>
+                                <span class="text-xs font-extrabold text-td-dark">📅 ${escapeHtml(featured.date)}</span>
                             </div>
 
                             <h3 class="text-lg sm:text-2xl font-black text-gray-900 leading-snug">
                                 ${escapeHtml(featured.title)}
                             </h3>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-700 pt-1">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-700">
                                 <div class="flex items-start gap-1.5">
                                     <span class="shrink-0">📍</span>
                                     <span><strong>Địa điểm:</strong> ${escapeHtml(featured.location)}</span>
@@ -2498,7 +2659,14 @@
                                     <span class="shrink-0">🎾</span>
                                     <span><strong>Nội dung:</strong> ${escapeHtml(featured.format)}</span>
                                 </div>
+                                ${featured.prizeInfo ? `
+                                <div class="sm:col-span-2 flex items-start gap-1.5 px-3 py-2 rounded-xl bg-amber-50/90 border border-amber-200/80 text-amber-950 font-bold">
+                                    <span class="shrink-0">🏆</span>
+                                    <span>${escapeHtml(featured.prizeInfo)}</span>
+                                </div>` : ''}
                             </div>
+
+                            ${renderEventQuickLinksHtml(featured, false)}
 
                             ${featured.description
                                 ? `<p class="text-xs text-gray-600 bg-slate-50 border border-slate-200/80 rounded-2xl px-3.5 py-2 leading-relaxed">${escapeHtml(featured.description)}</p>`
@@ -2508,7 +2676,7 @@
 
                         <div class="pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3">
                             <button type="button" onclick="openEventRegisterPage('${escapeHtml(featured.id)}', false)" class="text-xs font-extrabold text-td hover:underline">
-                                👥 Đã đăng ký: ${regCount} VĐV (Xem danh sách →)
+                                👥 Đã đăng ký: ${regCount} cặp/VĐV (Xem danh sách →)
                             </button>
 
                             <div class="flex flex-wrap items-center gap-2">
@@ -2735,11 +2903,16 @@
                 const regCount = regs.length;
 
                 const recentRegs = regs.slice(-3).reverse();
-                const previewNames = recentRegs.map(r => escapeHtml(r.name)).join(', ');
+                const previewNames = recentRegs.map(r => {
+                    const parsed = parsePairRegistration(r);
+                    return parsed.vdv2Name
+                        ? `${escapeHtml(parsed.vdv1Name)} & ${escapeHtml(parsed.vdv2Name)}`
+                        : escapeHtml(parsed.vdv1Name);
+                }).join(', ');
                 const regPreviewHtml = regCount > 0
                     ? `<div class="mt-2.5 p-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs text-gray-700">
-                        <div class="font-extrabold text-td-dark">👥 Đã đăng ký (${regCount} VĐV):</div>
-                        <div class="text-gray-600 mt-0.5 truncate">${previewNames}${regCount > 3 ? ` và +${regCount - 3} VĐV khác` : ''}</div>
+                        <div class="font-extrabold text-td-dark">👥 Đã đăng ký (${regCount} cặp/VĐV):</div>
+                        <div class="text-gray-600 mt-0.5 truncate">${previewNames}${regCount > 3 ? ` và +${regCount - 3} cặp khác` : ''}</div>
                     </div>`
                     : '';
 
@@ -2762,9 +2935,11 @@
                             <h4 class="text-base font-extrabold text-gray-900">${escapeHtml(ev.title)}</h4>
                             <div class="text-xs text-gray-600 space-y-1">
                                 <div>📍 <strong>Địa điểm:</strong> ${escapeHtml(ev.location)}</div>
-                                <div>🎾 <strong>Thể thức:</strong> ${escapeHtml(ev.format)}</div>
+                                <div>🎾 <strong>Nội dung:</strong> ${escapeHtml(ev.format)}</div>
+                                ${ev.prizeInfo ? `<div class="text-amber-900 font-bold">🏆 ${escapeHtml(ev.prizeInfo)}</div>` : ''}
                                 ${ev.description ? `<div class="text-gray-500 pt-1">ℹ️ ${escapeHtml(ev.description)}</div>` : ''}
                             </div>
+                            ${renderEventQuickLinksHtml(ev, true)}
                             ${regPreviewHtml}
                         </div>
 
@@ -2935,14 +3110,19 @@
                             <strong class="font-bold text-gray-900">${escapeHtml(normalized.location)}</strong>
                         </div>
                         <div class="p-3 rounded-2xl bg-gray-50 border border-gray-200/80">
-                            <span class="text-[10px] font-extrabold uppercase text-gray-400 block">Thể thức / Nội dung</span>
+                            <span class="text-[10px] font-extrabold uppercase text-gray-400 block">Nội dung thi đấu</span>
                             <strong class="font-bold text-td-dark">${escapeHtml(normalized.format)}</strong>
                         </div>
                         <div class="p-3 rounded-2xl bg-teal-50/70 border border-teal-200/80">
                             <span class="text-[10px] font-extrabold uppercase text-td-dark block">Đã đăng ký</span>
-                            <strong class="text-base font-black text-td-dark tabular-nums">${regCount} VĐV</strong>
+                            <strong class="text-base font-black text-td-dark tabular-nums">${regCount} cặp / VĐV</strong>
                         </div>
                     </div>
+                    ${normalized.prizeInfo ? `
+                    <div class="p-3 rounded-2xl bg-amber-50/90 border border-amber-200 text-xs sm:text-sm font-bold text-amber-950">
+                        🏆 ${escapeHtml(normalized.prizeInfo)}
+                    </div>` : ''}
+                    ${renderEventQuickLinksHtml(normalized, false)}
                     ${normalized.description ? `<p class="text-xs sm:text-sm text-gray-600 bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">${escapeHtml(normalized.description)}</p>` : ''}
                 </div>
             `;
@@ -2959,38 +3139,206 @@
 
             document.getElementById('eventPageRegCount').innerText = regs.length;
             const btc = isBtcMode();
-            document.getElementById('eventPageActionHeader')?.classList.toggle('hidden', !btc);
 
-            const tbody = document.getElementById('eventPageRegistrationsBody');
-            if (!tbody) return;
+            const btnExportExcel = document.getElementById('btnExportEventExcel');
+            if (btnExportExcel) {
+                btnExportExcel.classList.toggle('hidden', !btc);
+            }
+
+            const cardsContainer = document.getElementById('eventPageRegistrationsCards');
+            if (!cardsContainer) return;
 
             if (!regs.length) {
-                tbody.innerHTML = `<tr><td colspan="${btc ? 7 : 6}" class="py-8 px-4 text-center text-gray-400">Chưa có VĐV nào đăng ký trong giải/nội dung này.</td></tr>`;
+                cardsContainer.innerHTML = `
+                    <div class="col-span-full py-12 px-4 text-center bg-gray-50/80 rounded-3xl border border-dashed border-gray-200 space-y-2">
+                        <div class="w-11 h-11 rounded-full bg-teal-50 text-td mx-auto flex items-center justify-center">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                        </div>
+                        <div class="text-sm font-bold text-gray-600">Chưa có cặp đấu / VĐV nào đăng ký trong giải hoặc nội dung này.</div>
+                        <div class="text-xs text-gray-400">Hãy điền phiếu phía trên để ghi danh tham gia giải đấu!</div>
+                    </div>`;
+                lucide.createIcons();
                 return;
             }
 
-            tbody.innerHTML = regs.map((r, idx) => `
-                <tr class="hover:bg-slate-50/80">
-                    <td class="py-3 px-4 font-bold text-gray-500 tabular-nums">${idx + 1}</td>
-                    <td class="py-3 px-4">
-                        <div class="font-extrabold text-gray-900">${escapeHtml(r.name)}</div>
-                        ${r.note ? `<div class="text-xs text-gray-500 mt-0.5">${escapeHtml(r.note)}</div>` : ''}
-                    </td>
-                    <td class="py-3 px-4 text-gray-700 font-semibold">${escapeHtml(r.phone)}</td>
-                    <td class="py-3 px-4">
-                        <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-teal-50 text-td-dark border border-teal-200">${escapeHtml(r.category)}</span>
-                    </td>
-                    <td class="py-3 px-4 text-center font-black text-td-dark tabular-nums">${Number(r.score || 0).toFixed(2)}</td>
-                    <td class="py-3 px-4 text-xs text-gray-600">
-                        <div><strong>Cặp:</strong> ${escapeHtml(r.partner || '—')}</div>
-                        <div class="text-gray-400">${escapeHtml(r.club || '')}</div>
-                    </td>
-                    ${btc ? `
-                    <td class="py-3 px-4 text-center">
-                        <button type="button" onclick="deleteEventRegistration('${escapeHtml(ev.id)}', '${escapeHtml(r.id)}')" class="px-2.5 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">Xóa</button>
-                    </td>` : ''}
-                </tr>
-            `).join('');
+            cardsContainer.innerHTML = regs.map((r, idx) => {
+                const pair = parsePairRegistration(r);
+                const stt = idx + 1;
+
+                const vdv1ScoreText = pair.vdv1Score !== null ? pair.vdv1Score.toFixed(2) : '—';
+                const vdv2HasName = Boolean(pair.vdv2Name);
+                const vdv2ScoreText = pair.vdv2Score !== null ? pair.vdv2Score.toFixed(2) : '—';
+                const totalText = pair.totalScore !== null ? pair.totalScore.toFixed(2) : '—';
+
+                return `
+                <div class="card-elevated rounded-3xl p-5 flex flex-col justify-between gap-4 border-gray-200/90">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 rounded-full bg-teal-950 text-white text-xs font-black tabular-nums">
+                                #${String(stt).padStart(2, '0')}
+                            </span>
+                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-teal-50 text-td-dark border border-teal-200">
+                                ${escapeHtml(r.category)}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-1.5">
+                            ${pair.totalScore !== null ? `
+                            <span class="px-2.5 py-1 rounded-full text-[11px] font-black bg-amber-100 text-amber-900 border border-amber-300/80 tabular-nums">
+                                Tổng trình: ${totalText}
+                            </span>` : ''}
+
+                            ${btc ? `
+                            <button type="button" onclick="deleteEventRegistration('${escapeHtml(ev.id)}', '${escapeHtml(r.id)}')" title="Xóa đăng ký" class="px-2.5 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">
+                                Xóa
+                            </button>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div class="p-3.5 rounded-2xl score-box-td flex items-center justify-between gap-2.5">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <div class="w-10 h-10 rounded-full bg-td text-white font-black text-xs flex items-center justify-center shrink-0 shadow-2xs">
+                                    ${getInitials(pair.vdv1Name)}
+                                </div>
+                                <div class="min-w-0">
+                                    <span class="text-[10px] font-black uppercase tracking-wider text-td-dark block">VĐV 1</span>
+                                    <div class="font-extrabold text-sm text-gray-900 truncate" title="${escapeHtml(pair.vdv1Name)}">
+                                        ${escapeHtml(pair.vdv1Name)}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0 pl-2 border-l border-teal-700/15">
+                                <span class="text-[9px] font-extrabold uppercase text-gray-500 block">Trình</span>
+                                <span class="text-base font-black text-td-dark tabular-nums">${vdv1ScoreText}</span>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl ${vdv2HasName ? 'bg-amber-50/70 border border-amber-200/90' : 'bg-gray-50/80 border border-dashed border-gray-200'} flex items-center justify-between gap-2.5">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <div class="w-10 h-10 rounded-full ${vdv2HasName ? 'bg-amber-500 text-white' : 'bg-gray-200 text-gray-500'} font-black text-xs flex items-center justify-center shrink-0">
+                                    ${vdv2HasName ? getInitials(pair.vdv2Name) : '?'}
+                                </div>
+                                <div class="min-w-0">
+                                    <span class="text-[10px] font-black uppercase tracking-wider ${vdv2HasName ? 'text-amber-800' : 'text-gray-400'} block">VĐV 2 (Partner)</span>
+                                    <div class="font-extrabold text-sm ${vdv2HasName ? 'text-gray-900' : 'text-gray-400 italic'} truncate" title="${escapeHtml(pair.vdv2Name || 'Chưa ghép cặp')}">
+                                        ${vdv2HasName ? escapeHtml(pair.vdv2Name) : 'Đang tìm partner'}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0 pl-2 border-l ${vdv2HasName ? 'border-amber-700/15' : 'border-gray-200'}">
+                                <span class="text-[9px] font-extrabold uppercase text-gray-500 block">Trình</span>
+                                <span class="text-base font-black ${vdv2HasName ? 'text-amber-900' : 'text-gray-400'} tabular-nums">${vdv2ScoreText}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2.5 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600">
+                        <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                            <span class="inline-flex items-center gap-1 font-semibold text-gray-700">
+                                <i data-lucide="phone" class="w-3.5 h-3.5 text-td"></i>
+                                ${escapeHtml(r.phone)}
+                            </span>
+                            ${r.club ? `
+                            <span class="inline-flex items-center gap-1 text-gray-500">
+                                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gray-400"></i>
+                                ${escapeHtml(r.club)}
+                            </span>` : ''}
+                        </div>
+                        ${r.createdAt ? `<span class="text-[11px] text-gray-400 font-semibold">ĐK: ${escapeHtml(r.createdAt)}</span>` : ''}
+                    </div>
+
+                    ${r.note ? `
+                    <div class="text-xs text-gray-600 bg-slate-50 border border-slate-200/70 rounded-xl px-3 py-2">
+                        📝 <strong>Ghi chú:</strong> ${escapeHtml(r.note)}
+                    </div>` : ''}
+                </div>`;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // KẾT XUẤT EXCEL CHỈ CHO PHÉP Ở CHẾ ĐỘ BTC (CÁC CỘT: Stt, VDV1, Trình, VDV2, Trình)
+        function exportEventRegistrationsExcel() {
+            if (!isBtcMode()) {
+                showToast('🔒 Chức năng xuất Excel chỉ dành cho Ban Tổ Chức (BTC)!', 'warning');
+                return;
+            }
+            if (!currentEventPageId) return;
+            const rawEv = (appState.events || []).find(x => String(x.id) === String(currentEventPageId));
+            if (!rawEv) return;
+            const ev = normalizeEvent(rawEv);
+
+            const filterCat = document.getElementById('eventPageFilterCategory')?.value || 'ALL';
+            const regs = ev.registrations.filter(r => filterCat === 'ALL' || r.category === filterCat);
+
+            if (!regs.length) {
+                showToast('⚠️ Chưa có dữ liệu VĐV đăng ký để xuất Excel!', 'warning');
+                return;
+            }
+
+            const headers = ['Stt', 'VDV1', 'Trình', 'VDV2', 'Trình'];
+            const rows = regs.map((r, idx) => {
+                const pair = parsePairRegistration(r);
+                return [
+                    idx + 1,
+                    pair.vdv1Name || '',
+                    pair.vdv1Score !== null ? pair.vdv1Score : '',
+                    pair.vdv2Name || '',
+                    pair.vdv2Score !== null ? pair.vdv2Score : ''
+                ];
+            });
+
+            const safeSlug = String(ev.title || 'giai-dau')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-zA-Z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .toLowerCase() || 'danh-sach-dang-ky';
+            const fileName = `DS_VDV_${safeSlug}.xlsx`;
+
+            if (typeof window.XLSX !== 'undefined') {
+                const aoa = [headers, ...rows];
+                const ws = window.XLSX.utils.aoa_to_sheet(aoa);
+
+                ws['!cols'] = [
+                    { wch: 7 },
+                    { wch: 28 },
+                    { wch: 11 },
+                    { wch: 28 },
+                    { wch: 11 }
+                ];
+
+                for (let rIdx = 1; rIdx <= rows.length; rIdx++) {
+                    const cellC = ws[window.XLSX.utils.encode_cell({ r: rIdx, c: 2 })];
+                    if (cellC && typeof cellC.v === 'number') {
+                        cellC.z = '0.00';
+                    }
+                    const cellE = ws[window.XLSX.utils.encode_cell({ r: rIdx, c: 4 })];
+                    if (cellE && typeof cellE.v === 'number') {
+                        cellE.z = '0.00';
+                    }
+                }
+
+                const wb = window.XLSX.utils.book_new();
+                window.XLSX.utils.book_append_sheet(wb, ws, 'DanhSachDangKy');
+                window.XLSX.writeFile(wb, fileName);
+                showToast(`📊 Đã xuất file Excel (${regs.length} cặp): ${fileName}`, 'success');
+            } else {
+                const csvLines = [headers, ...rows].map(row =>
+                    row.map(val => `"${String(val).replace(/"/g, '""')}"`).join(',')
+                );
+                const blob = new Blob(['\uFEFF' + csvLines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName.replace(/\.xlsx$/, '.csv');
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast(`📊 Đã xuất file danh sách (${regs.length} cặp)!`, 'success');
+            }
         }
 
         async function submitEventPageRegistration(e) {
@@ -3003,14 +3351,26 @@
             if (btn) btn.disabled = true;
 
             const currentEv = normalizeEvent(rawEv);
+            const vdv1Name = document.getElementById('eventPageName').value.trim();
+            const vdv1Score = Number((parseFloat(document.getElementById('eventPageScore').value) || 2.50).toFixed(2));
+            const partnerName = document.getElementById('eventPagePartner').value.trim();
+            const partnerScoreRaw = document.getElementById('eventPagePartnerScore').value.trim();
+            const partnerScore = partnerScoreRaw !== '' ? Number(parseFloat(partnerScoreRaw).toFixed(2)) : '';
+
+            const partnerDisplay = partnerName
+                ? (partnerScore !== '' ? `${partnerName} (${Number(partnerScore).toFixed(2)})` : partnerName)
+                : 'Chưa khai báo partner';
+
             const entry = {
                 id: 'reg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
                 category: document.getElementById('eventPageCategory').value,
-                name: document.getElementById('eventPageName').value.trim(),
+                name: vdv1Name,
                 phone: document.getElementById('eventPagePhone').value.trim(),
-                score: Number((parseFloat(document.getElementById('eventPageScore').value) || 2.50).toFixed(2)),
+                score: vdv1Score,
                 club: document.getElementById('eventPageClub').value,
-                partner: document.getElementById('eventPagePartner').value.trim() || 'Chưa khai báo partner',
+                partnerName: partnerName,
+                partnerScore: partnerScore,
+                partner: partnerDisplay,
                 note: document.getElementById('eventPageNote').value.trim(),
                 createdAt: new Date().toLocaleDateString('vi-VN')
             };
@@ -3025,6 +3385,7 @@
             document.getElementById('eventPageName').value = '';
             document.getElementById('eventPagePhone').value = '';
             document.getElementById('eventPagePartner').value = '';
+            document.getElementById('eventPagePartnerScore').value = '';
             document.getElementById('eventPageNote').value = '';
 
             await saveEventToStore(updatedEv);
@@ -3034,7 +3395,7 @@
             updateBannerStats();
 
             if (btn) btn.disabled = false;
-            showToast(`🎾 ${entry.name} đã đăng ký "${entry.category}" thành công!`, 'success');
+            showToast(`🎾 ${entry.name}${partnerName ? ' & ' + partnerName : ''} đã đăng ký "${entry.category}" thành công!`, 'success');
         }
 
         async function deleteEventRegistration(eventId, regId) {
@@ -3196,6 +3557,7 @@
             navigateToPage,
             openEventRegisterPage,
             renderEventPageRegistrations,
+            exportEventRegistrationsExcel,
             submitEventPageRegistration,
             deleteEventRegistration,
             toggleMobileMenu,
