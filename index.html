@@ -222,6 +222,11 @@
                     <span>Realtime</span>
                 </span>
 
+                <button type="button" onclick="openPlayerRequestEditModal('')" class="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 transition-all duration-300" title="VĐV gửi yêu cầu chỉnh sửa hồ sơ chờ BTC duyệt">
+                    <i data-lucide="file-pen-line" class="w-3.5 h-3.5 text-amber-600"></i>
+                    <span>Yêu cầu sửa hồ sơ</span>
+                </button>
+
                 <button type="button" onclick="navigateToPage('register')" class="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-extrabold bg-[#FF6B35] hover:bg-[#e85a27] text-white transition-all duration-300 shadow-2xs">
                     <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
                     <span>Đăng ký</span>
@@ -256,6 +261,10 @@
             <button id="mobileCommitteeItem" type="button" onclick="goToHubSection('section-committee'); closeMobileMenu()" class="hidden w-full text-left px-4 py-2.5 rounded-full text-sm font-bold text-gray-800 hover:bg-gray-100 flex items-center gap-2.5 transition">
                 <i data-lucide="shield-check" class="w-4 h-4 text-td"></i>
                 <span>Ban chuyên môn (BTC)</span>
+            </button>
+            <button type="button" onclick="openPlayerRequestEditModal(''); closeMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-full text-sm font-bold text-amber-800 bg-amber-50/80 hover:bg-amber-100 flex items-center gap-2.5 transition">
+                <i data-lucide="file-pen-line" class="w-4 h-4 text-amber-600"></i>
+                <span>Yêu cầu sửa hồ sơ</span>
             </button>
             <button type="button" onclick="navigateToPage('register'); closeMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-full text-sm font-extrabold text-[#FF6B35] bg-orange-50/70 hover:bg-orange-50 flex items-center gap-2.5 transition">
                 <i data-lucide="file-plus-2" class="w-4 h-4"></i>
@@ -337,9 +346,13 @@
 
                 <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
                     <button type="button" onclick="navigateToPage('register')" class="px-6 py-3 rounded-full bg-[#FF6B35] hover:bg-[#e85a27] text-white text-xs sm:text-sm font-extrabold inline-flex items-center gap-2 shadow-lg transition-all duration-300">
-                        <i data-lucide="user-plus" class="w-8 h-8"></i>
+                        <i data-lucide="user-plus" class="w-5 h-5"></i>
                         <span>Đăng ký</span>
-                    </button>                    
+                    </button>
+                    <button type="button" onclick="openPlayerRequestEditModal('')" class="px-5 py-3 rounded-full glass-pill hover:bg-white/25 text-white text-xs sm:text-sm font-extrabold inline-flex items-center gap-2 transition-all duration-300">
+                        <i data-lucide="file-pen-line" class="w-4 h-4 text-amber-300"></i>
+                        <span>Yêu cầu sửa hồ sơ</span>
+                    </button>
                 </div>
 
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 pt-3 text-left">
@@ -367,7 +380,7 @@
                             <span>CHỜ DUYỆT</span>
                         </div>
                         <div id="bannerPendingCount" class="text-lg sm:text-xl font-black text-white mt-1 tabular-nums">0 Hồ sơ</div>
-                        <div class="text-[11px] text-teal-100/80">Nhấn để xem danh sách chờ duyệt</div>
+                        <div class="text-[11px] text-teal-100/80">Hồ sơ mới & yêu cầu sửa</div>
                     </button>
 
                     <button type="button" onclick="goToHubSection('section-events')" class="cursor-pointer rounded-2xl glass-tile p-4 text-left w-full">
@@ -393,27 +406,32 @@
                         <span class="text-[11px] font-extrabold uppercase tracking-widest text-td">KHU VỰC BẢNG XẾP HẠNG</span>
                         <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1">
                             Điểm Trình
-                        </h2>
-                        
+                        </h2>                        
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-                        <input id="filterSearch" type="text" oninput="renderRanking()" placeholder="Tìm tên VĐV, SĐT, mã TD-XXX..." class="w-full sm:w-60 px-4 py-2 text-xs sm:text-sm border border-gray-300 rounded-full focus:outline-none focus:border-td transition">
-                        <select id="filterClub" onchange="renderRanking()" class="w-full sm:w-56 px-4 py-2 text-xs sm:text-sm font-semibold border border-gray-300 rounded-full bg-white focus:outline-none focus:border-td transition">
-                            <option value="ALL">Tất cả CLB / Cụm sân</option>                            
+                        <input id="filterSearch" type="text" oninput="onRankingFilterChange()" placeholder="Tìm tên (không dấu/có dấu), mã TD-XXX..." class="w-full sm:w-64 px-4 py-2 text-xs sm:text-sm border border-gray-300 rounded-full focus:outline-none focus:border-td transition">
+                        <select id="filterClub" onchange="onRankingFilterChange()" class="w-full sm:w-56 px-4 py-2 text-xs sm:text-sm font-semibold border border-gray-300 rounded-full bg-white focus:outline-none focus:border-td transition">
+                            <option value="ALL">Tất cả CLB / Cụm sân</option>
                             <option value="CLB Hóa chất mỏ">CLB Hóa chất mỏ</option>
                             <option value="CLB Family">CLB Family</option>
                             <option value="CLB Quang Trung">CLB Quang Trung</option>
                             <option value="CLB Vietinbank">CLB Vietinbank</option>
                             <option value="CLB Nam Sơn">CLB Nam Sơn</option>
-							<option value="CLB Quang Ngân">CLB Quang Ngân</option>
-							<option value="CLB Pick 35">CLB Pick 35</option>
-                            <option value="VĐV Tự do Tam Điệp">VĐV Tự do Tam Điệp</option>                            
+                            <option value="CLB Quang Ngân">CLB Quang Ngân</option>
+                            <option value="CLB Pick 35">CLB Pick 35</option>
+                            <option value="VĐV Tự do Tam Điệp">VĐV Tự do Tam Điệp</option>
                         </select>
                     </div>
                 </div>
 
                 <div id="rankingCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+
+                <!-- THANH PHÂN TRANG TỰ ĐỘNG KHI DANH SÁCH CHẠM MỐC 12 (PAGE_SIZE = 12) -->
+                <div id="rankingPaginationBar" class="hidden flex-col sm:flex-row items-center justify-between gap-3 pt-2 pb-1 px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200/80">
+                    <div id="rankingPaginationInfo" class="text-xs font-bold text-gray-600 tabular-nums"></div>
+                    <div id="rankingPaginationButtons" class="flex flex-wrap items-center justify-center gap-1.5"></div>
+                </div>
 
                 <!-- TIÊU CHÍ CỘNG / TRỪ ĐIỂM SAU MỖI GIẢI -->
                 <div id="rankingPointCriteriaBox" class="rounded-3xl border border-teal-900/15 bg-gradient-to-br from-teal-50/70 via-white to-amber-50/35 p-5 sm:p-6 shadow-xs space-y-4">
@@ -462,21 +480,27 @@
                 </div>
             </section>
 
-            <!-- KHU VỰC 2: HỒ SƠ VĐV CHỜ DUYỆT -->
+            <!-- KHU VỰC 2: HỒ SƠ VĐV ĐĂNG KÝ MỚI & YÊU CẦU CHỈNH SỬA CHỜ DUYỆT -->
             <section id="section-pending-public" class="scroll-target space-y-5">
                 <div class="flex flex-wrap items-end justify-between gap-4 border-b border-amber-200 pb-4">
                     <div>
-                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-600">HỒ SƠ ĐĂNG KÝ MỚI • ĐỒNG BỘ REALTIME</span>
+                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-600">HỒ SƠ ĐĂNG KÝ MỚI & YÊU CẦU CHỈNH SỬA CHỜ DUYỆT</span>
                         <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 mt-1">
-                            Danh Sách (<span id="publicPendingCount">0</span>)
+                            Danh Sách Chờ Duyệt (<span id="publicPendingCount">0</span>)
                         </h2>
-                        <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Hồ sơ VĐV vừa đăng ký sẽ tự động xuất hiện ở danh sách chờ duyệt realtime cho mọi người trước khi BTC phê duyệt lên Bảng xếp hạng.</p>
+                        <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Hồ sơ VĐV mới hoặc đề xuất cập nhật thông tin cá nhân sẽ hiển thị tại đây để BTC phê duyệt trước khi áp dụng chính thức.</p>
                     </div>
 
-                    <button type="button" onclick="navigateToPage('register')" class="px-4 py-2 rounded-full bg-[#FF6B35] hover:bg-[#e85a27] text-white text-xs font-extrabold inline-flex items-center gap-1.5 transition">
-                        <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-                        <span>Đăng ký hồ sơ mới</span>
-                    </button>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button type="button" onclick="openPlayerRequestEditModal('')" class="px-4 py-2 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-extrabold inline-flex items-center gap-1.5 transition">
+                            <i data-lucide="file-pen-line" class="w-3.5 h-3.5 text-amber-600"></i>
+                            <span>Yêu cầu sửa hồ sơ</span>
+                        </button>
+                        <button type="button" onclick="navigateToPage('register')" class="px-4 py-2 rounded-full bg-[#FF6B35] hover:bg-[#e85a27] text-white text-xs font-extrabold inline-flex items-center gap-1.5 transition">
+                            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                            <span>Đăng ký hồ sơ mới</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div id="publicPendingContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
@@ -551,7 +575,7 @@
         <div class="card-elevated rounded-3xl overflow-hidden">
             <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/60 flex flex-wrap items-center justify-between gap-2">
                 <div>
-                    <h3 class="text-lg font-extrabold text-slate-900">Hồ Sơ Vận Động Viên</h3>
+                    <h3 class="text-lg font-extrabold text-slate-900">Phiếu Khai Báo Hồ Sơ Vận Động Viên</h3>
                     <p class="text-xs text-slate-500 mt-0.5">Các trường có dấu <span class="text-rose-500 font-bold">*</span> là thông tin bắt buộc</p>
                 </div>
                 <span id="nextPlayerCodePreview" class="px-3.5 py-1 rounded-full bg-td-light text-td-dark font-extrabold text-xs border border-td/20">
@@ -602,15 +626,14 @@
                             <div class="sm:col-span-2">
                                 <label class="block text-xs font-bold text-slate-700 mb-1.5">CLB / Cụm sân sinh hoạt chính tại Tam Điệp <span class="text-rose-500">*</span></label>
                                 <select id="regClub" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white text-sm font-semibold focus:outline-none focus:border-td transition">
-                                    <option value="ALL">Tất cả CLB / Cụm sân</option>                            
-		                            <option value="CLB Hóa chất mỏ">CLB Hóa chất mỏ</option>
-		                            <option value="CLB Family">CLB Family</option>
-		                            <option value="CLB Quang Trung">CLB Quang Trung</option>
-		                            <option value="CLB Vietinbank">CLB Vietinbank</option>
-		                            <option value="CLB Nam Sơn">CLB Nam Sơn</option>
-									<option value="CLB Quang Ngân">CLB Quang Ngân</option>
-									<option value="CLB Pick 35">CLB Pick 35</option>
-		                            <option value="VĐV Tự do Tam Điệp">VĐV Tự do Tam Điệp</option>  
+                                    <option value="CLB Hóa chất mỏ">CLB Hóa chất mỏ</option>
+                                    <option value="CLB Family">CLB Family</option>
+                                    <option value="CLB Quang Trung">CLB Quang Trung</option>
+                                    <option value="CLB Vietinbank">CLB Vietinbank</option>
+                                    <option value="CLB Nam Sơn">CLB Nam Sơn</option>
+                                    <option value="CLB Quang Ngân">CLB Quang Ngân</option>
+                                    <option value="CLB Pick 35">CLB Pick 35</option>
+                                    <option value="VĐV Tự do Tam Điệp">VĐV Tự do Tam Điệp</option>
                                 </select>
                             </div>
                         </div>
@@ -860,6 +883,7 @@
                     <button type="button" onclick="goToHubSection('section-ranking')" class="text-left text-teal-50 hover:text-amber-300 transition">• Bảng xếp hạng</button>
                     <button type="button" onclick="goToHubSection('section-pending-public')" class="text-left text-teal-50 hover:text-amber-300 transition">• Danh sách Chờ duyệt</button>
                     <button type="button" onclick="goToHubSection('section-events')" class="text-left text-teal-50 hover:text-amber-300 transition">• Sự kiện & Giải đấu</button>
+                    <button type="button" onclick="openPlayerRequestEditModal('')" class="text-left text-teal-50 hover:text-amber-300 transition">• Yêu cầu sửa hồ sơ</button>
                     <button type="button" onclick="navigateToPage('register')" class="text-left text-teal-50 hover:text-amber-300 transition">• Đăng ký</button>
                 </div>
             </div>
@@ -948,6 +972,18 @@
                     </div>
                 </div>
 
+                <!-- NÚT GỬI YÊU CẦU CHỈNH SỬA HỒ SƠ DÀNH CHO VĐV -->
+                <div class="flex flex-wrap items-center justify-between gap-2.5 p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200/80">
+                    <div class="text-xs text-amber-950">
+                        <strong class="block font-extrabold">Sai thông tin cá nhân, CLB hoặc ảnh đại diện?</strong>
+                        <span class="text-amber-800">Gửi đề xuất chỉnh sửa để Ban Chuyên Môn phê duyệt.</span>
+                    </div>
+                    <button type="button" id="btnDetailRequestEdit" class="px-4 py-2 rounded-full bg-amber-500 hover:bg-amber-600 text-white text-xs font-extrabold inline-flex items-center gap-1.5 shadow-2xs transition shrink-0">
+                        <i data-lucide="file-pen-line" class="w-3.5 h-3.5"></i>
+                        <span>Gửi yêu cầu sửa thông tin</span>
+                    </button>
+                </div>
+
                 <div class="space-y-2.5">
                     <h4 class="text-sm font-extrabold text-gray-900 flex items-center gap-1.5">
                         <i data-lucide="git-commit" class="w-4 h-4 text-td"></i>
@@ -956,6 +992,111 @@
                     <div id="detailHistoryTimeline" class="space-y-2.5"></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         MODAL VĐV GỬI YÊU CẦU CHỈNH SỬA HỒ SƠ (CHỜ BTC DUYỆT)
+    ====================================================================== -->
+    <div id="playerRequestEditModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-amber-200 animate-view">
+            <div class="px-6 py-4 border-b border-amber-100 flex items-center justify-between shrink-0 bg-amber-50/80">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-700">Cổng Tiếp Nhận Đề Xuất VĐV</span>
+                    <h3 class="text-base sm:text-lg font-black text-gray-900">Gửi Yêu Cầu Chỉnh Sửa Hồ Sơ</h3>
+                </div>
+                <button type="button" onclick="closeModal('playerRequestEditModal')" class="w-8 h-8 rounded-full hover:bg-amber-100 text-gray-600 font-bold">✕</button>
+            </div>
+
+            <form onsubmit="submitPlayerEditRequest(event)" class="p-6 overflow-y-auto space-y-4 flex-1">
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-gray-700">1. Tìm & Chọn hồ sơ VĐV của bạn *</label>
+                    <input id="reqEditSearchFilter" type="text" oninput="filterRequestEditPlayerDropdown()" placeholder="Gõ tên (không dấu/có dấu), SĐT hoặc mã TD-XXX để lọc nhanh..." class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-xs sm:text-sm focus:outline-none focus:border-td">
+                    <select id="reqEditPlayerSelect" required onchange="onSelectPlayerForEditRequest(this.value)" class="w-full px-3.5 py-2.5 rounded-xl border-2 border-teal-600/30 bg-teal-50/30 text-sm font-bold text-gray-900 focus:outline-none focus:border-td">
+                        <option value="">-- Chọn hồ sơ VĐV cần chỉnh sửa --</option>
+                    </select>
+                </div>
+
+                <div id="reqEditFormFieldsWrap" class="hidden space-y-4 pt-2 border-t border-gray-100">
+                    <div class="flex items-center gap-4 p-3 rounded-2xl bg-gray-50 border border-gray-200/80">
+                        <div class="w-14 h-14 rounded-full bg-teal-100 text-td-dark font-black text-base flex items-center justify-center shrink-0 overflow-hidden border-2 border-white shadow-2xs">
+                            <img id="reqEditAvatarImg" src="" alt="Avatar" class="hidden w-full h-full object-cover">
+                            <span id="reqEditAvatarInitials">TD</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <div class="text-xs font-extrabold text-gray-800">Đề xuất cập nhật ảnh đại diện mới</div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <label class="cursor-pointer px-3 py-1 rounded-full bg-white border border-gray-300 hover:border-td text-xs font-bold text-gray-700 transition">
+                                    <span>Chọn ảnh mới</span>
+                                    <input type="file" id="reqEditAvatarInput" accept="image/*" onchange="previewRequestEditAvatar(event)" class="hidden">
+                                </label>
+                                <button type="button" onclick="resetRequestEditAvatar()" class="px-2.5 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 text-[11px] font-bold transition">Giữ ảnh cũ</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Họ và tên VĐV *</label>
+                            <input id="reqEditNameInput" type="text" required class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-bold focus:outline-none focus:border-td">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Số điện thoại / Zalo *</label>
+                            <input id="reqEditPhoneInput" type="tel" required class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Giới tính</label>
+                            <select id="reqEditGenderInput" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-semibold bg-white focus:outline-none focus:border-td">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Năm sinh</label>
+                            <input id="reqEditBirthYearInput" type="number" min="1940" max="2020" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-gray-700 mb-1">CLB / Cụm sân sinh hoạt</label>
+                            <select id="reqEditClubInput" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-semibold bg-white focus:outline-none focus:border-td">
+                                <option value="CLB Hóa chất mỏ">CLB Hóa chất mỏ</option>
+                                <option value="CLB Family">CLB Family</option>
+                                <option value="CLB Quang Trung">CLB Quang Trung</option>
+                                <option value="CLB Vietinbank">CLB Vietinbank</option>
+                                <option value="CLB Nam Sơn">CLB Nam Sơn</option>
+                                <option value="CLB Quang Ngân">CLB Quang Ngân</option>
+                                <option value="CLB Pick 35">CLB Pick 35</option>
+                                <option value="VĐV Tự do Tam Điệp">VĐV Tự do Tam Điệp</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Nguồn điểm đối chiếu</label>
+                            <select id="reqEditRefSourceInput" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-semibold bg-white focus:outline-none focus:border-td">
+                                <option value="PickleTour (pickletour.vn)">PickleTour (pickletour.vn)</option>
+                                <option value="DUPR Quốc Tế">DUPR Quốc Tế</option>
+                                <option value="SportConnect / PVNA">SportConnect / PVNA</option>
+                                <option value="Chưa có điểm — Đăng ký đánh thử (Tryout)">Chưa có điểm — Tryout</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Điểm gốc đối chiếu đề xuất</label>
+                            <input id="reqEditRefScoreInput" type="number" step="0.05" min="1.50" max="6.50" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-bold text-td-dark focus:outline-none focus:border-td">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Lý do chỉnh sửa / Link minh chứng *</label>
+                        <textarea id="reqEditReasonInput" rows="2" required placeholder="VD: Cập nhật SĐT Zalo mới, chuyển sinh hoạt sang CLB Sân Ga hoặc cập nhật link điểm PickleTour..." class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-td"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-3 border-t border-gray-100">
+                    <button type="button" onclick="closeModal('playerRequestEditModal')" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700">Hủy</button>
+                    <button type="submit" id="btnSubmitEditRequest" class="px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-600 text-white text-xs sm:text-sm font-extrabold inline-flex items-center gap-1.5 shadow-sm transition">
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                        <span>Gửi yêu cầu chờ BTC duyệt</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1205,7 +1346,7 @@
     </div>
 
     <!-- =====================================================================
-         MODAL SỬA THÔNG TIN VĐV (DÀNH CHO BTC)
+         MODAL SỬA THÔNG TIN VĐV TRỰC TIẾP (DÀNH CHO BTC)
     ====================================================================== -->
     <div id="editPlayerModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-gray-200 animate-view">
@@ -1259,7 +1400,16 @@
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold text-gray-700 mb-1">CLB / Cụm sân sinh hoạt</label>
-                        <input id="editClubInput" type="text" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-semibold focus:outline-none focus:border-td">
+                        <select id="editClubInput" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm font-semibold bg-white focus:outline-none focus:border-td">
+                            <option value="CLB Hóa chất mỏ">CLB Hóa chất mỏ</option>
+                            <option value="CLB Family">CLB Family</option>
+                            <option value="CLB Quang Trung">CLB Quang Trung</option>
+                            <option value="CLB Vietinbank">CLB Vietinbank</option>
+                            <option value="CLB Nam Sơn">CLB Nam Sơn</option>
+                            <option value="CLB Quang Ngân">CLB Quang Ngân</option>
+                            <option value="CLB Pick 35">CLB Pick 35</option>
+                            <option value="VĐV Tự do Tam Điệp">VĐV Tự do Tam Điệp</option>
+                        </select>
                     </div>
                 </div>
 
@@ -1274,6 +1424,9 @@
                             <label class="block text-xs font-bold text-gray-700 mb-1">Nguồn đối chiếu</label>
                             <select id="editRefSourceInput" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-sm font-semibold focus:outline-none focus:border-td">
                                 <option value="Chưa có">Chưa có</option>
+                                <option value="PickleTour (pickletour.vn)">PickleTour (pickletour.vn)</option>
+                                <option value="DUPR Quốc Tế">DUPR Quốc Tế</option>
+                                <option value="SportConnect / PVNA">SportConnect / PVNA</option>
                                 <option value="PVNA">PVNA</option>
                                 <option value="VNB">VNB</option>
                                 <option value="DUPR">DUPR</option>
@@ -1340,7 +1493,7 @@
             </div>
 
             <div class="text-xs sm:text-sm text-gray-600 space-y-2 leading-relaxed">
-                <p>Hành động này sẽ xóa vĩnh viễn <strong class="text-gray-900">toàn bộ hồ sơ VĐV, danh sách chờ duyệt và lịch sử điểm VĐV</strong> trên thiết bị này và đồng bộ xóa trên Firestore / Realtime Database. <strong class="text-td-dark">Danh sách sự kiện được giữ nguyên.</strong></p>
+                <p>Hành động này sẽ xóa vĩnh viễn <strong class="text-gray-900">toàn bộ hồ sơ VĐV, danh sách chờ duyệt, yêu cầu sửa và lịch sử điểm VĐV</strong> trên thiết bị này và đồng bộ xóa trên Firestore / Realtime Database. <strong class="text-td-dark">Danh sách sự kiện được giữ nguyên.</strong></p>
                 <p class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-2xl p-3">
                     Để xác nhận, vui lòng nhập chính xác cụm từ <span class="font-black underline">XOA ALL</span> vào ô bên dưới:
                 </p>
@@ -1393,30 +1546,63 @@
         };
 
         const BTC_MODE_BY_CODE = false;
+        const PAGE_SIZE = 12;
 
         const STORAGE_KEY = 'tam_diep_hub_realtime_v22';
         const WIPED_PLAYERS_FLAG_KEY = 'tam_diep_hub_players_wiped_v22';
         const PLAYERS_COL = 'tam_diep_players';
         const EVENTS_COL = 'tam_diep_events';
+        const EDIT_REQUESTS_COL = 'tam_diep_edit_requests';
 
         let btcUnlocked = BTC_MODE_BY_CODE || new URLSearchParams(window.location.search).get('btc') === '1997';
+        let rankingCurrentPage = 1;
+
         let pendingAvatarBase64 = '';
         let currentEventPageId = '';
         let pendingEventBannerBase64 = '';
         let editingEventBannerBase64 = '';
         let editingPlayerAvatarBase64 = '';
+        let requestEditAvatarBase64 = '';
 
         let db = null;
         let rtdb = null;
         let useFirebase = false;
         let firestoreReadyPromise = null;
         let wipePlayersInProgress = false;
+        const DELETED_EDIT_REQS_KEY = 'tam_diep_hub_deleted_edit_reqs_v22';
+        function loadDeletedEditReqIds() {
+            try {
+                const raw = localStorage.getItem(DELETED_EDIT_REQS_KEY);
+                const arr = raw ? JSON.parse(raw) : [];
+                return new Set(Array.isArray(arr) ? arr : []);
+            } catch (e) {
+                return new Set();
+            }
+        }
+        function saveDeletedEditReqIds() {
+            try {
+                localStorage.setItem(DELETED_EDIT_REQS_KEY, JSON.stringify(Array.from(deletedEditReqIds)));
+            } catch (e) {}
+        }
+
         const pendingSyncIds = new Set();
         const deletedPlayerIds = new Set();
         const deletedEventIds = new Set();
+        const deletedEditReqIds = loadDeletedEditReqIds();
 
         function isBtcMode() {
             return Boolean(btcUnlocked);
+        }
+
+        // CHUẨN HÓA TIẾNG VIỆT KHÔNG DẤU (NON-UNICODE) ĐỂ TÌM KIẾM CHÍNH XÁC
+        function normalizeSearchText(str) {
+            return String(str || '')
+                .toLowerCase()
+                .replace(/đ/g, 'd')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
         }
 
         function isPlayersWipedFlagSet() {
@@ -1656,12 +1842,13 @@
                     if (parsed && typeof parsed === 'object') {
                         return {
                             players: Array.isArray(parsed.players) ? parsed.players : [],
-                            events: Array.isArray(parsed.events) ? parsed.events : []
+                            events: Array.isArray(parsed.events) ? parsed.events : [],
+                            editRequests: Array.isArray(parsed.editRequests) ? parsed.editRequests : []
                         };
                     }
                 }
             } catch (e) {}
-            const empty = { players: [], events: [] };
+            const empty = { players: [], events: [], editRequests: [] };
             saveLocalStateWith(empty);
             return empty;
         }
@@ -1679,8 +1866,8 @@
         function mergeRemoteRecords(remoteList, localList, blockedIdsSet) {
             const map = new Map();
             remoteList.forEach((item) => {
-                if (!item || !item.id || (blockedIdsSet && blockedIdsSet.has(item.id))) return;
-                map.set(item.id, item);
+                if (!item || !item.id || (blockedIdsSet && blockedIdsSet.has(String(item.id)))) return;
+                map.set(String(item.id), item);
             });
             localList.forEach((localItem) => {
                 if (!localItem || !localItem.id || (blockedIdsSet && blockedIdsSet.has(localItem.id))) return;
@@ -1739,6 +1926,21 @@
                 registrations: regs,
                 registeredCount: regs.length,
                 updatedAt: Number(ev?.updatedAt || 0)
+            };
+        }
+
+        function normalizeEditRequest(req) {
+            return {
+                id: req?.id || ('req_' + Date.now()),
+                playerId: req?.playerId || '',
+                playerCode: req?.playerCode || '',
+                currentName: req?.currentName || '',
+                proposed: req?.proposed && typeof req.proposed === 'object' ? req.proposed : {},
+                oldValues: req?.oldValues && typeof req.oldValues === 'object' ? req.oldValues : {},
+                reason: req?.reason || '',
+                status: req?.status || 'pending',
+                createdAt: req?.createdAt || new Date().toLocaleDateString('vi-VN'),
+                updatedAt: Number(req?.updatedAt || 0)
             };
         }
 
@@ -1815,6 +2017,15 @@
                             saveLocalState();
                             renderAll();
                         });
+
+                        rtdbOnValue(rtdbRef(rtdb, EDIT_REQUESTS_COL), (snap) => {
+                            if (wipePlayersInProgress) return;
+                            const val = snap.val();
+                            const list = val && typeof val === 'object' ? Object.values(val) : [];
+                            appState.editRequests = mergeRemoteRecords(list, appState.editRequests || [], deletedEditReqIds);
+                            saveLocalState();
+                            renderAll();
+                        });
                     }
 
                     onSnapshot(collection(db, PLAYERS_COL), (snap) => {
@@ -1842,6 +2053,18 @@
                         }
                     }, (err) => {
                         console.error('Firestore events snapshot error:', err);
+                    });
+
+                    onSnapshot(collection(db, EDIT_REQUESTS_COL), (snap) => {
+                        if (wipePlayersInProgress) return;
+                        const reqDocs = snap.docs.map(d => ({ ...d.data(), id: d.data().id || d.id }));
+                        if (reqDocs.length > 0 || !snap.metadata.fromCache) {
+                            appState.editRequests = mergeRemoteRecords(reqDocs, appState.editRequests || [], deletedEditReqIds);
+                            saveLocalState();
+                            renderAll();
+                        }
+                    }, (err) => {
+                        console.error('Firestore edit requests snapshot error:', err);
                     });
 
                     resolve(true);
@@ -1900,6 +2123,59 @@
                 await Promise.allSettled(tasks);
             } catch (err) {
                 console.error('Delete player error:', err);
+            }
+        }
+
+        async function saveEditRequestToStore(reqObj) {
+            const normalized = normalizeEditRequest(reqObj);
+            normalized.updatedAt = Date.now();
+
+            if (!Array.isArray(appState.editRequests)) appState.editRequests = [];
+            const idx = appState.editRequests.findIndex(x => x.id === normalized.id);
+            if (idx !== -1) appState.editRequests[idx] = normalized;
+            else appState.editRequests.unshift(normalized);
+
+            deletedEditReqIds.delete(normalized.id);
+            pendingSyncIds.add(normalized.id);
+            saveLocalState();
+
+            const ready = await ensureFirestoreReady();
+            if (!ready || !useFirebase) {
+                pendingSyncIds.delete(normalized.id);
+                return false;
+            }
+            const cleanReq = sanitizeRecord(normalized);
+            try {
+                const tasks = [];
+                if (db) tasks.push(setDoc(doc(db, EDIT_REQUESTS_COL, cleanReq.id), cleanReq, { merge: true }));
+                if (rtdb) tasks.push(rtdbSet(rtdbRef(rtdb, `${EDIT_REQUESTS_COL}/${cleanReq.id}`), cleanReq));
+                await Promise.allSettled(tasks);
+                pendingSyncIds.delete(normalized.id);
+                return true;
+            } catch (err) {
+                console.error('Save edit request error:', err);
+                pendingSyncIds.delete(normalized.id);
+                return false;
+            }
+        }
+
+        async function deleteEditRequestFromStore(reqId) {
+            const targetId = String(reqId || '');
+            deletedEditReqIds.add(targetId);
+            saveDeletedEditReqIds();
+            pendingSyncIds.delete(targetId);
+            appState.editRequests = (appState.editRequests || []).filter(r => String(r.id) !== targetId);
+            saveLocalState();
+
+            const ready = await ensureFirestoreReady();
+            if (!ready || !useFirebase) return;
+            try {
+                const tasks = [];
+                if (db) tasks.push(deleteDoc(doc(db, EDIT_REQUESTS_COL, targetId)));
+                if (rtdb) tasks.push(rtdbRemove(rtdbRef(rtdb, `${EDIT_REQUESTS_COL}/${targetId}`)));
+                await Promise.allSettled(tasks);
+            } catch (err) {
+                console.error('Delete edit request error:', err);
             }
         }
 
@@ -1988,16 +2264,24 @@
             wipePlayersInProgress = true;
 
             const existingPlayerIds = appState.players.map(p => p.id).filter(Boolean);
+            const existingReqIds = (appState.editRequests || []).map(r => r.id).filter(Boolean);
             existingPlayerIds.forEach(id => {
                 deletedPlayerIds.add(id);
                 pendingSyncIds.delete(id);
             });
+            existingReqIds.forEach(id => {
+                deletedEditReqIds.add(String(id));
+                pendingSyncIds.delete(String(id));
+            });
+            saveDeletedEditReqIds();
             setPlayersWipedFlag(true);
 
             appState = {
                 players: [],
-                events: Array.isArray(appState.events) ? [...appState.events] : []
+                events: Array.isArray(appState.events) ? [...appState.events] : [],
+                editRequests: []
             };
+            rankingCurrentPage = 1;
             saveLocalState();
             closeModal('wipePlayersModal');
             renderAll();
@@ -2008,12 +2292,12 @@
                     const tasks = [];
                     if (rtdb) {
                         tasks.push(rtdbRemove(rtdbRef(rtdb, PLAYERS_COL)));
+                        tasks.push(rtdbRemove(rtdbRef(rtdb, EDIT_REQUESTS_COL)));
                     }
-                    if (db && existingPlayerIds.length > 0) {
+                    if (db && (existingPlayerIds.length > 0 || existingReqIds.length > 0)) {
                         const batch = writeBatch(db);
-                        existingPlayerIds.forEach(id => {
-                            batch.delete(doc(db, PLAYERS_COL, id));
-                        });
+                        existingPlayerIds.forEach(id => batch.delete(doc(db, PLAYERS_COL, id)));
+                        existingReqIds.forEach(id => batch.delete(doc(db, EDIT_REQUESTS_COL, id)));
                         tasks.push(batch.commit());
                     }
                     await Promise.allSettled(tasks);
@@ -2105,7 +2389,7 @@
             if (!file) return;
             const reader = new FileReader();
             reader.onload = async (e) => {
-                pendingAvatarBase64 = await compressImageDataUrl(e.target.result, 200, 0.7);
+                pendingAvatarBase64 = await compressAvatarSquare(e.target.result, 120, 0.65);
                 const img = document.getElementById('regAvatarImg');
                 if (pendingAvatarBase64) {
                     img.src = pendingAvatarBase64;
@@ -2198,6 +2482,310 @@
             await savePlayerToStore(newPlayer);
         }
 
+        // =====================================================================
+        // TÍNH NĂNG 1: VĐV TỰ GỬI YÊU CẦU CHỈNH SỬA HỒ SƠ CHỜ BTC DUYỆT
+        // =====================================================================
+        function populateRequestEditPlayerDropdown(filterKeyword = '', preselectId = '') {
+            const selectEl = document.getElementById('reqEditPlayerSelect');
+            if (!selectEl) return;
+
+            const normQ = normalizeSearchText(filterKeyword);
+            const allPlayers = [...(appState.players || [])]
+                .map(normalizePlayer)
+                .sort((a, b) => String(a.code || '').localeCompare(String(b.code || '')));
+
+            const filtered = allPlayers.filter(p => {
+                if (!normQ) return true;
+                const hay = normalizeSearchText(`${p.code} ${p.name} ${p.phone} ${p.club}`);
+                return hay.includes(normQ);
+            });
+
+            selectEl.innerHTML = `<option value="">-- Chọn hồ sơ VĐV (${filtered.length} hồ sơ phù hợp) --</option>` +
+                filtered.map(p => {
+                    const statusTag = p.status === 'approved' ? 'BXH' : 'Chờ duyệt';
+                    return `<option value="${escapeHtml(p.id)}">[${escapeHtml(p.code)}] ${escapeHtml(p.name)} — ${escapeHtml(p.club)} (${statusTag})</option>`;
+                }).join('');
+
+            if (preselectId && filtered.some(p => p.id === preselectId)) {
+                selectEl.value = preselectId;
+            }
+        }
+
+        function filterRequestEditPlayerDropdown() {
+            const q = document.getElementById('reqEditSearchFilter')?.value || '';
+            const curVal = document.getElementById('reqEditPlayerSelect')?.value || '';
+            populateRequestEditPlayerDropdown(q, curVal);
+        }
+
+        function openPlayerRequestEditModal(preselectPlayerId = '') {
+            const filterInput = document.getElementById('reqEditSearchFilter');
+            if (filterInput) filterInput.value = '';
+            requestEditAvatarBase64 = '';
+
+            populateRequestEditPlayerDropdown('', preselectPlayerId);
+            openModal('playerRequestEditModal');
+
+            if (preselectPlayerId) {
+                onSelectPlayerForEditRequest(preselectPlayerId);
+            } else {
+                document.getElementById('reqEditFormFieldsWrap')?.classList.add('hidden');
+            }
+        }
+
+        function onSelectPlayerForEditRequest(playerId) {
+            const wrap = document.getElementById('reqEditFormFieldsWrap');
+            if (!playerId) {
+                wrap?.classList.add('hidden');
+                return;
+            }
+            const rawP = (appState.players || []).find(x => String(x.id) === String(playerId));
+            if (!rawP) {
+                wrap?.classList.add('hidden');
+                return;
+            }
+            const p = normalizePlayer(rawP);
+            wrap?.classList.remove('hidden');
+
+            document.getElementById('reqEditNameInput').value = p.name || '';
+            document.getElementById('reqEditPhoneInput').value = p.phone || '';
+            document.getElementById('reqEditGenderInput').value = p.gender || 'Nam';
+            document.getElementById('reqEditBirthYearInput').value = p.birthYear || 1992;
+
+            const clubSelect = document.getElementById('reqEditClubInput');
+            if (Array.from(clubSelect.options).some(o => o.value === p.club)) {
+                clubSelect.value = p.club;
+            } else if (p.club) {
+                const opt = document.createElement('option');
+                opt.value = p.club;
+                opt.textContent = p.club;
+                clubSelect.appendChild(opt);
+                clubSelect.value = p.club;
+            }
+
+            const srcSelect = document.getElementById('reqEditRefSourceInput');
+            if (Array.from(srcSelect.options).some(o => o.value === p.refSource)) {
+                srcSelect.value = p.refSource;
+            } else if (p.refSource) {
+                const opt = document.createElement('option');
+                opt.value = p.refSource;
+                opt.textContent = p.refSource;
+                srcSelect.appendChild(opt);
+                srcSelect.value = p.refSource;
+            }
+
+            document.getElementById('reqEditRefScoreInput').value = Number(p.refScore ?? p.tdScore ?? 2.50).toFixed(2);
+            document.getElementById('reqEditReasonInput').value = '';
+
+            requestEditAvatarBase64 = '';
+            const avInput = document.getElementById('reqEditAvatarInput');
+            if (avInput) avInput.value = '';
+            syncRequestEditAvatarPreview(p.name, p.avatar || '');
+        }
+
+        function syncRequestEditAvatarPreview(name, avatarUrl) {
+            const img = document.getElementById('reqEditAvatarImg');
+            const ini = document.getElementById('reqEditAvatarInitials');
+            if (ini) ini.innerText = getInitials(name || 'TD');
+            if (avatarUrl && img) {
+                img.src = avatarUrl;
+                img.classList.remove('hidden');
+                ini?.classList.add('hidden');
+            } else if (img) {
+                img.src = '';
+                img.classList.add('hidden');
+                ini?.classList.remove('hidden');
+            }
+        }
+
+        async function previewRequestEditAvatar(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                requestEditAvatarBase64 = await compressAvatarSquare(e.target.result, 120, 0.65);
+                const nameVal = document.getElementById('reqEditNameInput')?.value || 'TD';
+                syncRequestEditAvatarPreview(nameVal, requestEditAvatarBase64);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetRequestEditAvatar() {
+            requestEditAvatarBase64 = '';
+            const avInput = document.getElementById('reqEditAvatarInput');
+            if (avInput) avInput.value = '';
+            const pid = document.getElementById('reqEditPlayerSelect')?.value;
+            const p = (appState.players || []).find(x => String(x.id) === String(pid));
+            syncRequestEditAvatarPreview(p?.name || 'TD', p?.avatar || '');
+        }
+
+        async function submitPlayerEditRequest(e) {
+            e.preventDefault();
+            const playerId = document.getElementById('reqEditPlayerSelect')?.value;
+            if (!playerId) {
+                showToast('⚠️ Vui lòng chọn hồ sơ VĐV cần sửa!', 'warning');
+                return;
+            }
+            const rawP = (appState.players || []).find(x => String(x.id) === String(playerId));
+            if (!rawP) return;
+            const p = normalizePlayer(rawP);
+
+            const newName = document.getElementById('reqEditNameInput').value.trim();
+            const newPhone = document.getElementById('reqEditPhoneInput').value.trim();
+            const newGender = document.getElementById('reqEditGenderInput').value;
+            const newBirthYear = parseInt(document.getElementById('reqEditBirthYearInput').value, 10) || p.birthYear || 1992;
+            const newClub = document.getElementById('reqEditClubInput').value.trim();
+            const newRefSource = document.getElementById('reqEditRefSourceInput').value;
+            const newRefScore = Number((parseFloat(document.getElementById('reqEditRefScoreInput').value) || p.refScore).toFixed(2));
+            const reason = document.getElementById('reqEditReasonInput').value.trim();
+
+            const proposed = {};
+            const oldValues = {};
+
+            if (newName && newName !== p.name) {
+                proposed.name = newName;
+                oldValues.name = p.name;
+            }
+            if (newPhone && newPhone !== p.phone) {
+                proposed.phone = newPhone;
+                oldValues.phone = p.phone;
+            }
+            if (newGender !== p.gender) {
+                proposed.gender = newGender;
+                oldValues.gender = p.gender;
+            }
+            if (newBirthYear !== Number(p.birthYear || 1992)) {
+                proposed.birthYear = newBirthYear;
+                oldValues.birthYear = p.birthYear || 1992;
+            }
+            if (newClub && newClub !== p.club) {
+                proposed.club = newClub;
+                oldValues.club = p.club;
+            }
+            if (newRefSource && newRefSource !== p.refSource) {
+                proposed.refSource = newRefSource;
+                oldValues.refSource = p.refSource;
+            }
+            if (newRefScore !== Number(Number(p.refScore).toFixed(2))) {
+                proposed.refScore = newRefScore;
+                oldValues.refScore = Number(Number(p.refScore).toFixed(2));
+            }
+            if (requestEditAvatarBase64 && requestEditAvatarBase64 !== p.avatar) {
+                proposed.avatar = requestEditAvatarBase64;
+                oldValues.avatar = p.avatar || '';
+            }
+
+            if (Object.keys(proposed).length === 0) {
+                showToast('⚠️ Bạn chưa thay đổi thông tin nào so với hồ sơ hiện tại!', 'warning');
+                return;
+            }
+
+            const btn = document.getElementById('btnSubmitEditRequest');
+            if (btn) btn.disabled = true;
+
+            const editReq = normalizeEditRequest({
+                id: 'editreq_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
+                playerId: p.id,
+                playerCode: p.code,
+                currentName: p.name,
+                proposed,
+                oldValues,
+                reason,
+                status: 'pending',
+                createdAt: new Date().toLocaleDateString('vi-VN'),
+                updatedAt: Date.now()
+            });
+
+            closeModal('playerRequestEditModal');
+            await saveEditRequestToStore(editReq);
+            renderAll();
+            goToHubSection('section-pending-public');
+
+            if (btn) btn.disabled = false;
+            showToast(`📝 Đã gửi yêu cầu sửa hồ sơ ${p.name} (${p.code}) chờ BTC duyệt!`, 'success');
+        }
+
+        async function approveEditRequestBtc(reqId) {
+            if (!isBtcMode()) return;
+            const targetReqId = String(reqId || '');
+            const req = (appState.editRequests || []).find(r => String(r.id) === targetReqId);
+            if (!req) return;
+
+            // Xóa ngay khỏi danh sách chờ duyệt trên giao diện & bộ nhớ cục bộ trước khi đồng bộ mạng
+            deletedEditReqIds.add(targetReqId);
+            saveDeletedEditReqIds();
+            pendingSyncIds.delete(targetReqId);
+            appState.editRequests = (appState.editRequests || []).filter(r => String(r.id) !== targetReqId);
+            saveLocalState();
+
+            const rawP = (appState.players || []).find(x => String(x.id) === String(req.playerId));
+            if (!rawP) {
+                renderAll();
+                showToast('⚠️ Không tìm thấy hồ sơ VĐV gốc (đã gỡ yêu cầu chờ duyệt).', 'warning');
+                await deleteEditRequestFromStore(targetReqId);
+                return;
+            }
+
+            const p = normalizePlayer(rawP);
+            const prop = req.proposed || {};
+            const changedLabels = [];
+
+            if (prop.name) { p.name = prop.name; changedLabels.push('Họ tên'); }
+            if (prop.phone) { p.phone = prop.phone; changedLabels.push('SĐT'); }
+            if (prop.gender) { p.gender = prop.gender; changedLabels.push('Giới tính'); }
+            if (prop.birthYear) { p.birthYear = Number(prop.birthYear); changedLabels.push('Năm sinh'); }
+            if (prop.club) { p.club = prop.club; changedLabels.push('CLB'); }
+            if (prop.refSource) { p.refSource = prop.refSource; changedLabels.push('Nguồn điểm'); }
+            if (prop.refScore !== undefined && prop.refScore !== '') {
+                p.refScore = Number(Number(prop.refScore).toFixed(2));
+                changedLabels.push('Điểm gốc');
+            }
+            if (prop.avatar) {
+                p.avatar = prop.avatar;
+                changedLabels.push('Ảnh đại diện');
+            }
+
+            if (!Array.isArray(p.history)) p.history = [];
+            p.history.push({
+                id: 'h_edit_' + Date.now(),
+                date: new Date().toLocaleDateString('vi-VN'),
+                tournament: 'Duyệt yêu cầu sửa hồ sơ',
+                oldScore: Number(p.tdScore),
+                newScore: Number(p.tdScore),
+                delta: 0,
+                reason: `Cập nhật ${changedLabels.join(', ')}${req.reason ? ' — ' + req.reason : ''}`,
+                reviewer: 'Ban Chuyên Môn Tam Điệp'
+            });
+
+            // Cập nhật ngay danh sách VĐV cục bộ và render lại toàn bộ giao diện
+            const pIdx = appState.players.findIndex(x => String(x.id) === String(p.id));
+            if (pIdx !== -1) appState.players[pIdx] = p;
+            saveLocalState();
+            renderAll();
+            showToast(`✅ Đã duyệt cập nhật hồ sơ cho ${p.name} (${p.code})!`, 'success');
+
+            await Promise.allSettled([
+                savePlayerToStore(p),
+                deleteEditRequestFromStore(targetReqId)
+            ]);
+        }
+
+        async function rejectEditRequestBtc(reqId) {
+            if (!isBtcMode()) return;
+            const targetReqId = String(reqId || '');
+            const req = (appState.editRequests || []).find(r => String(r.id) === targetReqId);
+            if (!req) return;
+
+            deletedEditReqIds.add(targetReqId);
+            saveDeletedEditReqIds();
+            pendingSyncIds.delete(targetReqId);
+            appState.editRequests = (appState.editRequests || []).filter(r => String(r.id) !== targetReqId);
+            saveLocalState();
+            renderAll();
+            showToast(`🗑️ Đã từ chối yêu cầu sửa hồ sơ của ${req.currentName}.`, 'info');
+
+            await deleteEditRequestFromStore(targetReqId);
+        }
+
         function openPlayerDetailModal(playerId) {
             const p = appState.players.find(item => item.id === playerId);
             if (!p) return;
@@ -2250,6 +2838,14 @@
             document.getElementById('detailPhone').innerText = p.phone;
             document.getElementById('detailClub').innerText = p.club;
             document.getElementById('detailNotes').innerText = `${p.experience || p.exp || 'VĐV phong trào Tam Điệp'}${(p.notes || p.note) ? ' — ' + (p.notes || p.note) : ''}`;
+
+            const btnReqEdit = document.getElementById('btnDetailRequestEdit');
+            if (btnReqEdit) {
+                btnReqEdit.onclick = () => {
+                    closeModal('playerDetailModal');
+                    openPlayerRequestEditModal(p.id);
+                };
+            }
 
             const timeline = document.getElementById('detailHistoryTimeline');
             const logs = [...(p.history || [])].reverse();
@@ -2700,19 +3296,60 @@
             `;
         }
 
+        // =====================================================================
+        // TÍNH NĂNG 2 & 3: TÌM KIẾM KHÔNG DẤU, GIỮ NGUYÊN STT GỐC & PHÂN TRANG >= 12
+        // =====================================================================
+        function onRankingFilterChange() {
+            rankingCurrentPage = 1;
+            renderRanking();
+        }
+
+        function goToRankingPage(page) {
+            rankingCurrentPage = page;
+            renderRanking();
+            const target = document.getElementById('section-ranking');
+            if (target) {
+                const y = target.getBoundingClientRect().top + window.scrollY - 84;
+                window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+            }
+        }
+
         function renderRanking() {
-            const q = (document.getElementById('filterSearch')?.value || '').toLowerCase().trim();
+            const rawQuery = document.getElementById('filterSearch')?.value || '';
+            const normQuery = normalizeSearchText(rawQuery);
             const club = document.getElementById('filterClub')?.value || 'ALL';
             const btc = isBtcMode();
 
-            const approved = appState.players
+            // 1. Sắp xếp toàn bộ BXH và gán STT cố định (fixedStt) trước khi lọc
+            const allApprovedWithFixedRank = appState.players
                 .filter(p => p.status === 'approved')
-                .filter(p => club === 'ALL' || p.club === club)
-                .filter(p => !q || p.name.toLowerCase().includes(q) || p.phone.includes(q) || p.code.toLowerCase().includes(q))
-                .sort((a, b) => b.tdScore - a.tdScore);
+                .sort((a, b) => Number(b.tdScore) - Number(a.tdScore))
+                .map((p, index) => ({
+                    ...p,
+                    fixedStt: index + 1
+                }));
 
-            document.getElementById('rankingCardsContainer').innerHTML = approved.map((p, idx) => {
-                const rank = idx + 1;
+            // 2. Lọc theo CLB và từ khóa không dấu (Non-Unicode), giữ nguyên fixedStt gốc
+            const filtered = allApprovedWithFixedRank
+                .filter(p => club === 'ALL' || p.club === club)
+                .filter(p => {
+                    if (!normQuery) return true;
+                    const haystack = normalizeSearchText(`${p.name} ${p.phone} ${p.code} ${p.club}`);
+                    return haystack.includes(normQuery);
+                });
+
+            // 3. Phân trang tự động khi danh sách chạm mốc 12 (PAGE_SIZE = 12)
+            const shouldPaginate = filtered.length >= PAGE_SIZE;
+            const totalPages = shouldPaginate ? Math.ceil(filtered.length / PAGE_SIZE) : 1;
+            if (rankingCurrentPage > totalPages) rankingCurrentPage = totalPages;
+            if (rankingCurrentPage < 1) rankingCurrentPage = 1;
+
+            const startIdx = shouldPaginate ? (rankingCurrentPage - 1) * PAGE_SIZE : 0;
+            const pageItems = shouldPaginate ? filtered.slice(startIdx, startIdx + PAGE_SIZE) : filtered;
+
+            document.getElementById('rankingCardsContainer').innerHTML = pageItems.map((p) => {
+                // Sử dụng fixedStt gốc — không đánh lại STT khi tìm kiếm hoặc chuyển trang
+                const rank = p.fixedStt;
                 const netDiff = Number((p.tdScore - p.refScore).toFixed(2));
                 const lastLog = (p.history && p.history.length) ? p.history[p.history.length - 1] : null;
                 const lastDelta = lastLog
@@ -2819,33 +3456,131 @@
 
                     ${btcControls ? `<div>${btcControls}</div>` : ''}
                 </div>`;
-            }).join('') || `<div class="col-span-full py-12 text-center text-sm text-gray-400 bg-gray-50/70 rounded-3xl border border-dashed border-gray-200">Chưa có vận động viên nào trên Bảng xếp hạng.</div>`;
+            }).join('') || `<div class="col-span-full py-12 text-center text-sm text-gray-400 bg-gray-50/70 rounded-3xl border border-dashed border-gray-200">Không tìm thấy vận động viên phù hợp trên Bảng xếp hạng.</div>`;
+
+            // Render thanh phân trang tự động khi danh sách chạm 12
+            const pagBar = document.getElementById('rankingPaginationBar');
+            const pagInfo = document.getElementById('rankingPaginationInfo');
+            const pagBtns = document.getElementById('rankingPaginationButtons');
+            if (pagBar && pagInfo && pagBtns) {
+                if (shouldPaginate) {
+                    pagBar.classList.remove('hidden');
+                    pagBar.classList.add('flex');
+                    const fromItem = startIdx + 1;
+                    const toItem = Math.min(startIdx + PAGE_SIZE, filtered.length);
+                    pagInfo.innerText = `Hiển thị ${fromItem}–${toItem} trên tổng số ${filtered.length} VĐV (Trang ${rankingCurrentPage}/${totalPages})`;
+
+                    let btnsHtml = `
+                        <button type="button" onclick="goToRankingPage(${rankingCurrentPage - 1})" ${rankingCurrentPage <= 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-full border border-gray-300 bg-white hover:border-td text-xs font-extrabold text-gray-700 disabled:opacity-40 disabled:pointer-events-none transition">
+                            ← Trước
+                        </button>
+                    `;
+                    for (let pNum = 1; pNum <= totalPages; pNum++) {
+                        const isAct = pNum === rankingCurrentPage;
+                        btnsHtml += `
+                            <button type="button" onclick="goToRankingPage(${pNum})" class="w-8 h-8 rounded-full text-xs font-black tabular-nums transition ${isAct ? 'bg-td text-white shadow-2xs' : 'bg-white border border-gray-300 text-gray-700 hover:border-td'}">
+                                ${pNum}
+                            </button>
+                        `;
+                    }
+                    btnsHtml += `
+                        <button type="button" onclick="goToRankingPage(${rankingCurrentPage + 1})" ${rankingCurrentPage >= totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-full border border-gray-300 bg-white hover:border-td text-xs font-extrabold text-gray-700 disabled:opacity-40 disabled:pointer-events-none transition">
+                            Sau →
+                        </button>
+                    `;
+                    pagBtns.innerHTML = btnsHtml;
+                } else {
+                    pagBar.classList.add('hidden');
+                    pagBar.classList.remove('flex');
+                }
+            }
 
             lucide.createIcons();
         }
 
         function renderPendingList() {
-            const pending = appState.players
+            const pendingPlayers = appState.players
                 .filter(p => p.status === 'pending')
                 .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+            const pendingEditReqs = (appState.editRequests || [])
+                .map(normalizeEditRequest)
+                .filter(r => r.status === 'pending')
+                .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+
+            const totalPending = pendingPlayers.length + pendingEditReqs.length;
             const btc = isBtcMode();
 
             const countEl = document.getElementById('publicPendingCount');
-            if (countEl) countEl.innerText = pending.length;
+            if (countEl) countEl.innerText = totalPending;
 
             const container = document.getElementById('publicPendingContainer');
             if (!container) return;
 
-            if (!pending.length) {
-                container.innerHTML = `<div class="col-span-full py-10 text-center text-sm text-gray-400 bg-gray-50/70 rounded-3xl border border-dashed border-gray-200">Hiện không có hồ sơ VĐV nào đang chờ duyệt.</div>`;
+            if (!totalPending) {
+                container.innerHTML = `<div class="col-span-full py-10 text-center text-sm text-gray-400 bg-gray-50/70 rounded-3xl border border-dashed border-gray-200">Hiện không có hồ sơ đăng ký mới hoặc yêu cầu chỉnh sửa nào đang chờ duyệt.</div>`;
                 return;
             }
 
-            container.innerHTML = pending.map(p => `
+            const editReqCards = pendingEditReqs.map(req => {
+                const prop = req.proposed || {};
+                const oldV = req.oldValues || {};
+                const changesHtml = [];
+                if (prop.name) changesHtml.push(`<div>👤 <strong>Họ tên:</strong> <span class="line-through text-gray-400">${escapeHtml(oldV.name || '')}</span> → <span class="font-extrabold text-td-dark">${escapeHtml(prop.name)}</span></div>`);
+                if (prop.phone) changesHtml.push(`<div>📞 <strong>SĐT:</strong> <span class="line-through text-gray-400">${escapeHtml(oldV.phone || '')}</span> → <span class="font-extrabold text-td-dark">${escapeHtml(prop.phone)}</span></div>`);
+                if (prop.gender) changesHtml.push(`<div>⚧ <strong>Giới tính:</strong> <span class="line-through text-gray-400">${escapeHtml(oldV.gender || '')}</span> → <span class="font-extrabold text-td-dark">${escapeHtml(prop.gender)}</span></div>`);
+                if (prop.birthYear) changesHtml.push(`<div>🎂 <strong>Năm sinh:</strong> <span class="line-through text-gray-400">${escapeHtml(oldV.birthYear || '')}</span> → <span class="font-extrabold text-td-dark">${escapeHtml(prop.birthYear)}</span></div>`);
+                if (prop.club) changesHtml.push(`<div>🏟️ <strong>CLB:</strong> <span class="line-through text-gray-400">${escapeHtml(oldV.club || '')}</span> → <span class="font-extrabold text-td-dark">${escapeHtml(prop.club)}</span></div>`);
+                if (prop.refSource) changesHtml.push(`<div>🔗 <strong>Nguồn điểm:</strong> <span class="line-through text-gray-400">${escapeHtml(oldV.refSource || '')}</span> → <span class="font-extrabold text-td-dark">${escapeHtml(prop.refSource)}</span></div>`);
+                if (prop.refScore !== undefined && prop.refScore !== '') changesHtml.push(`<div>🎯 <strong>Điểm gốc:</strong> <span class="line-through text-gray-400">${Number(oldV.refScore || 0).toFixed(2)}</span> → <span class="font-extrabold text-td-dark">${Number(prop.refScore).toFixed(2)}</span></div>`);
+                if (prop.avatar) changesHtml.push(`<div>🖼️ <strong>Ảnh đại diện:</strong> <span class="font-extrabold text-td-dark">Cập nhật ảnh mới</span></div>`);
+
+                return `
+                <div class="card-elevated rounded-3xl p-5 flex flex-col justify-between gap-4 border-teal-300 bg-teal-50/20">
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-teal-100 text-td-dark">✏️ Yêu cầu sửa hồ sơ</span>
+                            <span class="text-xs font-extrabold text-gray-600">${escapeHtml(req.playerCode)}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-td text-white font-extrabold text-xs flex items-center justify-center shrink-0 overflow-hidden">
+                                ${prop.avatar ? `<img src="${prop.avatar}" class="w-full h-full object-cover">` : getInitials(req.currentName)}
+                            </div>
+                            <div class="min-w-0">
+                                <button type="button" onclick="openPlayerDetailModal('${escapeHtml(req.playerId)}')" class="font-extrabold text-base text-gray-900 hover:text-td text-left block truncate">
+                                    ${escapeHtml(req.currentName)}
+                                </button>
+                                <div class="text-[11px] text-gray-500">Ngày gửi: ${escapeHtml(req.createdAt)}</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-700 bg-white p-3 rounded-2xl border border-teal-200/80 space-y-1">
+                            ${changesHtml.join('')}
+                            ${req.reason ? `<div class="pt-1 mt-1 border-t border-gray-100 text-gray-600">📝 <strong>Lý do:</strong> ${escapeHtml(req.reason)}</div>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-2 pt-2 border-t border-teal-100">
+                        <button type="button" onclick="openPlayerDetailModal('${escapeHtml(req.playerId)}')" title="Xem hồ sơ gốc" class="w-8 h-8 rounded-full bg-white hover:bg-td hover:text-white text-td-dark border border-teal-200 inline-flex items-center justify-center transition">
+                            <i data-lucide="info" class="w-4 h-4"></i>
+                        </button>
+                        ${btc ? `
+                        <div class="flex items-center gap-1.5">
+                            <button type="button" onclick="approveEditRequestBtc('${escapeHtml(req.id)}')" class="px-3.5 py-1.5 rounded-full bg-td hover:bg-td-dark text-white text-xs font-extrabold transition">
+                                Duyệt sửa
+                            </button>
+                            <button type="button" onclick="rejectEditRequestBtc('${escapeHtml(req.id)}')" class="px-3.5 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">
+                                Từ chối
+                            </button>
+                        </div>
+                        ` : `<span class="text-[11px] font-bold text-teal-700">Chờ BTC phê duyệt</span>`}
+                    </div>
+                </div>`;
+            }).join('');
+
+            const playerCards = pendingPlayers.map(p => `
                 <div class="card-elevated rounded-3xl p-5 flex flex-col justify-between gap-4 border-amber-200/80">
                     <div class="space-y-2.5">
                         <div class="flex items-center justify-between gap-2">
-                            <span class="px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800">⏳ Chờ duyệt</span>
+                            <span class="px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800">⏳ Hồ sơ mới</span>
                             <span class="text-xs font-bold text-gray-500">${escapeHtml(p.code)}</span>
                         </div>
                         <div class="flex items-center gap-3">
@@ -2885,6 +3620,8 @@
                     </div>
                 </div>
             `).join('');
+
+            container.innerHTML = editReqCards + playerCards;
         }
 
         function renderEvents() {
@@ -2997,7 +3734,10 @@
 
         function updateBannerStats() {
             const approved = [...appState.players.filter(p => p.status === 'approved')].sort((a, b) => b.tdScore - a.tdScore);
-            const pending = appState.players.filter(p => p.status === 'pending');
+            const pendingPlayersCount = appState.players.filter(p => p.status === 'pending').length;
+            const pendingEditReqsCount = (appState.editRequests || []).filter(r => (r.status || 'pending') === 'pending').length;
+            const totalPending = pendingPlayersCount + pendingEditReqsCount;
+
             const events = appState.events || [];
             const topPlayer = approved[0];
             const topScore = topPlayer ? Number(topPlayer.tdScore).toFixed(2) : '0.00';
@@ -3005,12 +3745,12 @@
             document.getElementById('bannerRankingCount').innerText = `${approved.length} VĐV`;
             document.getElementById('bannerTopScore').innerText = topScore;
             document.getElementById('bannerTopPlayerName').innerText = topPlayer ? `${topPlayer.name} (${topPlayer.code})` : 'Chưa có VĐV';
-            document.getElementById('bannerPendingCount').innerText = `${pending.length} Hồ sơ`;
+            document.getElementById('bannerPendingCount').innerText = `${totalPending} Hồ sơ`;
             document.getElementById('bannerEventsCount').innerText = `${events.length} Sự kiện`;
 
-            document.getElementById('headerPendingBadge').innerText = pending.length;
-            document.getElementById('mobilePendingBadge').innerText = pending.length;
-            document.getElementById('btcBarPendingCount').innerText = pending.length;
+            document.getElementById('headerPendingBadge').innerText = totalPending;
+            document.getElementById('mobilePendingBadge').innerText = totalPending;
+            document.getElementById('btcBarPendingCount').innerText = totalPending;
         }
 
         function openModal(id) {
@@ -3439,7 +4179,14 @@
             document.getElementById('editPhoneInput').value = p.phone || '';
             document.getElementById('editGenderInput').value = p.gender || 'Nam';
             document.getElementById('editBirthYearInput').value = p.birthYear || '';
-            document.getElementById('editClubInput').value = p.club || '';
+            const editClubSel = document.getElementById('editClubInput');
+            if (p.club && !Array.from(editClubSel.options).some(o => o.value === p.club)) {
+                const opt = document.createElement('option');
+                opt.value = p.club;
+                opt.textContent = p.club;
+                editClubSel.appendChild(opt);
+            }
+            editClubSel.value = p.club || 'CLB Hóa chất mỏ';
             document.getElementById('editRefScoreInput').value = Number(p.refScore ?? p.tdScore ?? 2.50).toFixed(2);
             document.getElementById('editRefSourceInput').value = p.refSource || 'Chưa có';
             document.getElementById('editScoreInput').value = Number(p.tdScore ?? 2.50).toFixed(2);
@@ -3572,6 +4319,14 @@
             previewRegistrationAvatar,
             resetRegFormPreview,
             submitPlayerRegistration,
+            openPlayerRequestEditModal,
+            filterRequestEditPlayerDropdown,
+            onSelectPlayerForEditRequest,
+            previewRequestEditAvatar,
+            resetRequestEditAvatar,
+            submitPlayerEditRequest,
+            approveEditRequestBtc,
+            rejectEditRequestBtc,
             openPlayerDetailModal,
             openBtcScoreModal,
             applyPlacementPreset,
@@ -3588,6 +4343,8 @@
             deleteEventBtc,
             openWipePlayersModal,
             confirmWipePlayersData,
+            onRankingFilterChange,
+            goToRankingPage,
             renderRanking,
             closeModal,
             previewEventBanner,
